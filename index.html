@@ -727,22 +727,22 @@
   }
   function saveAllLocal(){['pinyin','char','poem','english'].forEach(function(m){localStorage.setItem(KEYS[m],JSON.stringify(state[m]));});localStorage.setItem(KEYS.profile,JSON.stringify(state.profile));}
   function syncToCloud(){
-    if(!CURRENT)return;
-    function push(){sbFetch('POST','?on_conflict=account_key',buildCloudBlob()).catch(function(e){console.warn('[sync] push failed',e);});}
+    if(!CURRENT)return Promise.resolve();
+    function push(){return sbFetch('POST','?on_conflict=account_key',buildCloudBlob());}
     // 先拉后推：避免覆盖其他设备在间隙中写入的数据
-    sbFetch('GET','?select=data&account_key=eq.'+encodeURIComponent(CURRENT)).then(function(rows){
+    return sbFetch('GET','?select=data&account_key=eq.'+encodeURIComponent(CURRENT)).then(function(rows){
       if(rows&&rows.length&&rows[0]&&rows[0].data){mergeCloud(rows[0].data);saveAllLocal();}
-      push();
-    }).catch(function(e){console.warn('[sync] fetch before push failed',e);push();});
+      return push();
+    },function(e){console.warn('[sync] fetch before push failed',e);return push();});
   }
   function loadFromCloud(){
-    if(!CURRENT)return;
+    if(!CURRENT)return Promise.resolve();
     var enc=encodeURIComponent(CURRENT);
-    sbFetch('GET','?select=data&account_key=eq.'+enc).then(function(rows){
+    return sbFetch('GET','?select=data&account_key=eq.'+enc).then(function(rows){
       if(rows&&rows.length&&rows[0]&&rows[0].data){
-        try{var blob=rows[0].data;mergeCloud(blob);updateOpen();saveAllLocal();renderAll();scheduleSync();}catch(e){console.warn('[sync] parse failed',e);}
+        var blob=rows[0].data;mergeCloud(blob);updateOpen();saveAllLocal();renderAll();scheduleSync();
       }
-    }).catch(function(e){console.warn('[sync] load failed',e);});
+    },function(e){console.warn('[sync] load failed',e);});
   }
   var MODNAME={pinyin:'拼音',char:'识字',poem:'古诗',english:'英语'};
   var CURVE=[1,2,4,7,15,30,60]; // 记忆曲线间隔（天）
@@ -1369,11 +1369,18 @@
     r.readAsText(f);e.target.value='';
   });
   function doSyncNow(){
-    var txt=document.getElementById('sync-text');
-    if(txt)txt.textContent='同步中…';
-    loadFromCloud();
-    syncToCloud();
-    setTimeout(function(){ if(txt)txt.textContent='云端同步 · 跨设备自动保存'; },1800);
+    toast('正在同步…');
+    loadFromCloud().then(function(){
+      syncToCloud().then(function(){
+        toast('同步完成 ✓');
+      },function(err){
+        toast('同步失败：'+((err&&err.message)||'网络异常'));
+        console.warn('[sync] push failed',err);
+      });
+    },function(err){
+      toast('同步失败：'+((err&&err.message)||'网络异常'));
+      console.warn('[sync] load failed',err);
+    });
   }
   var syncStatus=document.getElementById('sync-status');
   if(syncStatus){ syncStatus.addEventListener('click',doSyncNow); }
