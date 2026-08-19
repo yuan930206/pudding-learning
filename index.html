@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- 本工作台为本地单文件方案（资料库能力不可用时兜底）：HTML + localStorage 存储 + 记忆曲线复习系统 -->
+<title id="page-title">布丁的学习天地</title>
+<!-- PWA / 添加到主屏幕优化 -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="布丁的学习天地">
+<meta name="theme-color" content="#E078B0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2048%2048%27%3E%3Crect%20width%3D%2748%27%20height%3D%2748%27%20rx%3D%2712%27%20fill%3D%27%23E078B0%27/%3E%3Cpath%20d%3D%27M10%2034%20L13%2016%20L22%2027%20L24%2012%20L26%2027%20L35%2016%20L38%2034%20Z%27%20fill%3D%27%23FFF3D6%27%20stroke%3D%27%23D9B36B%27%20stroke-width%3D%271.5%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2712%27%20r%3D%272%27%20fill%3D%27%23FFC9DE%27/%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2716%27%20r%3D%271.6%27%20fill%3D%27%23FFC9DE%27/%3E%3Ccircle%20cx%3D%2735%27%20cy%3D%2716%27%20r%3D%271.6%27%20fill%3D%27%23FFC9DE%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFsElEQVR4nO3dO24bVxSH8RERwFlBWk7FwkU2kCZNensdKdN4CW5ceh1xnyZNNpAihSqr9Qp8Kwd0QkCW+JjHnfP4n+8HGPAL0szcT0eX4oC8G4L6+ObDF+9jwGXj21d3Q0AhDop4NYwBInc7ACLWNjrFbfpJibim0TBuk09EyLAKe9NPQMiwDnuTD0zI8Ap71/sDEjM8W+kaNDHDu5kuI5+QEWULsnpCEzN66dHSqqCJGb2tbWpx0MSMraxpa1HQxIytLW1sdtDEDCtLWpsVNDHD2tzmJgdNzPAyp71JQRMzvE1tsPtT34Cnm0EznRHFlBavBk3MiOZWkxeDJmZEda1N9tCQcjZopjOiu9QoExpSngXNdEYW51plQkPKN0EznZHN02aZ0JBC0NAMmu0GsnrcLhMaUggaekGz3UB2p4aZ0JBC0JBC0JBC0JByxwNCKGFCQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQwpBQ8p33gdQ2f71j2f//uH3v82PRQUTOljMt/4N1zGhjU2N9fT/mNbzMKEhhaANLdlKsP2Yh6CNrAmTqKcjaEghaEghaEghaEghaEghaCNrniDhyZXpCNrQkjCJeR6ChhTu5TB2mri3nixhMgsEXel2yvtP74bDD7+VOV+r9Q2z5Sh5O+XLz2d/tZ/+GNTsjdbXfUJXvJ3yGOzh51+HCvbG6xtmQgM9uAZd8XbKKdP5+O8K2469w/q6Bc3tlNr2TrfLsuUISmVKWyNoQ5UeDHoh6MCY0vMRtBGmsw2CDo4pnSToSrdTVpzOD07r6zqhuZ1S24PD7bJsORJg25HoXo6pt1Meb9q5//P98GL4Zcik4nbj5OvP0V8e/vvDP98PFtvIMBP66gkd70IrPqmynXt7+oX8/xpu/ZjIfUI/u0d4wn0O98P74cVf8Sd11encLp33k6i/fsftvI67jIufbVr1kuG8m/M6hglabXErTucW4JzTBp0h6krn3ALEnD7oyAtcSQsSc5ig116QaFFHWuBqaxci6B6iRV3hXFvAL1yZoKMsdMRFrnSeO7ULEyFqC57n2QKvmXvQSosddWpVOkfJoKtMautzbMFjlg768YKrh22hJYjZPWiLi3T8+BaTLMuCR16nHmskPaErbEG2Pq+W7Au1TNBbLn62RVc+r121i6U4qbc4p+awPj3Oo9SEVo66+mQuHXTPqKMsvtr5LFU26CMmdbyY167JruqF63EBI52H2rksVXpCn1Sf1E0k5iOCXhi1SgRN5Dzcgo58ARUm9WHGOURdizXrwITueDEzaUFjXougF0QdPYZD8uNPE3SmC6k6qVuSNVh6/ZnQMy9q5iBakmNfg6CLTOpWIOZwr20X1en19E6/z+KQ9LhTTOjsE4Jjz/HdkS3HzAuczSHhMa9B0JBiEnT27QbybDuY0JBC0JBC0JCyedDsn2G5j2ZCQwpBQ8qmQbPdgPW2gwkNKQQNKQQNKZsFzf4ZHvvoTe+HPr6XM2Bps6AzvLk89LCHhhSChhSChhSChhSChpTd+PbVnfdBAD0cW2ZCQwpBQwpBQwpBQy9oHhgiu1PDTGhIIWhoBs22A1k9bpcJDSkEDd2g2XYgm6fNMqEh5VnQTGlkca5VJjSknA2aKY3oLjXKhIaUi0EzpRHVtTavTmiiRjS3mry55SBqRDGlRfbQkDIpaKY0vE1tcPKEJmp4mdPerC0HUcPa3OZm76GJGlaWtLboQSFRY2tLG1v8Uw6ixlbWtLXqx3ZEjd7WNrX659BEjV56tNT1hRo/vvnwpefHQw1jxxcM7fpMIdMa3s10f+qbqOHZyqavDc0WBNZDz+TFzgkbVt+9TV+9n7BrGg3fJcLt7SiIW9vo9FYnId5fhbg1jAHer8f9AC4h8tjGAPGe8y+YDJYwpx+CkgAAAABJRU5ErkJggg==">
+
+<!-- v2026-08-18-fix-mobile-cache -->
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+  :root{
+    --blue:#8FC8E8; --green:#7FD0A0; --orange:#F0B36B; --purple:#D9A8E0; --pink:#FFC9DE;
+    --gold:#D9B36B; --gold-light:#F2DCA8; --gold-deep:#B5873E; --pink-deep:#E078B0;
+    --bg:#FFF6FA; --card:#fff; --text:#6E5F66; --muted:#B79BA0;
+    --soft-shadow:0 8px 22px rgba(216,179,107,.16);
+    /* 主题化派生变量（默认=公主粉金，切换主题时整体覆盖） */
+    --bg-a:#FFF6FA; --bg-b:#FBF1E2;
+    --accent:#E078B0; --accent-soft:#FFD6E8; --accent-soft2:#FFF3FA;
+    --cur-bg:#FFF9EE; --cur-bd:#F0D6A8;
+    --info-bg:#FBF3E3; --info-bd:#EAD9B8;
+    --danger-bd:#EAD9BC; --danger-bt:#F0C9A8; --danger-hover:#FFF1E6;
+    --card-shadow:0 4px 14px rgba(216,179,107,.18);
+    --search-bd:#FFD6E8;
+    /* 侧边栏 / 导航按钮（跟随主题） */
+    --sidebar-grad:linear-gradient(180deg,#FFB8D6,#E7C58C);
+    --sidebar-grad-h:linear-gradient(90deg,#FFB8D6,#E7C58C);
+    --sidebar-shadow:4px 0 22px rgba(216,179,107,.3);
+    --brand-color:#fff; --brand-ts:0 2px 5px rgba(181,135,62,.5);
+    --nav-color:#fff; --nav-bg:rgba(255,255,255,.26); --nav-bd:rgba(255,255,255,.5); --nav-shadow:0 3px 8px rgba(216,179,107,.22);
+    --nav-active-bg:#fff; --nav-active-color:var(--gold-deep); --nav-active-bd:var(--gold); --nav-active-shadow:0 4px 14px rgba(216,179,107,.5);
+  }
+  /* ===== 多套配色方案 ===== */
+  /* 海洋蓝 */
+  body.theme-ocean{
+    --blue:#7FB8E8; --green:#7FD0C8; --orange:#F0B36B; --purple:#A8B8E0; --pink:#B8D8F0;
+    --gold:#6FA8D0; --gold-light:#D8E8F5; --gold-deep:#3E6E9E; --pink-deep:#3E86B8;
+    --bg-a:#F0F7FB; --bg-b:#E0EEF6; --muted:#7E97A8;
+    --accent:#3E86B8; --accent-soft:#BFE0F2; --accent-soft2:#EFF6FB;
+    --cur-bg:#EFF6FB; --cur-bd:#B8D8F0;
+    --info-bg:#EAF3FA; --info-bd:#C8DCEC;
+    --danger-bd:#C8DCEC; --danger-bt:#A8C8E0; --danger-hover:#EAF5FB;
+    --card-shadow:0 4px 14px rgba(80,140,190,.16);
+    --search-bd:#BFE0F2;
+    --soft-shadow:0 8px 22px rgba(80,140,190,.14);
+    --sidebar-grad:linear-gradient(180deg,#9FD8F0,#6FA8D0); --sidebar-grad-h:linear-gradient(90deg,#9FD8F0,#6FA8D0);
+    --sidebar-shadow:4px 0 22px rgba(80,140,190,.3);
+    --brand-ts:0 2px 5px rgba(40,90,140,.5);
+    --nav-shadow:0 3px 8px rgba(80,140,190,.22); --nav-active-shadow:0 4px 14px rgba(80,140,190,.5);
+  }
+  /* 森林绿 */
+  body.theme-forest{
+    --blue:#9CC8C0; --green:#7FD0A0; --orange:#E0C06B; --purple:#B0A8D0; --pink:#B8E0C8;
+    --gold:#88B578; --gold-light:#E0F0DC; --gold-deep:#5E8E5E; --pink-deep:#3E8E6E;
+    --bg-a:#F1FAF4; --bg-b:#E2F2E8; --muted:#6E9580;
+    --accent:#3E8E6E; --accent-soft:#B8E0C8; --accent-soft2:#EFF8F2;
+    --cur-bg:#EFF8F2; --cur-bd:#B8E0C8;
+    --info-bg:#EBF5EE; --info-bd:#C8E0D0;
+    --danger-bd:#C8E0D0; --danger-bt:#A8D0B8; --danger-hover:#EFF8F2;
+    --card-shadow:0 4px 14px rgba(90,160,120,.16);
+    --search-bd:#B8E0C8;
+    --soft-shadow:0 8px 22px rgba(90,160,120,.14);
+    --sidebar-grad:linear-gradient(180deg,#B8E8CC,#88B578); --sidebar-grad-h:linear-gradient(90deg,#B8E8CC,#88B578);
+    --sidebar-shadow:4px 0 22px rgba(90,160,120,.3);
+    --brand-ts:0 2px 5px rgba(60,110,80,.5);
+    --nav-shadow:0 3px 8px rgba(90,160,120,.22); --nav-active-shadow:0 4px 14px rgba(90,160,120,.5);
+  }
+  /* 星空紫 */
+  body.theme-purple{
+    --blue:#A8B8E0; --green:#B0C8D0; --orange:#E0B36B; --purple:#D9A8E0; --pink:#D8B8E8;
+    --gold:#B08CC8; --gold-light:#ECE0F5; --gold-deep:#7E5E9E; --pink-deep:#8E5EB0;
+    --bg-a:#F8F4FB; --bg-b:#F0E8F7; --muted:#907E9E;
+    --accent:#8E5EB0; --accent-soft:#E0C8F0; --accent-soft2:#F6F0FA;
+    --cur-bg:#F6F0FA; --cur-bd:#E0C8F0;
+    --info-bg:#F2ECF8; --info-bd:#DCD0EC;
+    --danger-bd:#DCD0EC; --danger-bt:#C8A8E0; --danger-hover:#F6F0FA;
+    --card-shadow:0 4px 14px rgba(150,110,180,.16);
+    --search-bd:#E0C8F0;
+    --soft-shadow:0 8px 22px rgba(150,110,180,.14);
+    --sidebar-grad:linear-gradient(180deg,#D8C0EE,#B08CC8); --sidebar-grad-h:linear-gradient(90deg,#D8C0EE,#B08CC8);
+    --sidebar-shadow:4px 0 22px rgba(150,110,180,.3);
+    --brand-ts:0 2px 5px rgba(110,80,140,.5);
+    --nav-shadow:0 3px 8px rgba(150,110,180,.22); --nav-active-shadow:0 4px 14px rgba(150,110,180,.5);
+  }
+  /* 暖阳橙 */
+  body.theme-sun{
+    --blue:#F0C08C; --green:#B0D08C; --orange:#F0A06B; --purple:#E0B0C8; --pink:#F8C8A8;
+    --gold:#E0A05C; --gold-light:#FBE8D0; --gold-deep:#B5702E; --pink-deep:#D0702E;
+    --bg-a:#FFF8F2; --bg-b:#FDF0E2; --muted:#B58A6E;
+    --accent:#D0702E; --accent-soft:#F8C8A8; --accent-soft2:#FFF3EA;
+    --cur-bg:#FFF3EA; --cur-bd:#F8C8A8;
+    --info-bg:#FDF0E6; --info-bd:#F0DCC8;
+    --danger-bd:#F0DCC8; --danger-bt:#F0C09C; --danger-hover:#FFF3EA;
+    --card-shadow:0 4px 14px rgba(220,140,60,.16);
+    --search-bd:#F8C8A8;
+    --soft-shadow:0 8px 22px rgba(220,140,60,.14);
+    --sidebar-grad:linear-gradient(180deg,#FFD9B0,#E0A05C); --sidebar-grad-h:linear-gradient(90deg,#FFD9B0,#E0A05C);
+    --sidebar-shadow:4px 0 22px rgba(220,140,60,.3);
+    --brand-ts:0 2px 5px rgba(160,100,40,.5);
+    --nav-shadow:0 3px 8px rgba(220,140,60,.22); --nav-active-shadow:0 4px 14px rgba(220,140,60,.5);
+  }
+  html,body{margin:0;padding:0;overflow-x:clip;font-family:"Comic Sans MS","Yuanti SC","Hiragino Sans GB","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(160deg,var(--bg-a) 0%,var(--bg-b) 100%);background-attachment:fixed;color:var(--text);}
+  .app{display:flex;min-height:100vh;min-height:100dvh;position:relative;z-index:1;}
+  /* 侧边栏 */
+  .sidebar{width:212px;background:var(--sidebar-grad);padding:16px 11px;display:flex;flex-direction:column;gap:8px;position:sticky;top:0;height:100vh;flex-shrink:0;box-shadow:var(--sidebar-shadow);border-radius:0 30px 30px 0;overflow:visible;}
+  .sidebar::after{content:"";position:absolute;top:14px;bottom:14px;right:-10px;width:20px;background:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='20'%20height='40'%3E%3Cpath%20d='M11%200%20Q1%2010%2011%2020%20T11%2040%20L0%2040%20L0%200%20Z'%20fill='%23FFFDF6'/%3E%3Cpath%20d='M11%200%20Q1%2010%2011%2020%20T11%2040'%20fill='none'%20stroke='%23FFFFFF'%20stroke-width='1.6'/%3E%3C/svg%3E") 0 0/20px 40px repeat-y;pointer-events:none;}
+  .sidebar::before{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='40'%20height='26'%3E%3Cpath%20d='M0%2011%20Q10%201%2020%2011%20T40%2011%20L40%2026%20L0%2026%20Z'%20fill='%23FFFDF6'/%3E%3Cpath%20d='M0%2011%20Q10%201%2020%2011%20T40%2011'%20fill='none'%20stroke='%23FFFFFF'%20stroke-width='1.6'/%3E%3C/svg%3E") 0 100%/40px 26px repeat-x;pointer-events:none;}
+  .brand{color:var(--brand-color);font-weight:800;font-size:20px;text-align:center;padding:10px 0 16px;line-height:1.35;text-shadow:var(--brand-ts);}
+  .nav-btn{display:flex;align-items:center;gap:10px;color:var(--nav-color);background:var(--nav-bg);border:2px solid var(--nav-bd);border-radius:28px;padding:12px 14px;font-size:16px;cursor:pointer;min-height:54px;font-weight:700;transition:.15s;box-shadow:var(--nav-shadow);}
+  .nav-btn svg{width:24px;height:24px;flex-shrink:0;}
+  .nav-btn.active{background:var(--nav-active-bg);color:var(--nav-active-color);border-color:var(--nav-active-bd);box-shadow:var(--nav-active-shadow);}
+  .nav-btn:active{transform:scale(.94);}
+  .nav-btn:active{transform:scale(.96);}
+  /* 主区 */
+  .main{flex:1;min-width:0;padding:18px 22px 40px;padding-bottom:calc(40px + env(safe-area-inset-bottom));}
+  header.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+  .topbar h1{font-size:22px;margin:0;color:var(--pink-deep);display:flex;align-items:center;gap:10px;}
+  .topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+  .mascot{cursor:pointer;display:inline-block;transform-origin:bottom center;filter:drop-shadow(0 3px 5px rgba(216,179,107,.35));}
+  .mascot svg{width:46px;height:46px;vertical-align:middle;}
+  .sync{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .sync .dot{width:9px;height:9px;border-radius:50%;background:var(--green);}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start;}
+  .btn{background:var(--card);border:2px solid var(--accent-soft);border-radius:16px;padding:11px 16px;font-size:15px;cursor:pointer;min-height:48px;font-weight:700;color:var(--accent);transition:.12s;box-shadow:var(--soft-shadow);}
+  .btn:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--gold-light));color:#fff;border:none;}
+  .btn.danger{color:var(--orange);border-color:var(--accent-soft);}
+  .view{display:none;}
+  .view.active{display:block;}
+  /* 首页 */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0;}
+  .stat{background:var(--card);border-radius:22px;padding:16px 10px;text-align:center;box-shadow:var(--soft-shadow);border:2px solid #FBF0DF;}
+  .stat .num{font-size:28px;font-weight:800;color:var(--gold-deep);}
+  .stat .label{font-size:13px;color:var(--muted);margin-top:6px;}
+
+  .sec-title{font-size:20px;color:var(--gold-deep);margin:20px 0 12px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .modtag{display:inline-block;font-size:12px;font-weight:700;padding:3px 11px;border-radius:12px;color:#fff;margin-right:8px;box-shadow:0 2px 5px rgba(255,143,192,.2);}
+  .mod-pinyin{background:var(--blue);} .mod-char{background:var(--orange);} .mod-poem{background:var(--purple);} .mod-english{background:var(--green);}
+  /* 学习卡片 */
+  .lcard{background:var(--card);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:var(--soft-shadow),var(--card-shadow);border:2px solid var(--gold-light);}
+  .lcard.done{border-color:var(--green);background:#F1FBF4;}
+  /* 首页「今日待复习」：四模块折叠 */
+  .due-mod{background:var(--card);border-radius:22px;margin-bottom:12px;box-shadow:var(--soft-shadow),var(--card-shadow);border:2px solid var(--gold-light);overflow:hidden;}
+  .due-mod-head{width:100%;display:flex;align-items:center;gap:10px;background:transparent;border:none;cursor:pointer;padding:14px 16px;text-align:left;font-size:17px;font-weight:800;color:var(--gold-deep);min-height:54px;font-family:inherit;}
+  .due-mod-count{margin-left:auto;font-size:13px;font-weight:700;padding:4px 12px;border-radius:14px;color:#fff;}
+  .due-mod-count.zero{background:var(--green);}
+  .due-mod-chev{width:20px;height:20px;flex-shrink:0;transition:transform .2s;color:var(--gold-deep);}
+  .due-mod.open .due-mod-chev{transform:rotate(90deg);}
+  .due-mod-body{padding:0 14px 14px;display:none;}
+  .due-mod.open .due-mod-body{display:block;}
+  .due-mod-body .gcard{margin-bottom:10px;}
+  .due-mod-body .gcard:last-child{margin-bottom:0;}
+  .due-empty{font-size:14px;color:var(--muted);padding:6px 2px 2px;}
+  .lcontent{font-size:22px;font-weight:800;color:#5A4A6B;line-height:1.5;}
+  .lcontent .sub{font-size:15px;font-weight:600;color:var(--muted);margin-left:8px;}
+  .lcontent .poem-body{font-size:15px;font-weight:500;color:#7a6b8c;margin-top:6px;line-height:1.7;}
+  .lstatus{margin:8px 0 12px;font-size:14px;font-weight:700;}
+  .badge.new{color:var(--blue);} .badge.learning{color:var(--orange);} .badge.review{color:var(--purple);} .badge.mastered{color:var(--green);}
+  .lbtns{display:flex;gap:10px;flex-wrap:wrap;}
+  .lbtns .learned{background:linear-gradient(135deg,#7FD6A8,#5FCB92);color:#fff;border:none;border-radius:18px;padding:12px 16px;font-size:16px;font-weight:800;min-height:54px;cursor:pointer;flex:1 1 auto;min-width:0;box-shadow:0 4px 10px rgba(95,203,146,.3);}
+  .lbtns .relearn{background:var(--accent-soft2);color:var(--accent);border:2px solid var(--accent-soft);border-radius:18px;padding:12px 16px;font-size:16px;font-weight:800;min-height:54px;cursor:pointer;flex:1 1 auto;min-width:0;}
+  .lbtns .learned:active,.lbtns .relearn:active{transform:scale(.96);}
+  /* 用户导入单词的删除入口（低调，仅导入词显示） */
+  .del-row{display:flex;justify-content:flex-end;margin-top:6px;}
+  .del-word{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:4px 8px;border-radius:10px;opacity:.75;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+  .del-word:hover{opacity:1;color:var(--danger-text);background:var(--danger-hover);}
+  /* 网格（模块总览用） */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;align-items:start;}
+  .gcard{background:linear-gradient(180deg,#ffffff 0%,#FFFCF4 100%);border-radius:22px;padding:16px 10px;text-align:center;box-shadow:0 8px 20px rgba(216,179,107,.16);border:3px solid #FBF0DF;height:128px;min-height:128px;display:flex;flex-direction:column;justify-content:center;gap:6px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;overflow:hidden;min-width:0;}
+  .gcard:hover{transform:translateY(-4px);border-color:#FFD0E6;box-shadow:0 12px 26px rgba(224,120,176,.22);}
+  .gcard > *{min-width:0;}
+  .gcard .big{font-size:30px;font-weight:800;color:var(--pink-deep);word-break:break-word;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;letter-spacing:.3px;line-height:1.15;}
+  .gcard .sub{font-size:13px;color:var(--muted);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;}
+  .gcard .phon{font-size:15px;color:var(--gold-deep);font-weight:700;font-family:'Segoe UI','Noto Sans','Helvetica Neue',Arial,sans-serif;letter-spacing:.3px;margin-top:2px;word-break:break-word;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;}
+  .gcard .en-word{vertical-align:middle;font-size:22px;line-height:1.25;word-break:break-word;overflow-wrap:anywhere;hyphens:auto;}
+  .speak{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;cursor:pointer;vertical-align:middle;margin-left:8px;padding:0;box-shadow:0 2px 7px rgba(216,179,107,.45);transition:.15s;-webkit-tap-highlight-color:transparent;}
+  .speak:hover{transform:scale(1.08);}
+  .speak:active{transform:scale(.92);}
+  .speak svg{width:20px;height:20px;}
+  .lcontent .phon{font-size:19px;color:var(--gold-deep);font-weight:700;font-family:'Segoe UI','Noto Sans','Helvetica Neue',Arial,sans-serif;margin:0 8px;vertical-align:middle;}
+  .lcontent .speak{width:36px;height:36px;margin-left:6px;}
+  .lcontent .speak svg{width:18px;height:18px;}
+  .gcard.done{border-color:var(--green);background:#F1FBF4;}
+  .gcard .gbadge{font-size:12px;font-weight:700;}
+  .gcard.done .gbadge{color:var(--green);}
+  .gcard-detail{display:block;text-align:left;overflow:hidden;max-height:0;opacity:0;margin-top:0;padding-top:0;border-top:none;transition:max-height .3s ease,opacity .25s ease,margin-top .3s ease,padding-top .3s ease;}
+  .gcard.open .gcard-detail{max-height:2400px;opacity:1;margin-top:10px;padding-top:10px;border-top:1px dashed var(--info-bd);}
+  .gcard.open{border-color:var(--gold-light);height:auto;min-height:128px;}
+  .poem-grid .gcard{height:auto;min-height:150px;}
+  .poem-grid .gcard .big,.poem-grid .gcard .sub,.poem-grid .gcard .phon{-webkit-line-clamp:initial;line-clamp:initial;}
+  /* 各模块卡片主题色顶条，区分模块更好看 */
+  #view-pinyin .gcard{border-top:5px solid var(--blue);}
+  #view-char .gcard{border-top:5px solid var(--orange);}
+  #view-poem .gcard{border-top:5px solid var(--purple);}
+  #view-english .gcard{border-top:5px solid var(--green);}
+  /* 英语按阶段分组 */
+  .stage-block{margin-bottom:18px;}
+  .stage-title{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:var(--gold-deep);margin:18px 0 10px;}
+  .stage-title::before{content:"";width:8px;height:18px;border-radius:4px;background:linear-gradient(180deg,var(--gold),var(--gold-light));box-shadow:0 2px 5px rgba(216,179,107,.35);}
+  .stage-name{white-space:nowrap;}
+  .stage-count{font-size:13px;font-weight:700;color:#fff;background:var(--gold);padding:3px 12px;border-radius:14px;box-shadow:0 2px 6px rgba(216,179,107,.3);}
+  /* 英语导入 */
+  .import-box{background:var(--card);border-radius:22px;padding:18px;box-shadow:var(--soft-shadow);margin-bottom:16px;border:2px solid var(--gold-light);}
+  .import-box textarea{width:100%;min-height:120px;font-size:15px;padding:12px;border:2px solid var(--search-bd);border-radius:14px;resize:vertical;font-family:inherit;}
+  .import-box .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center;}
+  .import-box .hint{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6;}
+  .import-box .btn.primary{background:linear-gradient(135deg,var(--accent),var(--gold-light));color:#fff;border:none;box-shadow:0 4px 12px rgba(216,179,107,.4);}
+  .import-box .btn:not(.primary){background:#FFFDF6;border:2px solid var(--gold);color:var(--gold-deep);box-shadow:0 3px 9px rgba(216,179,107,.2);}
+  .import-box .btn:not(.primary):hover{border-color:var(--gold-deep);transform:translateY(-1px);}
+  /* 英语搜索框 */
+  .en-search-box{position:relative;display:flex;align-items:center;margin:4px 0 18px;background:var(--card);border:2px solid var(--search-bd);border-radius:16px;box-shadow:0 4px 12px var(--soft-shadow);padding:4px 6px 4px 12px;transition:border-color .2s,box-shadow .2s;}
+  .en-search-box:focus-within{border-color:var(--gold);box-shadow:0 4px 16px rgba(216,179,107,.32);}
+  .en-search-box .search-ico{display:flex;width:20px;height:20px;color:var(--gold-deep);flex:0 0 auto;}
+  .en-search-box .search-ico svg{width:100%;height:100%;}
+  .en-search-box input{flex:1 1 auto;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:var(--gold-deep);padding:10px 8px;line-height:1.3;}
+  .en-search-box input::placeholder{color:#C9B79A;font-size:15px;}
+  .en-search-box input::-webkit-search-cancel-button{display:none;}
+  .en-search-box .search-clear{flex:0 0 auto;width:30px;height:30px;border:none;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;}
+  .en-search-box .search-clear:hover{background:#FFEAF3;color:var(--pink-deep);}
+  @media(max-width:768px){.en-search-box input{font-size:16px;}}
+  .empty{text-align:center;color:var(--muted);padding:40px 10px;font-size:16px;}
+  .info{background:var(--info-bg);border:1px solid var(--info-bd);border-radius:14px;padding:12px 14px;font-size:13px;color:#9A7B3E;line-height:1.7;margin-bottom:14px;}
+  .danger-zone{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:18px;padding-top:14px;border-top:1px dashed var(--danger-bd);font-size:13px;color:var(--muted);}
+  .danger-hint{opacity:.85;}
+  .btn-link-danger{background:transparent;border:1px solid var(--danger-bt);color:var(--orange);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:.12s;}
+  .btn-link-danger:hover{background:var(--danger-hover);}
+  /* toast */
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,var(--accent),var(--gold));color:#fff;padding:12px 22px;border-radius:18px;font-weight:700;font-size:15px;opacity:0;transition:.25s;z-index:200;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 6px 18px rgba(216,179,107,.4);}
+  /* 主题切换 */
+  .theme-btn{font-size:13px;padding:5px 12px;min-height:0;line-height:1.4;border-radius:999px;box-shadow:none;background:var(--cur-bg);border:2px solid var(--cur-bd);color:var(--gold-deep);}
+  .theme-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+  .theme-box{max-width:440px;width:92vw;}
+  .theme-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .theme-head b{font-size:18px;color:var(--gold-deep);}
+  .modal-close{border:none;background:transparent;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;width:36px;height:36px;border-radius:50%;transition:.12s;}
+  .modal-close:hover{background:var(--accent-soft2);color:var(--accent);}
+  .theme-swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .theme-swatch{display:flex;flex-direction:column;gap:7px;padding:11px;border-radius:16px;border:2px solid var(--gold-light);background:var(--card);cursor:pointer;transition:.14s;text-align:left;font-family:inherit;}
+  .theme-swatch:hover{transform:translateY(-2px);box-shadow:var(--soft-shadow);}
+  .theme-swatch.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+  .swatch-preview{height:44px;border-radius:10px;display:flex;overflow:hidden;border:1px solid rgba(0,0,0,.06);}
+  .swatch-preview i{flex:1;display:block;}
+  .swatch-name{font-size:15px;font-weight:800;color:var(--text);}
+  .swatch-desc{font-size:12px;color:var(--muted);}
+  .theme-tip{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.7;}
+  body.mobile .theme-swatches{gap:10px;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  @keyframes pop{0%{transform:scale(1);}30%{transform:translateY(-10px) scale(1.15) rotate(-6deg);}60%{transform:translateY(0) scale(.95) rotate(6deg);}100%{transform:scale(1);}}
+  .mascot.play{animation:pop .6s ease;}
+  /* 卡通漂浮装饰 */
+  .deco{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden;}
+  .deco span{position:absolute;opacity:.55;animation:floaty 7s ease-in-out infinite;}
+  .deco span:nth-child(1){top:6%;left:3%;animation-delay:0s;}
+  .deco span:nth-child(2){top:14%;right:6%;animation-delay:1.2s;}
+  .deco span:nth-child(3){top:46%;left:2%;animation-delay:2.4s;}
+  .deco span:nth-child(4){top:60%;right:4%;animation-delay:.8s;}
+  .deco span:nth-child(5){top:30%;right:12%;animation-delay:3s;}
+  .deco span:nth-child(6){top:78%;left:8%;animation-delay:1.8s;}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-16px) rotate(10deg);}}
+  /* 移动端 */
+  @media(max-width:768px){
+    .deco{display:none;}
+    .app{flex-direction:column;}
+    .sidebar{flex-direction:row;width:100%;height:auto;position:fixed;bottom:0;left:0;right:0;padding:6px;gap:2px;z-index:50;overflow-x:auto;justify-content:space-around;padding-bottom:calc(6px + env(safe-area-inset-bottom));background:var(--sidebar-grad-h);border-radius:20px 20px 0 0;}
+    .sidebar::after{display:none;}
+    .sidebar::before{display:none;}
+    .brand{display:none;}
+    .nav-btn{flex-direction:column;gap:1px;font-size:11px;padding:6px 2px;min-height:0;border-radius:14px;flex:1;min-width:0;justify-content:center;}
+    .nav-btn svg{width:22px;height:22px;}
+    .main{padding:14px 14px 100px;padding-bottom:calc(100px + env(safe-area-inset-bottom));}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .topbar h1{font-size:18px;}
+    .lbtns .learned,.lbtns .relearn{min-width:120px;}
+    .gcard{height:auto;min-height:104px;padding:14px 8px;}
+    .gcard .big{font-size:clamp(18px,6.2vw,26px);-webkit-line-clamp:3;line-clamp:3;line-height:1.12;}
+    .gcard .sub,.gcard .phon{-webkit-line-clamp:3;line-clamp:3;}
+    .poem-grid .gcard .big,.poem-grid .gcard .sub,.poem-grid .gcard .phon{-webkit-line-clamp:initial;line-clamp:initial;}
+    .toast{bottom:calc(96px + env(safe-area-inset-bottom));}
+  }
+  /* 手机端（JS 探测：即使发布平台强制宽视口，真机也能切到底部导航栏） */
+  body.mobile{overflow-x:clip;}
+  body.mobile .deco{display:none;}
+  body.mobile .app{display:block;min-height:100dvh;}
+  body.mobile .sidebar{flex-direction:row;width:100%;height:60px;position:fixed;top:auto;bottom:0;left:0;right:0;flex-shrink:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px;z-index:50;overflow-x:auto;background:var(--sidebar-grad-h);border-radius:18px 18px 0 0;box-shadow:0 -3px 14px rgba(0,0,0,.10);}
+  body.mobile .sidebar::after,body.mobile .sidebar::before{display:none;}
+  body.mobile .brand{display:none;}
+  body.mobile .nav-btn{flex-direction:column;gap:1px;font-size:11px;padding:6px 2px;min-height:0;border-radius:12px;flex:1 1 0;min-width:0;justify-content:center;}
+  body.mobile .nav-btn svg{width:22px;height:22px;}
+  body.mobile .main{padding:14px 14px 96px;padding-bottom:calc(96px + env(safe-area-inset-bottom));}
+  body.mobile .stats{grid-template-columns:repeat(2,1fr);gap:8px;}
+  body.mobile .stat{padding:12px 8px;}
+  body.mobile .stat .num{font-size:23px;}
+  body.mobile .stat .label{font-size:12px;}
+  body.mobile header.topbar{flex-wrap:nowrap;}
+  body.mobile .topbar h1{flex:1 1 auto;min-width:0;font-size:15px;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  body.mobile .mascot svg{width:36px;height:36px;}
+  body.mobile .topbar-right{flex-direction:row;align-items:center;justify-content:flex-end;gap:6px;flex-shrink:0;}
+  body.mobile .topbar-right .sync{display:none;}
+  body.mobile .cur-name{font-size:12px;padding:3px 8px;border-radius:999px;}
+  body.mobile .toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  body.mobile .danger-zone{justify-content:center;font-size:12px;margin-top:14px;}
+  body.mobile .btn-link-danger{font-size:12px;padding:6px 12px;}
+  body.mobile .toolbar .btn{padding:9px 12px;font-size:13px;min-height:40px;border-radius:13px;}
+  body.mobile .lbtns .learned,body.mobile .lbtns .relearn{min-width:120px;}
+  body.mobile .sec-title{font-size:18px;margin:16px 0 10px;}
+  body.mobile .lcard{padding:14px;}
+  body.mobile .due-mod{border-radius:18px;}
+  body.mobile .due-mod-head{padding:12px 14px;font-size:16px;}
+  body.mobile .toast{bottom:calc(84px + env(safe-area-inset-bottom));}
+  /* 手机端卡片：单词完整显示，不再裁切（窄屏自适应高度 + 放宽到 3 行） */
+  body.mobile .gcard{height:auto;min-height:96px;padding:12px 6px;}
+  body.mobile .gcard .big{font-size:clamp(18px,6.2vw,26px);-webkit-line-clamp:3;line-clamp:3;line-height:1.12;}
+  body.mobile .gcard .sub,body.mobile .gcard .phon{-webkit-line-clamp:3;line-clamp:3;}
+  body.mobile .poem-grid .gcard .big,body.mobile .poem-grid .gcard .sub,body.mobile .poem-grid .gcard .phon{-webkit-line-clamp:initial;line-clamp:initial;}
+  /* 连续打卡日历弹窗 */
+  .modal-mask{position:fixed;inset:0;background:rgba(110,95,102,.45);display:none;align-items:center;justify-content:center;z-index:300;padding:16px;}
+  .modal-mask.show{display:flex;animation:fadein .2s ease;}
+  /* 通用确认弹窗（替代原生 confirm：iframe 内原生 confirm 会被浏览器权限策略静默禁用） */
+  .confirm-card{background:linear-gradient(180deg,#ffffff,#FFFCF4);border-radius:24px;box-shadow:0 18px 50px rgba(216,179,107,.35);width:min(340px,90vw);padding:20px 22px;border:3px solid var(--gold-light);text-align:center;}
+  .confirm-title{font-size:18px;font-weight:800;color:var(--gold-deep);margin-bottom:10px;}
+  .confirm-msg{font-size:15px;color:var(--text);line-height:1.6;margin-bottom:18px;word-break:break-word;white-space:pre-line;}
+  .confirm-actions{display:flex;gap:10px;justify-content:center;}
+  .confirm-actions .btn{min-width:112px;min-height:44px;padding:10px 16px;font-size:15px;}
+  @keyframes fadein{from{opacity:0;}to{opacity:1;}}
+  .checkin-card{background:linear-gradient(180deg,#ffffff,#FFFCF4);border-radius:26px;box-shadow:0 18px 50px rgba(216,179,107,.35);width:min(420px,94vw);max-height:90vh;overflow:auto;padding:18px 18px 22px;border:3px solid var(--gold-light);}
+  .ch-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .ch-title{font-size:20px;font-weight:800;color:var(--gold-deep);display:flex;align-items:center;gap:8px;}
+  .ch-close{border:none;background:transparent;font-size:24px;color:var(--muted);cursor:pointer;line-height:1;width:38px;height:38px;border-radius:50%;flex-shrink:0;}
+  .ch-close:hover{background:#FFEAF3;color:var(--pink-deep);}
+  .cal-streak{text-align:center;font-size:15px;font-weight:700;color:var(--accent);background:var(--accent-soft2);border:2px solid var(--accent-soft);border-radius:16px;padding:10px;margin:10px 0 14px;}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .cal-nav{border:none;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px;font-weight:800;cursor:pointer;box-shadow:0 2px 7px rgba(216,179,107,.4);transition:.12s;}
+  .cal-nav:active{transform:scale(.92);}
+  .cal-title{font-size:17px;font-weight:800;color:var(--gold-deep);}
+  .cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px;}
+  .cal-week span{text-align:center;font-size:13px;color:var(--muted);font-weight:700;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .cal-cell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--text);background:var(--card);border:2px solid var(--gold-light);border-radius:14px;position:relative;cursor:pointer;transition:.12s;user-select:none;}
+  .cal-cell.empty{background:transparent;border:none;cursor:default;}
+  .cal-cell.future{color:#E3D5D8;background:#FBF7F8;border-color:#F1E7E9;cursor:not-allowed;}
+  .cal-cell:not(.empty):not(.future):hover{border-color:var(--accent-soft);transform:translateY(-2px);}
+  .cal-cell.today{border-color:var(--pink-deep);box-shadow:0 0 0 2px rgba(224,120,176,.25);}
+  .cal-cell.done{background:linear-gradient(135deg,#E078B0,#E7C58C);color:#fff;border:none;box-shadow:0 3px 9px rgba(216,179,107,.35);}
+  .cal-check{position:absolute;right:4px;bottom:1px;font-size:11px;line-height:1;}
+  .cal-legend{display:flex;gap:14px;justify-content:center;margin:12px 0 2px;font-size:12px;color:var(--muted);font-weight:700;}
+  .cal-legend i{display:inline-block;width:13px;height:13px;border-radius:4px;margin-right:5px;vertical-align:-2px;}
+  .cal-legend .lg-done{background:linear-gradient(135deg,var(--accent),var(--gold-light));}
+  .cal-legend .lg-today{background:#fff;border:2px solid var(--pink-deep);}
+  .cal-legend .lg-none{background:#FFFDF6;border:2px solid #FBF0DF;}
+  .cal-today-btn{width:100%;margin-top:16px;background:linear-gradient(135deg,var(--accent),var(--gold-light));color:#fff;border:none;border-radius:18px;padding:13px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(216,179,107,.4);transition:.12s;font-family:inherit;}
+  .cal-today-btn:active{transform:scale(.97);}
+  .cal-today-btn.done{background:#F1FBF4;color:#3FB873;border:2px solid #7FD0A0;box-shadow:none;}
+  body.mobile .checkin-card{width:96vw;}
+  .login-screen{position:fixed;inset:0;z-index:400;background:linear-gradient(160deg,#FFF6FA,#FFFCF2);display:none;align-items:center;justify-content:center;padding:20px;}
+  .login-screen.show{display:flex;}
+  .login-card{width:min(420px,94vw);background:#fff;border-radius:28px;box-shadow:0 20px 60px rgba(216,179,107,.35);border:3px solid #F3E0BE;padding:26px 22px 22px;text-align:center;}
+  .login-logo{font-size:40px;}
+  .login-title{font-size:24px;font-weight:900;color:#B0803E;margin:6px 0 2px;}
+  .login-sub{color:#9A8C7A;font-size:14px;margin:0 0 14px;}
+  .login-list{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;}
+  .login-acct{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FFF3FA,#FFFCF2);border:2px solid #FFE3EF;border-radius:18px;padding:12px 14px;cursor:pointer;transition:.12s;text-align:left;font-family:inherit;}
+  .login-acct:hover{border-color:#FFC0DE;transform:translateY(-2px);}
+  .login-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-weight:800;flex-shrink:0;}
+  .login-acct-name{font-size:17px;font-weight:800;color:#5A4A3A;}
+  .login-acct-pin{font-size:12px;color:#9A8C7A;}
+  .login-add{width:100%;border:2px dashed #E7C58C;background:transparent;color:#B0803E;border-radius:16px;padding:11px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;}
+  .login-add:hover{background:#FFF7EC;}
+  .login-form{margin-top:12px;}
+  .login-input{width:100%;box-sizing:border-box;border:2px solid #F0E2CF;background:#FFFDF8;border-radius:14px;padding:11px 14px;font-size:16px;margin-bottom:10px;font-family:inherit;outline:none;}
+  .login-input:focus{border-color:#E078B0;}
+  .login-form-btns{display:flex;gap:10px;}
+  .login-cancel,.login-ok{flex:1;border:none;border-radius:14px;padding:11px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;}
+  .login-cancel{background:#F2ECE2;color:#9A8C7A;}
+  .login-ok{background:linear-gradient(135deg,#E078B0,#E7C58C);color:#fff;}
+  .login-tip{margin-top:14px;font-size:12px;color:#9A8C7A;}
+  .cur-name{font-weight:800;color:var(--gold-deep);font-size:14px;background:var(--cur-bg);border:2px solid var(--cur-bd);border-radius:999px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(216,179,107,.12);}
+  .cur-name::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);}
+</style>
+</head>
+<body>
+  <div class="deco" aria-hidden="true">
+    <span><svg width="54" height="42" viewBox="0 0 60 44"><path d="M6 40 L10 14 L22 28 L30 6 L38 28 L50 14 L54 40 Z" fill="#F2DCA8" stroke="#D9B36B" stroke-width="2" stroke-linejoin="round"/><circle cx="30" cy="6" r="3" fill="#FFC9DE"/><circle cx="10" cy="14" r="2.4" fill="#FFC9DE"/><circle cx="50" cy="14" r="2.4" fill="#FFC9DE"/></svg></span>
+    <span><svg width="34" height="34" viewBox="0 0 24 24"><path d="M12 2l3 7 7 .5-5.5 4.5 2 7-6.5-4-6.5 4 2-7L2 9.5 9 9z" fill="#F2DCA8" stroke="#D9B36B" stroke-width="1"/></svg></span>
+    <span><svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 21S3 14 3 8.2A4.7 4.7 0 0112 6a4.7 4.7 0 019 2.2C21 14 12 21 12 21z" fill="#FFC9DE"/></svg></span>
+    <span><svg width="36" height="36" viewBox="0 0 24 24"><path d="M12 3l2 6 6 .5-4.5 4 1.5 6-5-3.5L6.5 19.5 8 13.5 3.5 9.5 9.5 9z" fill="#F2DCA8" stroke="#D9B36B" stroke-width="1"/></svg></span>
+    <span><svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6z" fill="#FFC9DE"/></svg></span>
+    <span><svg width="32" height="32" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="#F2DCA8"/><g stroke="#D9B36B" stroke-width="1.5" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></g></svg></span>
+  </div>
+  <div class="app" id="app" data-sp-bindable data-sp-database-id="fZTtOGvRgF8NdqfaRnOimr">
+  <aside class="sidebar">
+    <div class="brand"><svg viewBox="0 0 48 24" width="44" height="22" style="display:block;margin:0 auto 4px;"><path d="M4 22 L8 8 L18 18 L24 4 L30 18 L40 8 L44 22 Z" fill="#FFF3D6" stroke="#D9B36B" stroke-width="2" stroke-linejoin="round"/><circle cx="24" cy="4" r="2.6" fill="#FFC9DE"/><circle cx="8" cy="8" r="2" fill="#FFC9DE"/><circle cx="40" cy="8" r="2" fill="#FFC9DE"/></svg><span id="brand-sidebar">布丁的<br>学习天地</span></div>
+    <button class="nav-btn active" data-view="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h14V10" stroke-linecap="round" stroke-linejoin="round"/></svg>首页</button>
+    <button class="nav-btn" data-view="pinyin">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9v6M9 9h2.5a2 2 0 010 4H9M15 9v6M13.5 12h3" stroke-linecap="round" stroke-linejoin="round"/></svg>拼音</button>
+    <button class="nav-btn" data-view="char">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M9 9v6M15 9v6M8 15h8" stroke-linecap="round" stroke-linejoin="round"/></svg>识字</button>
+    <button class="nav-btn" data-view="poem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3V4z" stroke-linejoin="round"/><path d="M5 4H4v14a2 2 0 002 2M9 8h7M9 12h7" stroke-linecap="round"/></svg>古诗</button>
+    <button class="nav-btn" data-view="english">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h7M7.5 7v10M14 17c0-2 1-3 3-3s3 1 3 3M14 17V7h4" stroke-linecap="round" stroke-linejoin="round"/></svg>英语</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h1>
+        <span class="mascot" id="mascot"><svg viewBox="0 0 48 48">
+          <!-- 头发(后) -->
+          <path d="M24 8 C12 8 9 18 10 26 C10 34 14 39 24 39 C34 39 38 34 38 26 C39 18 36 8 24 8 Z" fill="#F7E2B0"/>
+          <!-- 裙子 -->
+          <path d="M16 41 C16 35 32 35 32 41 L34 47 L14 47 Z" fill="#FFC9DE"/>
+          <path d="M17 41 h14" stroke="#E7C58C" stroke-width="1.4" opacity=".8"/>
+          <!-- 脸 -->
+          <ellipse cx="24" cy="24" rx="10" ry="10" fill="#FFE3D2"/>
+          <!-- 刘海 -->
+          <path d="M14 23 C14 12 34 12 34 23 C30 17 18 17 14 23 Z" fill="#F2DCA8"/>
+          <!-- 皇冠 -->
+          <path d="M16 14 L18 7 L21 11 L24 5 L27 11 L30 7 L32 14 Z" fill="#F7D774" stroke="#D9B36B" stroke-width="1" stroke-linejoin="round"/>
+          <circle cx="24" cy="5" r="1.6" fill="#FFC9DE"/>
+          <circle cx="18" cy="7" r="1.3" fill="#FFC9DE"/>
+          <circle cx="30" cy="7" r="1.3" fill="#FFC9DE"/>
+          <!-- 眼睛 -->
+          <circle cx="20" cy="24.5" r="1.9" fill="#6E5F66"/>
+          <circle cx="28" cy="24.5" r="1.9" fill="#6E5F66"/>
+          <circle cx="20.6" cy="23.9" r=".7" fill="#fff"/>
+          <circle cx="28.6" cy="23.9" r=".7" fill="#fff"/>
+          <!-- 腮红 -->
+          <circle cx="16.5" cy="28" r="2.3" fill="#FFB3D1" opacity=".5"/>
+          <circle cx="31.5" cy="28" r="2.3" fill="#FFB3D1" opacity=".5"/>
+          <!-- 微笑 -->
+          <path d="M21 29.5 q3 3 6 0" fill="none" stroke="#6E5F66" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
+        <span id="brand-title">布丁的学习天地</span>
+      </h1>
+      <div class="topbar-right" id="topbar-right">
+        <span class="cur-name" id="cur-name"></span>
+        <button class="theme-btn" id="btn-theme" type="button">🎨 主题</button>
+        <div class="sync"><span class="dot"></span>本地存储 · 数据自动保存在本机</div>
+      </div>
+    </header>
+
+    <!-- 首页 / 复习中心 -->
+    <section class="view active" id="view-home">
+      <div class="toolbar" style="margin-bottom:8px;">
+        <button class="btn" id="btn-export">导出备份</button>
+        <button class="btn" id="btn-import">导入恢复</button>
+        <button class="btn primary" id="btn-checkin">连续打卡</button>
+        <button class="btn" id="btn-switch">切换账号</button>
+        <input type="file" id="file-import" accept="application/json" style="display:none">
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="num" id="st-days">0</div><div class="label">学习天数</div></div>
+        <div class="stat"><div class="num" id="st-streak">0</div><div class="label">连续打卡</div></div>
+        <div class="stat"><div class="num" id="st-master">0</div><div class="label">已掌握</div></div>
+        <div class="stat"><div class="num" id="st-due">0</div><div class="label">今日待复习</div></div>
+      </div>
+
+      <div class="sec-title">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D9B36B" stroke-width="2"><path d="M9 11l3 3 8-8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round"/></svg>
+        今日待复习
+      </div>
+      <div id="due-modules"></div>
+
+        <div class="info">
+          <b>记忆曲线复习规则：</b>每项连续 3 天点「我学会啦」后，第 4 天起按 1→2→4→7→15→30→60 天的间隔出现复习；若点「再学学吧」，则重新从第 1 天学起。
+        </div>
+
+      <div class="danger-zone">
+        <span class="danger-hint">更多功能</span>
+        <button class="btn-link-danger" id="btn-savefile">保存为文件</button>
+        <button class="btn-link-danger" id="btn-reset">重置为示例数据</button>
+      </div>
+    </section>
+
+    <!-- 拼音 -->
+    <section class="view" id="view-pinyin">
+      <div class="sec-title">拼音乐园（幼小衔接 · 一年级）</div>
+      <div class="hint" style="color:var(--muted);font-size:14px;margin-bottom:12px;">点卡片可展开，复习时选「我学会啦 / 再学学吧」。</div>
+      <div class="grid" id="pinyin-grid"></div>
+    </section>
+
+    <!-- 识字 -->
+    <section class="view" id="view-char">
+      <div class="sec-title">识字卡片（部编版 小学1-6年级 写字表）</div>
+      <div class="hint" style="color:var(--muted);font-size:14px;margin-bottom:12px;"></div>
+      <div class="grid" id="char-grid"></div>
+    </section>
+
+    <!-- 古诗 -->
+    <section class="view" id="view-poem">
+      <div class="sec-title">古诗诵读（统编版 小学1-6年级 必背）</div>
+      <div class="grid" id="poem-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));"></div>
+    </section>
+
+    <!-- 英语 -->
+    <section class="view" id="view-english">
+      <div class="sec-title">英语单词（幼儿园 → 高中 · 分阶段）</div>
+      <div class="import-box">
+        <div style="font-weight:700;color:var(--gold-deep);margin-bottom:8px;">导入单词</div>
+        <textarea id="en-input" placeholder="每行一个，英文和中文用空格或逗号隔开，例如：&#10;apple 苹果&#10;cat 猫&#10;sun,太阳"></textarea>
+        <div class="row">
+          <label style="font-size:14px;color:var(--muted);display:flex;align-items:center;gap:6px;">阶段
+            <select id="en-stage" style="font-family:inherit;font-size:14px;padding:6px 10px;border-radius:12px;border:2px solid #FFD0E6;background:#FFFDF6;color:var(--gold-deep);font-weight:700;">
+              <option value="幼儿园">幼儿园</option>
+              <option value="小学" selected>小学</option>
+              <option value="初中">初中</option>
+              <option value="高中">高中</option>
+              <option value="自定义">自定义</option>
+            </select>
+          </label>
+          <button class="btn primary" id="en-import-btn">导入单词</button>
+          <button class="btn" id="en-sample-btn">填入示例</button>
+          <span id="en-count" style="font-size:14px;color:var(--muted);"></span>
+        </div>
+        <div class="hint">支持格式：<code>apple 苹果</code> / <code>apple,苹果</code> / <code>apple=苹果</code>。重复英文不会重复导入；导入的单词会归入上方所选阶段。</div>
+      </div>
+      <div class="en-search-box">
+        <span class="search-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+        <input id="en-search" type="search" placeholder="搜索单词 / 中文意思 / 音标（例：apple、苹果、/æ/）" autocomplete="off" />
+        <button class="search-clear" id="en-search-clear" type="button" title="清空" aria-label="清空搜索">✕</button>
+      </div>
+      <div id="english-grid"></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal-mask" id="confirm-modal" aria-hidden="true">
+  <div class="confirm-card" role="alertdialog" aria-modal="true">
+    <div class="confirm-title">提示</div>
+    <div class="confirm-msg" id="confirm-msg"></div>
+    <div class="confirm-actions">
+      <button class="btn" id="confirm-cancel" type="button">取消</button>
+      <button class="btn primary" id="confirm-ok" type="button">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- 连续打卡日历弹窗 -->
+<div class="modal-mask" id="checkin-modal" aria-hidden="true">
+  <div class="checkin-card">
+    <div class="ch-head">
+      <div class="ch-title">🌸 连续打卡</div>
+      <button class="ch-close" id="cal-close" type="button" aria-label="关闭">✕</button>
+    </div>
+    <div class="cal-streak" id="cal-streak">连续打卡 0 天 · 累计 0 天</div>
+    <div class="cal-body" id="cal-body"></div>
+    <div class="cal-legend">
+      <span><i class="lg-done"></i>已打卡</span>
+      <span><i class="lg-today"></i>今天</span>
+      <span><i class="lg-none"></i>未打卡</span>
+    </div>
+    <button class="cal-today-btn" id="cal-today-btn" type="button">今天打卡</button>
+  </div>
+</div>
+
+<!-- 主题配色选择弹窗 -->
+<div class="modal-mask" id="theme-modal" aria-hidden="true">
+  <div class="modal-box theme-box">
+    <div class="theme-head">
+      <b>🎨 选择主题配色</b>
+      <button class="modal-close" id="theme-close" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="theme-swatches" id="theme-swatches"></div>
+    <div class="theme-tip">主题只改变配色，不影响任何学习数据；每个账号可以单独设置自己的配色。</div>
+  </div>
+</div>
+
+<!-- 登录 / 选账号 -->
+<div class="login-screen" id="login-screen" aria-hidden="true">
+  <div class="login-card">
+    <div class="login-logo">🌸📚</div>
+    <h1 class="login-title">布丁的学习天地</h1>
+    <p class="login-sub" id="login-sub">选择一个账号开始学习</p>
+    <div class="login-list" id="login-list"></div>
+    <button class="login-add" id="login-add" type="button">＋ 添加新账号</button>
+    <div class="login-form" id="login-form" style="display:none">
+      <input class="login-input" id="login-name" type="text" maxlength="12" placeholder="昵称（如：小明）" />
+      <input class="login-input" id="login-pin" type="text" inputmode="numeric" maxlength="4" placeholder="PIN（可选，4 位数字）" />
+      <div class="login-form-btns">
+        <button class="login-cancel" id="login-cancel" type="button">取消</button>
+        <button class="login-ok" id="login-ok" type="button">确定</button>
+      </div>
+    </div>
+    <div class="login-tip">不同账号的学习数据分开保存，可跨设备同步</div>
+  </div>
+</div>
+<!-- PIN 校验弹窗 -->
+<div class="modal-mask" id="pin-modal" aria-hidden="true">
+  <div class="checkin-card" style="width:min(340px,92vw)">
+    <div class="ch-head"><div class="ch-title">🔒 输入 PIN</div><button class="ch-close" id="pin-close" type="button">✕</button></div>
+    <p class="login-sub" id="pin-name"></p>
+    <input class="login-input" id="pin-input" type="text" inputmode="numeric" maxlength="4" placeholder="4 位 PIN" />
+    <button class="login-ok" id="pin-ok" type="button" style="margin-top:12px;width:100%">进入</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // ===== 多账号层 =====
+  var ACCOUNTS_KEY='wb_kid_accounts', CURRENT_KEY='wb_kid_current';
+  var CURRENT=load(CURRENT_KEY,'')||'';
+  var accounts=load(ACCOUNTS_KEY,null)||[];
+  function acctKey(name,pin){ var n=(name||'').trim(); return n+(pin?('#'+String(pin)):''); }
+  function accKeys(){ var p='wb_kid_'+(CURRENT||'__none__')+'_'; return {profile:p+'profile',pinyin:p+'pinyin',char:p+'char',poem:p+'poem',english:p+'english'}; }
+  var KEYS=accKeys();
+  function saveRaw(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+  function persistAccounts(){ saveRaw(ACCOUNTS_KEY,accounts); }
+  function persistCurrent(){ saveRaw(CURRENT_KEY,CURRENT); }
+  function curAcct(){ for(var i=0;i<accounts.length;i++){ if(accounts[i].key===CURRENT) return accounts[i]; } return null; }
+  function initAccounts(){
+    if(!accounts || !accounts.length){
+      var firstKey=acctKey('布丁','');
+      accounts=[{key:firstKey,name:'布丁',pin:''}];
+      var oldProfile=load('wb_kid_profile',null);
+      if(oldProfile){
+        ['profile','pinyin','char','poem','english'].forEach(function(m){
+          var old=load('wb_kid_'+m,null);
+          if(old!==null) localStorage.setItem('wb_kid_'+firstKey+'_'+m, JSON.stringify(old));
+          localStorage.removeItem('wb_kid_'+m);
+        });
+      }
+      CURRENT=firstKey; persistAccounts(); persistCurrent();
+    }
+    if(!CURRENT || !curAcct()){ CURRENT = accounts.length?accounts[0].key:''; persistCurrent(); }
+  }
+  // ---- 云端同步层（与「保存为文件」离线方案并存：云端自动跨设备 + 离线文件随带）----
+  var DATABASE_ID='fZTtOGvRgF8NdqfaRnOimr';
+  var db=(window.__SMART_PAGE__&&window.__SMART_PAGE__.database)?window.__SMART_PAGE__.database:null;
+  var SYNC_RECORD_ID=null;
+  function isBuiltinId(id){return /^(p|c|m|e)\d+$/.test(id||'');}
+  function syncIfKey(k){if(!db)return;for(var key in KEYS){if(KEYS[key]===k){scheduleSync();return;}}}
+  var syncTimer=null;
+  function scheduleSync(){if(!db)return;clearTimeout(syncTimer);syncTimer=setTimeout(syncToCloud,800);}
+  function buildCloudBlob(){
+    var blob={profile:state.profile||{},progress:{},custom:{},theme:(curAcct()?curAcct().theme:'princess')};
+    ['pinyin','char','poem','english'].forEach(function(mod){
+      blob.progress[mod]={};blob.custom[mod]=[];
+      state[mod].forEach(function(it){
+        if(!it||!it.id)return;
+        if(isBuiltinId(it.id)){
+          var has=it.everStudied||(it.state&&it.state!=='new')||(it.streak>0);
+          if(has){blob.progress[mod][it.id]={streak:it.streak||0,lastLearned:it.lastLearned||null,state:it.state||'new',everStudied:!!it.everStudied,nextReview:(it.nextReview===undefined?null:it.nextReview),curveIndex:it.curveIndex||0};}
+        }else{blob.custom[mod].push(it);}
+      });
+    });
+    return blob;
+  }
+  function mergeCloud(blob){
+    if(!blob||typeof blob!=='object')return;
+    if(blob.profile&&typeof blob.profile==='object')state.profile=blob.profile;
+    if(blob.theme){ var a=curAcct(); if(a){ a.theme=blob.theme; persistAccounts(); } }
+    ['pinyin','char','poem','english'].forEach(function(mod){
+      var list=state[mod];var byId={};list.forEach(function(it){if(it&&it.id)byId[it.id]=it;});
+      var prog=(blob.progress&&blob.progress[mod])||{};
+      for(var id in prog){if(byId[id]){var p=prog[id];if(p.streak!=null)byId[id].streak=p.streak;if(p.lastLearned!=null)byId[id].lastLearned=p.lastLearned;if(p.state!=null)byId[id].state=p.state;if(p.everStudied!=null)byId[id].everStudied=p.everStudied;byId[id].nextReview=(p.nextReview===undefined?null:p.nextReview);if(p.curveIndex!=null)byId[id].curveIndex=p.curveIndex;}}
+      var custom=(blob.custom&&blob.custom[mod])||[];
+      custom.forEach(function(it){if(it&&it.id&&!byId[it.id]){list.push(it);byId[it.id]=it;}});
+    });
+  }
+  function saveAllLocal(){['pinyin','char','poem','english'].forEach(function(m){localStorage.setItem(KEYS[m],JSON.stringify(state[m]));});localStorage.setItem(KEYS.profile,JSON.stringify(state.profile));}
+  function syncToCloud(){
+    if(!db)return;
+    var a=curAcct(); if(!a)return;
+    var str=JSON.stringify(buildCloudBlob());
+    var props={'数据':{text:str},'账号':{text:CURRENT}};
+    if(a.syncId){
+      db.updateRecord({databaseId:DATABASE_ID,recordId:a.syncId,properties:props}).catch(function(e){console.warn('[sync] update failed',e);});
+    }else{
+      db.addRecord({databaseId:DATABASE_ID,properties:props}).then(function(r){if(r&&r.id){a.syncId=r.id;persistAccounts();}}).catch(function(e){console.warn('[sync] add failed',e);});
+    }
+  }
+  function loadFromCloud(){
+    if(!db)return;
+    db.query({databaseId:DATABASE_ID,pageSize:50}).then(function(res){
+      var recs=(res&&res.results)||[];
+      var rec=null, legacy=null;
+      for(var i=0;i<recs.length;i++){
+        if(recs[i]['账号']===CURRENT){rec=recs[i];break;}
+        if(recs[i]['账号']==null||recs[i]['账号']===''){legacy=recs[i];}
+      }
+      // 兜底：默认“布丁”账号可回退拉取升级前的旧云记录（无账号字段），其余账号不误拉
+      if(!rec && CURRENT===acctKey('布丁','') && legacy){ rec=legacy; }
+      if(rec){
+        var sid=rec._id||null;
+        var a=curAcct(); if(a){a.syncId=sid;persistAccounts();}
+        var str=rec['数据']||'';
+        if(str){try{var blob=JSON.parse(str);mergeCloud(blob);updateOpen();saveAllLocal();renderAll();}catch(e){console.warn('[sync] parse failed',e);}}
+      }
+    }).catch(function(e){console.warn('[sync] load failed',e);});
+  }
+  var MODNAME={pinyin:'拼音',char:'识字',poem:'古诗',english:'英语'};
+  var CURVE=[1,2,4,7,15,30,60]; // 记忆曲线间隔（天）
+
+  // ---------- 种子数据（已查证）----------
+  var SHENGMU=[['b','爸'],['p','坡'],['m','妈'],['f','佛'],['d','的'],['t','特'],['n','讷'],['l','勒'],['g','哥'],['k','科'],['h','喝'],['j','机'],['q','七'],['x','西'],['zh','知'],['ch','吃'],['sh','诗'],['r','日'],['z','资'],['c','次'],['s','丝'],['y','衣'],['w','乌']];
+  var YUNMU=[['a','啊'],['o','哦'],['e','鹅'],['i','衣'],['u','屋'],['ü','鱼'],['ai','爱'],['ei','诶'],['ui','威'],['ao','袄'],['ou','欧'],['iu','优'],['ie','耶'],['üe','约'],['er','耳'],['an','安'],['en','恩'],['in','因'],['un','温'],['ün','晕'],['ang','昂'],['eng','亨'],['ing','英'],['ong','翁']];
+  var ZHENGTI=[['zhi','织'],['chi','吃'],['shi','狮'],['ri','日'],['zi','资'],['ci','刺'],['si','丝'],['yi','衣'],['wu','屋'],['yu','雨'],['ye','椰'],['yue','月'],['yuan','圆'],['yin','印'],['yun','云'],['ying','鹰']];
+  var CHARLIST='一 二 三 十 八 上 下 口 耳 目 手 日 月 水 火 木 山 石 田 土 禾 云 雨 风 花 鸟 虫 鱼 马 牛 羊 犬 兔 竹 林 门 户 车 舟 刀 尺 书 笔 米 面 心 身 头 牙 舌 足 女 儿 子 大 小 多 少 来 去 开 关 前 后 左 右 东 西 南 北 中 里 外 内 出 入 坐 立 走 飞 跑 看 听 说 读 写 笑 哭 吃 喝 叫 问 答 想 知 学 习 会 用 做 玩 爱 喜 好 美 真 新 旧 高 低 长 短 远 近 早 晚 快 慢 冷 热 轻 重 香 甜 苦 酸 红 黄 蓝 白 黑 绿 紫 粉 金 银 光 影 声 色 气 味 春 夏 秋 冬 年 岁 时 分 秒 今 明 昨 星 晨 午 夜 周 季 节 假 工 农 兵 医 师 生 校 班 级 同 友 哥 姐 弟 妹 爸 妈 爷 奶 公 婆 叔 姨 我 你 他 她 们 自 己 咱 谁 这 那 哪 些 个 只 条 本 把 双 群 片 朵 棵 座 顶 件 台 张 面 瓶 杯 碗 盘 锅 筷 勺 桌 椅 床 灯 窗 墙 房 屋 楼 桥 路 街 城 村 园 场 池 河 海 湖 江 溪 泉 波 浪 沙 泥 冰 雪 雷 电 雾 露 霜 晴 阴 暗 亮 清 浊 浑 净 脏 干 湿 满 空 实 虚 方 圆 平 直 弯 曲 尖 角 边 面 点 线 块 对 单 全 半 各 每 都 总 还 又 再 才 就 很 太 最 更 可 能 应 该 要 愿 敢 肯 得 被 让 使 令 给 为 向 从 到 在 往 过 经 由 跟 和 与 或 但 因 为 所 以 如 果 虽 然 但 是 而 且 也 仅 刚 已 经 正 将 立 刻 马 上 渐 渐 突 然 连 忙 终 于 毕 竟 果 然 居 然 好 像 犹 如 仿 佛 却 反 复 重 新 依 旧 仍 然 力 气 汗 血 肉 骨 皮 毛 发 眼 眉 鼻 嘴 脸 手 指 掌 拳 臂 腿 脚 步 行 跑 跳 爬 站 躺 睡 醒 梦 病 痛 药 医 护 士 警 察 军 战 士 农 民 工 人 商 店 市 场 商 品 钱 币 买 卖 价 值 票 卡 包 袋 箱 盒 纸 笔 墨 砚 画 图 歌 舞 戏 球 绳 旗 鼓 号 笛 琴 棋 牌 游 戏 运 动 比 赛 赢 输 奖 杯 牌 练 习 考 试 题 答 错 对 分 数 名 字 句 词 语 文 章 课 本 笔 记 读 写 算 数 加 减 乘 除 等 于 公 式 形 状 图 形 圆 方 角 长 宽 高 厚 重 量 斤 两 克 厘 米 分 米 千 米 百 十 万 亿 零 双 单 奇 偶 正 负 左 右 上 下 前 后 内 外 中 间 旁 边 周 围 远 近 快 慢 早 晚 先 后 始 终 古 今 旧 新 老 少 青 壮 幼 长 短 粗 细 厚 薄 深 浅 宽 窄 直 弯 平 陡 光 滑 粗 糙 软 硬 冷 暖 凉 热 温 干 湿 晴 雨 雪 风 霜 露 雾 雷 电 虹 冰 冻 春 夏 秋 冬 季 节 暖 寒 温 凉 茂 盛 枯 萎 开 落 生 长 死 活 存 亡 兴 亡 盛 衰 强 弱 胜 败 进 退 升 降 沉 浮 张 合 收 放 开 关 推 拉 提 拿 抱 背 扛 抬 搬 运 转 摇 摆 晃 动 静 止 飞 翔 游 泳 爬 行 奔 跑 跳 跃 走 路 散 步 旅 行 回 家 离 别 相 见 聚 散 分 合 离 合 团 结 合 作 帮 助 关 心 爱 护 尊 敬 礼 貌 诚 实 勇 敢 勤 劳 节 俭 节 约 浪 费 珍 惜 保 护 环 境 卫 生 健 康 平 安 幸 福 快 乐 喜 欢 高 兴 伤 心 生 气 害 怕 勇 敢 害 羞 骄 傲 谦 虚 虚 心 骄 傲 自 满 惭 愧 后 悔 期 待 希 望 梦 想 理 想 信 心 决 心 毅 力 坚 持 努 力 奋 斗 拼 搏 成 功 失 败 收 获 果 实 荣 誉 光 荣 骄 傲'.split(' ');
+  var POEMS=[
+    {title:'咏鹅',author:'骆宾王',content:'鹅，鹅，鹅，曲项向天歌。白毛浮绿水，红掌拨清波。'},
+    {title:'江南',author:'汉乐府',content:'江南可采莲，莲叶何田田。鱼戏莲叶间。鱼戏莲叶东，鱼戏莲叶西，鱼戏莲叶南，鱼戏莲叶北。'},
+    {title:'画',author:'王维',content:'远看山有色，近听水无声。春去花还在，人来鸟不惊。'},
+    {title:'悯农（其二）',author:'李绅',content:'锄禾日当午，汗滴禾下土。谁知盘中餐，粒粒皆辛苦。'},
+    {title:'古朗月行（节选）',author:'李白',content:'小时不识月，呼作白玉盘。又疑瑶台镜，飞在青云端。'},
+    {title:'风',author:'李峤',content:'解落三秋叶，能开二月花。过江千尺浪，入竹万竿斜。'},
+    {title:'春晓',author:'孟浩然',content:'春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。'},
+    {title:'赠汪伦',author:'李白',content:'李白乘舟将欲行，忽闻岸上踏歌声。桃花潭水深千尺，不及汪伦送我情。'},
+    {title:'静夜思',author:'李白',content:'床前明月光，疑是地上霜。举头望明月，低头思故乡。'},
+    {title:'寻隐者不遇',author:'贾岛',content:'松下问童子，言师采药去。只在此山中，云深不知处。'},
+    {title:'池上',author:'白居易',content:'小娃撑小艇，偷采白莲回。不解藏踪迹，浮萍一道开。'},
+    {title:'小池',author:'杨万里',content:'泉眼无声惜细流，树阴照水爱晴柔。小荷才露尖尖角，早有蜻蜓立上头。'},
+    {title:'画鸡',author:'唐寅',content:'头上红冠不用裁，满身雪白走将来。平生不敢轻言语，一叫千门万户开。'},
+    {title:'梅花',author:'王安石',content:'墙角数枝梅，凌寒独自开。遥知不是雪，为有暗香来。'},
+    {title:'小儿垂钓',author:'胡令能',content:'蓬头稚子学垂纶，侧坐莓苔草映身。路人借问遥招手，怕得鱼惊不应人。'},
+    {title:'登鹳雀楼',author:'王之涣',content:'白日依山尽，黄河入海流。欲穷千里目，更上一层楼。'},
+    {title:'望庐山瀑布',author:'李白',content:'日照香炉生紫烟，遥看瀑布挂前川。飞流直下三千尺，疑是银河落九天。'},
+    {title:'江雪',author:'柳宗元',content:'千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。'},
+    {title:'夜宿山寺',author:'李白',content:'危楼高百尺，手可摘星辰。不敢高声语，恐惊天上人。'},
+    {title:'敕勒歌',author:'北朝民歌',content:'敕勒川，阴山下。天似穹庐，笼盖四野。天苍苍，野茫茫，风吹草低见牛羊。'},
+    {title:'村居',author:'高鼎',content:'草长莺飞二月天，拂堤杨柳醉春烟。儿童散学归来早，忙趁东风放纸鸢。'},
+    {title:'咏柳',author:'贺知章',content:'碧玉妆成一树高，万条垂下绿丝绦。不知细叶谁裁出，二月春风似剪刀。'},
+    {title:'赋得古原草送别',author:'白居易',content:'离离原上草，一岁一枯荣。野火烧不尽，春风吹又生。'},
+    {title:'晓出净慈寺送林子方',author:'杨万里',content:'毕竟西湖六月中，风光不与四时同。接天莲叶无穷碧，映日荷花别样红。'},
+    {title:'绝句',author:'杜甫',content:'两个黄鹂鸣翠柳，一行白鹭上青天。窗含西岭千秋雪，门泊东吴万里船。'},
+    {title:'悯农（其一）',author:'李绅',content:'春种一粒粟，秋收万颗子。四海无闲田，农夫犹饿死。'},
+    {title:'舟夜书所见',author:'查慎行',content:'月黑见渔灯，孤光一点萤。微微风簇浪，散作满河星。'},
+    {title:'所见',author:'袁枚',content:'牧童骑黄牛，歌声振林樾。意欲捕鸣蝉，忽然闭口立。'},
+    {title:'山行',author:'杜牧',content:'远上寒山石径斜，白云生处有人家。停车坐爱枫林晚，霜叶红于二月花。'},
+    {title:'赠刘景文',author:'苏轼',content:'荷尽已无擎雨盖，菊残犹有傲霜枝。一年好景君须记，最是橙黄橘绿时。'},
+    {title:'夜书所见',author:'叶绍翁',content:'萧萧梧叶送寒声，江上秋风动客情。知有儿童挑促织，夜深篱落一灯明。'},
+    {title:'望天门山',author:'李白',content:'天门中断楚江开，碧水东流至此回。两岸青山相对出，孤帆一片日边来。'},
+    {title:'饮湖上初晴后雨',author:'苏轼',content:'水光潋滟晴方好，山色空蒙雨亦奇。欲把西湖比西子，淡妆浓抹总相宜。'},
+    {title:'望洞庭',author:'刘禹锡',content:'湖光秋月两相和，潭面无风镜未磨。遥望洞庭山水翠，白银盘里一青螺。'},
+    {title:'早发白帝城',author:'李白',content:'朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。'},
+    {title:'采莲曲',author:'王昌龄',content:'荷叶罗裙一色裁，芙蓉向脸两边开。乱入池中看不见，闻歌始觉有人来。'},
+    {title:'绝句',author:'杜甫',content:'迟日江山丽，春风花草香。泥融飞燕子，沙暖睡鸳鸯。'},
+    {title:'惠崇春江晚景',author:'苏轼',content:'竹外桃花三两枝，春江水暖鸭先知。蒌蒿满地芦芽短，正是河豚欲上时。'},
+    {title:'三衢道中',author:'曾几',content:'梅子黄时日日晴，小溪泛尽却山行。绿阴不减来时路，添得黄鹂四五声。'},
+    {title:'忆江南',author:'白居易',content:'江南好，风景旧曾谙。日出江花红胜火，春来江水绿如蓝。能不忆江南？'},
+    {title:'元日',author:'王安石',content:'爆竹声中一岁除，春风送暖入屠苏。千门万户曈曈日，总把新桃换旧符。'},
+    {title:'清明',author:'杜牧',content:'清明时节雨纷纷，路上行人欲断魂。借问酒家何处有，牧童遥指杏花村。'},
+    {title:'九月九日忆山东兄弟',author:'王维',content:'独在异乡为异客，每逢佳节倍思亲。遥知兄弟登高处，遍插茱萸少一人。'},
+    {title:'滁州西涧',author:'韦应物',content:'独怜幽草涧边生，上有黄鹂深树鸣。春潮带雨晚来急，野渡无人舟自横。'},
+    {title:'大林寺桃花',author:'白居易',content:'人间四月芳菲尽，山寺桃花始盛开。长恨春归无觅处，不知转入此中来。'},
+    {title:'浪淘沙',author:'刘禹锡',content:'九曲黄河万里沙，浪淘风簸自天涯。如今直上银河去，同到牵牛织女家。'},
+    {title:'鹿柴',author:'王维',content:'空山不见人，但闻人语响。返景入深林，复照青苔上。'},
+    {title:'暮江吟',author:'白居易',content:'一道残阳铺水中，半江瑟瑟半江红。可怜九月初三夜，露似真珠月似弓。'},
+    {title:'题西林壁',author:'苏轼',content:'横看成岭侧成峰，远近高低各不同。不识庐山真面目，只缘身在此山中。'},
+    {title:'雪梅',author:'卢梅坡',content:'梅雪争春未肯降，骚人阁笔费评章。梅须逊雪三分白，雪却输梅一段香。'},
+    {title:'出塞',author:'王昌龄',content:'秦时明月汉时关，万里长征人未还。但使龙城飞将在，不教胡马度阴山。'},
+    {title:'凉州词',author:'王翰',content:'葡萄美酒夜光杯，欲饮琵琶马上催。醉卧沙场君莫笑，古来征战几人回？'},
+    {title:'夏日绝句',author:'李清照',content:'生当作人杰，死亦为鬼雄。至今思项羽，不肯过江东。'},
+    {title:'嫦娥',author:'李商隐',content:'云母屏风烛影深，长河渐落晓星沉。嫦娥应悔偷灵药，碧海青天夜夜心。'},
+    {title:'四时田园杂兴（其二十五）',author:'范成大',content:'梅子金黄杏子肥，麦花雪白菜花稀。日长篱落无人过，惟有蜻蜓蛱蝶飞。'},
+    {title:'宿新市徐公店',author:'杨万里',content:'篱落疏疏一径深，树头新绿未成阴。儿童急走追黄蝶，飞入菜花无处寻。'},
+    {title:'清平乐·村居',author:'辛弃疾',content:'茅檐低小，溪上青青草。醉里吴音相媚好，白发谁家翁媪？大儿锄豆溪东，中儿正织鸡笼。最喜小儿亡赖，溪头卧剥莲蓬。'},
+    {title:'江畔独步寻花',author:'杜甫',content:'黄师塔前江水东，春光懒困倚微风。桃花一簇开无主，可爱深红爱浅红？'},
+    {title:'蜂',author:'罗隐',content:'不论平地与山尖，无限风光尽被占。采得百花成蜜后，为谁辛苦为谁甜？'},
+    {title:'独坐敬亭山',author:'李白',content:'众鸟高飞尽，孤云独去闲。相看两不厌，只有敬亭山。'},
+    {title:'芙蓉楼送辛渐',author:'王昌龄',content:'寒雨连江夜入吴，平明送客楚山孤。洛阳亲友如相问，一片冰心在玉壶。'},
+    {title:'塞下曲',author:'卢纶',content:'月黑雁飞高，单于夜遁逃。欲将轻骑逐，大雪满弓刀。'},
+    {title:'墨梅',author:'王冕',content:'我家洗砚池头树，朵朵花开淡墨痕。不要人夸好颜色，只留清气满乾坤。'},
+    {title:'卜算子·咏梅',author:'毛泽东',content:'风雨送春归，飞雪迎春到。已是悬崖百丈冰，犹有花枝俏。俏也不争春，只把春来报。待到山花烂漫时，她在丛中笑。'},
+    {title:'示儿',author:'陆游',content:'死去元知万事空，但悲不见九州同。王师北定中原日，家祭无忘告乃翁。'},
+    {title:'题临安邸',author:'林升',content:'山外青山楼外楼，西湖歌舞几时休？暖风熏得游人醉，直把杭州作汴州。'},
+    {title:'己亥杂诗',author:'龚自珍',content:'九州生气恃风雷，万马齐喑究可哀。我劝天公重抖擞，不拘一格降人材。'},
+    {title:'山居秋暝',author:'王维',content:'空山新雨后，天气晚来秋。明月松间照，清泉石上流。竹喧归浣女，莲动下渔舟。随意春芳歇，王孙自可留。'},
+    {title:'枫桥夜泊',author:'张继',content:'月落乌啼霜满天，江枫渔火对愁眠。姑苏城外寒山寺，夜半钟声到客船。'},
+    {title:'长相思',author:'纳兰性德',content:'山一程，水一程，身向榆关那畔行，夜深千帐灯。风一更，雪一更，聒碎乡心梦不成，故园无此声。'},
+    {title:'渔歌子',author:'张志和',content:'西塞山前白鹭飞，桃花流水鳜鱼肥。青箬笠，绿蓑衣，斜风细雨不须归。'},
+    {title:'观书有感',author:'朱熹',content:'半亩方塘一鉴开，天光云影共徘徊。问渠那得清如许？为有源头活水来。'},
+    {title:'泊船瓜洲',author:'王安石',content:'京口瓜洲一水间，钟山只隔数重山。春风又绿江南岸，明月何时照我还。'},
+    {title:'四时田园杂兴（其三十一）',author:'范成大',content:'昼出耘田夜绩麻，村庄儿女各当家。童孙未解供耕织，也傍桑阴学种瓜。'},
+    {title:'稚子弄冰',author:'杨万里',content:'稚子金盆脱晓冰，彩丝穿取当银钲。敲成玉磬穿林响，忽作玻璃碎地声。'},
+    {title:'村晚',author:'雷震',content:'草满池塘水满陂，山衔落日浸寒漪。牧童归去横牛背，短笛无腔信口吹。'},
+    {title:'凉州词',author:'王之涣',content:'黄河远上白云间，一片孤城万仞山。羌笛何须怨杨柳，春风不度玉门关。'},
+    {title:'送元二使安西',author:'王维',content:'渭城朝雨浥轻尘，客舍青青柳色新。劝君更尽一杯酒，西出阳关无故人。'},
+    {title:'秋夜将晓出篱门迎凉有感',author:'陆游',content:'三万里河东入海，五千仞岳上摩天。遗民泪尽胡尘里，南望王师又一年。'},
+    {title:'黄鹤楼送孟浩然之广陵',author:'李白',content:'故人西辞黄鹤楼，烟花三月下扬州。孤帆远影碧空尽，唯见长江天际流。'},
+    {title:'乡村四月',author:'翁卷',content:'绿遍山原白满川，子规声里雨如烟。乡村四月闲人少，才了蚕桑又插田。'},
+    {title:'宿建德江',author:'孟浩然',content:'移舟泊烟渚，日暮客愁新。野旷天低树，江清月近人。'},
+    {title:'六月二十七日望湖楼醉书',author:'苏轼',content:'黑云翻墨未遮山，白雨跳珠乱入船。卷地风来忽吹散，望湖楼下水如天。'},
+    {title:'西江月·夜行黄沙道中',author:'辛弃疾',content:'明月别枝惊鹊，清风半夜鸣蝉。稻花香里说丰年，听取蛙声一片。七八个星天外，两三点雨山前。旧时茅店社林边，路转溪桥忽见。'},
+    {title:'过故人庄',author:'孟浩然',content:'故人具鸡黍，邀我至田家。绿树村边合，青山郭外斜。开轩面场圃，把酒话桑麻。待到重阳日，还来就菊花。'},
+    {title:'七律·长征',author:'毛泽东',content:'红军不怕远征难，万水千山只等闲。五岭逶迤腾细浪，乌蒙磅礴走泥丸。金沙水拍云崖暖，大渡桥横铁索寒。更喜岷山千里雪，三军过后尽开颜。'},
+    {title:'春日',author:'朱熹',content:'胜日寻芳泗水滨，无边光景一时新。等闲识得东风面，万紫千红总是春。'},
+    {title:'回乡偶书',author:'贺知章',content:'少小离家老大回，乡音无改鬓毛衰。儿童相见不相识，笑问客从何处来。'},
+    {title:'江南春',author:'杜牧',content:'千里莺啼绿映红，水村山郭酒旗风。南朝四百八十寺，多少楼台烟雨中。'},
+    {title:'寒食',author:'韩翃',content:'春城无处不飞花，寒食东风御柳斜。日暮汉宫传蜡烛，轻烟散入五侯家。'},
+    {title:'迢迢牵牛星',author:'古诗十九首',content:'迢迢牵牛星，皎皎河汉女。纤纤擢素手，札札弄机杼。终日不成章，泣涕零如雨。河汉清且浅，相去复几许。盈盈一水间，脉脉不得语。'},
+    {title:'十五夜望月',author:'王建',content:'中庭地白树栖鸦，冷露无声湿桂花。今夜月明人尽望，不知秋思落谁家。'},
+    {title:'长歌行',author:'汉乐府',content:'青青园中葵，朝露待日晞。阳春布德泽，万物生光辉。常恐秋节至，焜黄华叶衰。百川东到海，何时复西归？少壮不努力，老大徒伤悲！'},
+    {title:'马诗',author:'李贺',content:'大漠沙如雪，燕山月似钩。何当金络脑，快走踏清秋。'},
+    {title:'石灰吟',author:'于谦',content:'千锤万凿出深山，烈火焚烧若等闲。粉骨碎身浑不怕，要留清白在人间。'},
+    {title:'竹石',author:'郑燮',content:'咬定青山不放松，立根原在破岩中。千磨万击还坚劲，任尔东西南北风。'},
+    {title:'采薇（节选）',author:'诗经',content:'昔我往矣，杨柳依依。今我来思，雨雪霏霏。行道迟迟，载渴载饥。我心伤悲，莫知我哀！'},
+    {title:'春夜喜雨',author:'杜甫',content:'好雨知时节，当春乃发生。随风潜入夜，润物细无声。野径云俱黑，江船火独明。晓看红湿处，花重锦官城。'},
+    {title:'江上渔者',author:'范仲淹',content:'江上往来人，但爱鲈鱼美。君看一叶舟，出没风波里。'},
+    {title:'游子吟',author:'孟郊',content:'慈母手中线，游子身上衣。临行密密缝，意恐迟迟归。谁言寸草心，报得三春晖。'},
+    {title:'天净沙·秋',author:'白朴',content:'孤村落日残霞，轻烟老树寒鸦，一点飞鸿影下。青山绿水，白草红叶黄花。'}
+  ];
+
+  // 英语分阶段词库（幼儿园 → 高中）
+  var ENGLISH_SEED=[
+    // —— 幼儿园 ——
+    {en:'apple',zh:'苹果',stage:'幼儿园'},{en:'banana',zh:'香蕉',stage:'幼儿园'},{en:'cat',zh:'猫',stage:'幼儿园'},{en:'dog',zh:'狗',stage:'幼儿园'},{en:'sun',zh:'太阳',stage:'幼儿园'},{en:'moon',zh:'月亮',stage:'幼儿园'},{en:'star',zh:'星星',stage:'幼儿园'},{en:'red',zh:'红色',stage:'幼儿园'},{en:'blue',zh:'蓝色',stage:'幼儿园'},{en:'yellow',zh:'黄色',stage:'幼儿园'},{en:'green',zh:'绿色',stage:'幼儿园'},{en:'one',zh:'一',stage:'幼儿园'},{en:'two',zh:'二',stage:'幼儿园'},{en:'three',zh:'三',stage:'幼儿园'},{en:'book',zh:'书',stage:'幼儿园'},{en:'ball',zh:'球',stage:'幼儿园'},{en:'bird',zh:'鸟',stage:'幼儿园'},{en:'fish',zh:'鱼',stage:'幼儿园'},{en:'tree',zh:'树',stage:'幼儿园'},{en:'flower',zh:'花',stage:'幼儿园'},{en:'water',zh:'水',stage:'幼儿园'},{en:'milk',zh:'牛奶',stage:'幼儿园'},{en:'egg',zh:'鸡蛋',stage:'幼儿园'},{en:'happy',zh:'开心',stage:'幼儿园'},{en:'hello',zh:'你好',stage:'幼儿园'},{en:'mom',zh:'妈妈',stage:'幼儿园'},{en:'dad',zh:'爸爸',stage:'幼儿园'},{en:'baby',zh:'宝宝',stage:'幼儿园'},{en:'bear',zh:'熊',stage:'幼儿园'},{en:'rabbit',zh:'兔子',stage:'幼儿园'},{en:'duck',zh:'鸭子',stage:'幼儿园'},{en:'pig',zh:'猪',stage:'幼儿园'},{en:'cow',zh:'牛',stage:'幼儿园'},{en:'sheep',zh:'羊',stage:'幼儿园'},{en:'eye',zh:'眼睛',stage:'幼儿园'},{en:'nose',zh:'鼻子',stage:'幼儿园'},{en:'mouth',zh:'嘴',stage:'幼儿园'},{en:'hand',zh:'手',stage:'幼儿园'},{en:'foot',zh:'脚',stage:'幼儿园'},{en:'head',zh:'头',stage:'幼儿园'},{en:'eat',zh:'吃',stage:'幼儿园'},{en:'drink',zh:'喝',stage:'幼儿园'},{en:'sleep',zh:'睡觉',stage:'幼儿园'},{en:'run',zh:'跑',stage:'幼儿园'},{en:'jump',zh:'跳',stage:'幼儿园'},{en:'sing',zh:'唱',stage:'幼儿园'},{en:'play',zh:'玩',stage:'幼儿园'},{en:'big',zh:'大',stage:'幼儿园'},{en:'small',zh:'小',stage:'幼儿园'},{en:'hot',zh:'热',stage:'幼儿园'},{en:'cold',zh:'冷',stage:'幼儿园'},
+    // —— 小学 ——
+    {en:'school',zh:'学校',stage:'小学'},{en:'teacher',zh:'老师',stage:'小学'},{en:'student',zh:'学生',stage:'小学'},{en:'friend',zh:'朋友',stage:'小学'},{en:'family',zh:'家庭',stage:'小学'},{en:'father',zh:'父亲',stage:'小学'},{en:'mother',zh:'母亲',stage:'小学'},{en:'brother',zh:'兄弟',stage:'小学'},{en:'sister',zh:'姐妹',stage:'小学'},{en:'grandfather',zh:'爷爷',stage:'小学'},{en:'grandmother',zh:'奶奶',stage:'小学'},{en:'classroom',zh:'教室',stage:'小学'},{en:'desk',zh:'书桌',stage:'小学'},{en:'chair',zh:'椅子',stage:'小学'},{en:'pen',zh:'钢笔',stage:'小学'},{en:'pencil',zh:'铅笔',stage:'小学'},{en:'bag',zh:'书包',stage:'小学'},{en:'word',zh:'单词',stage:'小学'},{en:'letter',zh:'字母',stage:'小学'},{en:'number',zh:'数字',stage:'小学'},{en:'color',zh:'颜色',stage:'小学'},{en:'black',zh:'黑色',stage:'小学'},{en:'white',zh:'白色',stage:'小学'},{en:'orange',zh:'橙色',stage:'小学'},{en:'purple',zh:'紫色',stage:'小学'},{en:'pink',zh:'粉色',stage:'小学'},{en:'morning',zh:'早上',stage:'小学'},{en:'afternoon',zh:'下午',stage:'小学'},{en:'evening',zh:'晚上',stage:'小学'},{en:'night',zh:'夜晚',stage:'小学'},{en:'today',zh:'今天',stage:'小学'},{en:'tomorrow',zh:'明天',stage:'小学'},{en:'yesterday',zh:'昨天',stage:'小学'},{en:'week',zh:'周',stage:'小学'},{en:'month',zh:'月',stage:'小学'},{en:'year',zh:'年',stage:'小学'},{en:'Monday',zh:'星期一',stage:'小学'},{en:'Sunday',zh:'星期日',stage:'小学'},{en:'spring',zh:'春天',stage:'小学'},{en:'summer',zh:'夏天',stage:'小学'},{en:'autumn',zh:'秋天',stage:'小学'},{en:'winter',zh:'冬天',stage:'小学'},{en:'weather',zh:'天气',stage:'小学'},{en:'sunny',zh:'晴朗',stage:'小学'},{en:'rainy',zh:'下雨',stage:'小学'},{en:'windy',zh:'有风',stage:'小学'},{en:'snow',zh:'雪',stage:'小学'},{en:'cloud',zh:'云',stage:'小学'},{en:'animal',zh:'动物',stage:'小学'},{en:'tiger',zh:'老虎',stage:'小学'},{en:'lion',zh:'狮子',stage:'小学'},{en:'elephant',zh:'大象',stage:'小学'},{en:'monkey',zh:'猴子',stage:'小学'},{en:'panda',zh:'熊猫',stage:'小学'},{en:'horse',zh:'马',stage:'小学'},{en:'chicken',zh:'鸡',stage:'小学'},{en:'bee',zh:'蜜蜂',stage:'小学'},{en:'butterfly',zh:'蝴蝶',stage:'小学'},{en:'grass',zh:'草',stage:'小学'},{en:'leaf',zh:'叶子',stage:'小学'},{en:'fruit',zh:'水果',stage:'小学'},{en:'banana',zh:'香蕉',stage:'小学'},{en:'orange',zh:'橘子',stage:'小学'},{en:'pear',zh:'梨',stage:'小学'},{en:'grape',zh:'葡萄',stage:'小学'},{en:'watermelon',zh:'西瓜',stage:'小学'},{en:'food',zh:'食物',stage:'小学'},{en:'rice',zh:'米饭',stage:'小学'},{en:'noodle',zh:'面条',stage:'小学'},{en:'bread',zh:'面包',stage:'小学'},{en:'meat',zh:'肉',stage:'小学'},{en:'vegetable',zh:'蔬菜',stage:'小学'},{en:'tomato',zh:'番茄',stage:'小学'},{en:'potato',zh:'土豆',stage:'小学'},{en:'carrot',zh:'胡萝卜',stage:'小学'},{en:'body',zh:'身体',stage:'小学'},{en:'eye',zh:'眼睛',stage:'小学'},{en:'ear',zh:'耳朵',stage:'小学'},{en:'tooth',zh:'牙齿',stage:'小学'},{en:'leg',zh:'腿',stage:'小学'},{en:'arm',zh:'手臂',stage:'小学'},{en:'heart',zh:'心',stage:'小学'},{en:'face',zh:'脸',stage:'小学'},{en:'clothes',zh:'衣服',stage:'小学'},{en:'shirt',zh:'衬衫',stage:'小学'},{en:'dress',zh:'连衣裙',stage:'小学'},{en:'shoe',zh:'鞋',stage:'小学'},{en:'hat',zh:'帽子',stage:'小学'},{en:'sock',zh:'袜子',stage:'小学'},{en:'house',zh:'房子',stage:'小学'},{en:'room',zh:'房间',stage:'小学'},{en:'door',zh:'门',stage:'小学'},{en:'window',zh:'窗户',stage:'小学'},{en:'bed',zh:'床',stage:'小学'},{en:'table',zh:'桌子',stage:'小学'},{en:'kitchen',zh:'厨房',stage:'小学'},{en:'bathroom',zh:'浴室',stage:'小学'},{en:'park',zh:'公园',stage:'小学'},{en:'zoo',zh:'动物园',stage:'小学'},{en:'garden',zh:'花园',stage:'小学'},{en:'street',zh:'街道',stage:'小学'},{en:'city',zh:'城市',stage:'小学'},{en:'country',zh:'乡村',stage:'小学'},{en:'mountain',zh:'山',stage:'小学'},{en:'river',zh:'河',stage:'小学'},{en:'lake',zh:'湖',stage:'小学'},{en:'sea',zh:'海',stage:'小学'},{en:'sky',zh:'天空',stage:'小学'},{en:'earth',zh:'地球',stage:'小学'},{en:'plant',zh:'植物',stage:'小学'},{en:'grow',zh:'生长',stage:'小学'},{en:'fire',zh:'火',stage:'小学'},{en:'air',zh:'空气',stage:'小学'},{en:'sound',zh:'声音',stage:'小学'},{en:'music',zh:'音乐',stage:'小学'},{en:'song',zh:'歌曲',stage:'小学'},{en:'dance',zh:'跳舞',stage:'小学'},{en:'draw',zh:'画',stage:'小学'},{en:'write',zh:'写',stage:'小学'},{en:'read',zh:'读',stage:'小学'},{en:'count',zh:'数',stage:'小学'},{en:'add',zh:'加',stage:'小学'},{en:'subtract',zh:'减',stage:'小学'},{en:'happy',zh:'开心',stage:'小学'},{en:'sad',zh:'伤心',stage:'小学'},{en:'angry',zh:'生气',stage:'小学'},{en:'tired',zh:'累',stage:'小学'},{en:'hungry',zh:'饿',stage:'小学'},{en:'thirsty',zh:'渴',stage:'小学'},{en:'sick',zh:'生病',stage:'小学'},{en:'clean',zh:'干净',stage:'小学'},{en:'dirty',zh:'脏',stage:'小学'},{en:'new',zh:'新',stage:'小学'},{en:'old',zh:'旧',stage:'小学'},{en:'fast',zh:'快',stage:'小学'},{en:'slow',zh:'慢',stage:'小学'},{en:'open',zh:'打开',stage:'小学'},{en:'close',zh:'关闭',stage:'小学'},{en:'come',zh:'来',stage:'小学'},{en:'go',zh:'去',stage:'小学'},{en:'sit',zh:'坐',stage:'小学'},{en:'stand',zh:'站',stage:'小学'},{en:'walk',zh:'走',stage:'小学'},{en:'swim',zh:'游泳',stage:'小学'},{en:'fly',zh:'飞',stage:'小学'},{en:'love',zh:'爱',stage:'小学'},{en:'like',zh:'喜欢',stage:'小学'},{en:'help',zh:'帮助',stage:'小学'},{en:'give',zh:'给',stage:'小学'},{en:'take',zh:'拿',stage:'小学'},{en:'make',zh:'做',stage:'小学'},{en:'find',zh:'找',stage:'小学'},{en:'look',zh:'看',stage:'小学'},{en:'listen',zh:'听',stage:'小学'},{en:'speak',zh:'说',stage:'小学'},{en:'learn',zh:'学习',stage:'小学'},{en:'teach',zh:'教',stage:'小学'},{en:'know',zh:'知道',stage:'小学'},{en:'think',zh:'想',stage:'小学'},{en:'understand',zh:'明白',stage:'小学'},{en:'yes',zh:'是',stage:'小学'},{en:'no',zh:'不',stage:'小学'},{en:'please',zh:'请',stage:'小学'},{en:'thankyou',zh:'谢谢',stage:'小学'},{en:'sorry',zh:'对不起',stage:'小学'},{en:'goodbye',zh:'再见',stage:'小学'},{en:'good',zh:'好',stage:'小学'},{en:'bad',zh:'坏',stage:'小学'},{en:'long',zh:'长',stage:'小学'},{en:'short',zh:'短',stage:'小学'},{en:'tall',zh:'高',stage:'小学'},{en:'warm',zh:'温暖',stage:'小学'},{en:'cool',zh:'凉爽',stage:'小学'},{en:'full',zh:'满',stage:'小学'},{en:'empty',zh:'空',stage:'小学'},{en:'round',zh:'圆',stage:'小学'},{en:'square',zh:'方',stage:'小学'},{en:'many',zh:'许多',stage:'小学'},{en:'few',zh:'少',stage:'小学'},{en:'some',zh:'一些',stage:'小学'},
+    // —— 初中 ——
+    {en:'environment',zh:'环境',stage:'初中'},{en:'pollution',zh:'污染',stage:'初中'},{en:'protect',zh:'保护',stage:'初中'},{en:'recycle',zh:'回收',stage:'初中'},{en:'energy',zh:'能源',stage:'初中'},{en:'nature',zh:'自然',stage:'初中'},{en:'science',zh:'科学',stage:'初中'},{en:'technology',zh:'科技',stage:'初中'},{en:'computer',zh:'电脑',stage:'初中'},{en:'internet',zh:'互联网',stage:'初中'},{en:'knowledge',zh:'知识',stage:'初中'},{en:'experiment',zh:'实验',stage:'初中'},{en:'research',zh:'研究',stage:'初中'},{en:'discover',zh:'发现',stage:'初中'},{en:'invent',zh:'发明',stage:'初中'},{en:'create',zh:'创造',stage:'初中'},{en:'develop',zh:'发展',stage:'初中'},{en:'improve',zh:'改善',stage:'初中'},{en:'progress',zh:'进步',stage:'初中'},{en:'society',zh:'社会',stage:'初中'},{en:'culture',zh:'文化',stage:'初中'},{en:'tradition',zh:'传统',stage:'初中'},{en:'history',zh:'历史',stage:'初中'},{en:'geography',zh:'地理',stage:'初中'},{en:'economy',zh:'经济',stage:'初中'},{en:'government',zh:'政府',stage:'初中'},{en:'law',zh:'法律',stage:'初中'},{en:'right',zh:'权利',stage:'初中'},{en:'duty',zh:'责任',stage:'初中'},{en:'freedom',zh:'自由',stage:'初中'},{en:'peace',zh:'和平',stage:'初中'},{en:'community',zh:'社区',stage:'初中'},{en:'volunteer',zh:'志愿者',stage:'初中'},{en:'charity',zh:'慈善',stage:'初中'},{en:'challenge',zh:'挑战',stage:'初中'},{en:'opportunity',zh:'机会',stage:'初中'},{en:'pressure',zh:'压力',stage:'初中'},{en:'competition',zh:'竞争',stage:'初中'},{en:'cooperation',zh:'合作',stage:'初中'},{en:'communication',zh:'交流',stage:'初中'},{en:'opinion',zh:'观点',stage:'初中'},{en:'argument',zh:'论点',stage:'初中'},{en:'evidence',zh:'证据',stage:'初中'},{en:'conclusion',zh:'结论',stage:'初中'},{en:'analyze',zh:'分析',stage:'初中'},{en:'solve',zh:'解决',stage:'初中'},{en:'method',zh:'方法',stage:'初中'},{en:'system',zh:'系统',stage:'初中'},{en:'result',zh:'结果',stage:'初中'},{en:'cause',zh:'原因',stage:'初中'},{en:'effect',zh:'影响',stage:'初中'},{en:'relationship',zh:'关系',stage:'初中'},{en:'difference',zh:'差异',stage:'初中'},{en:'advantage',zh:'优点',stage:'初中'},{en:'disadvantage',zh:'缺点',stage:'初中'},{en:'necessary',zh:'必要',stage:'初中'},{en:'possible',zh:'可能',stage:'初中'},{en:'impossible',zh:'不可能',stage:'初中'},{en:'obvious',zh:'明显',stage:'初中'},{en:'complex',zh:'复杂',stage:'初中'},{en:'simple',zh:'简单',stage:'初中'},{en:'various',zh:'各种',stage:'初中'},{en:'specific',zh:'具体',stage:'初中'},{en:'general',zh:'一般',stage:'初中'},{en:'private',zh:'私人',stage:'初中'},{en:'public',zh:'公共',stage:'初中'},{en:'emotion',zh:'情绪',stage:'初中'},{en:'mood',zh:'心情',stage:'初中'},{en:'relax',zh:'放松',stage:'初中'},{en:'confident',zh:'自信',stage:'初中'},{en:'independent',zh:'独立',stage:'初中'},{en:'responsible',zh:'负责',stage:'初中'},{en:'honest',zh:'诚实',stage:'初中'},{en:'polite',zh:'礼貌',stage:'初中'},{en:'patient',zh:'耐心',stage:'初中'},{en:'brave',zh:'勇敢',stage:'初中'},{en:'curious',zh:'好奇',stage:'初中'},{en:'creative',zh:'有创造力',stage:'初中'},{en:'ancient',zh:'古代',stage:'初中'},{en:'modern',zh:'现代',stage:'初中'},{en:'future',zh:'未来',stage:'初中'},{en:'present',zh:'现在',stage:'初中'},{en:'past',zh:'过去',stage:'初中'},{en:'global',zh:'全球',stage:'初中'},{en:'local',zh:'本地',stage:'初中'},{en:'international',zh:'国际',stage:'初中'},{en:'urban',zh:'城市',stage:'初中'},{en:'rural',zh:'农村',stage:'初中'},{en:'population',zh:'人口',stage:'初中'},{en:'resource',zh:'资源',stage:'初中'},{en:'material',zh:'材料',stage:'初中'},{en:'tool',zh:'工具',stage:'初中'},{en:'machine',zh:'机器',stage:'初中'},{en:'vehicle',zh:'车辆',stage:'初中'},{en:'transport',zh:'交通',stage:'初中'},{en:'building',zh:'建筑',stage:'初中'},{en:'bridge',zh:'桥',stage:'初中'},{en:'road',zh:'道路',stage:'初中'},{en:'railway',zh:'铁路',stage:'初中'},{en:'airport',zh:'机场',stage:'初中'},{en:'media',zh:'媒体',stage:'初中'},{en:'newspaper',zh:'报纸',stage:'初中'},{en:'magazine',zh:'杂志',stage:'初中'},{en:'signal',zh:'信号',stage:'初中'},{en:'satellite',zh:'卫星',stage:'初中'},{en:'space',zh:'太空',stage:'初中'},{en:'planet',zh:'行星',stage:'初中'},{en:'universe',zh:'宇宙',stage:'初中'},{en:'gravity',zh:'重力',stage:'初中'},{en:'explore',zh:'探索',stage:'初中'},{en:'robot',zh:'机器人',stage:'初中'},{en:'data',zh:'数据',stage:'初中'},{en:'code',zh:'代码',stage:'初中'},{en:'program',zh:'程序',stage:'初中'},{en:'network',zh:'网络',stage:'初中'},{en:'website',zh:'网站',stage:'初中'},{en:'software',zh:'软件',stage:'初中'},{en:'hardware',zh:'硬件',stage:'初中'},{en:'device',zh:'设备',stage:'初中'},{en:'battery',zh:'电池',stage:'初中'},{en:'current',zh:'电流',stage:'初中'},{en:'wave',zh:'波',stage:'初中'},{en:'particle',zh:'粒子',stage:'初中'},{en:'cell',zh:'细胞',stage:'初中'},{en:'tissue',zh:'组织',stage:'初中'},{en:'organ',zh:'器官',stage:'初中'},{en:'nerve',zh:'神经',stage:'初中'},{en:'muscle',zh:'肌肉',stage:'初中'},{en:'bone',zh:'骨骼',stage:'初中'},{en:'blood',zh:'血液',stage:'初中'},{en:'oxygen',zh:'氧气',stage:'初中'},{en:'nutrient',zh:'营养',stage:'初中'},{en:'digest',zh:'消化',stage:'初中'},{en:'breath',zh:'呼吸',stage:'初中'},{en:'circulate',zh:'循环',stage:'初中'},{en:'immune',zh:'免疫',stage:'初中'},{en:'disease',zh:'疾病',stage:'初中'},{en:'virus',zh:'病毒',stage:'初中'},{en:'bacteria',zh:'细菌',stage:'初中'},{en:'vaccine',zh:'疫苗',stage:'初中'},{en:'medicine',zh:'药',stage:'初中'},{en:'symptom',zh:'症状',stage:'初中'},{en:'treat',zh:'治疗',stage:'初中'},{en:'recover',zh:'恢复',stage:'初中'},{en:'healthy',zh:'健康',stage:'初中'},{en:'diet',zh:'饮食',stage:'初中'},{en:'exercise',zh:'锻炼',stage:'初中'},{en:'habit',zh:'习惯',stage:'初中'},{en:'balance',zh:'平衡',stage:'初中'},{en:'harmony',zh:'和谐',stage:'初中'},{en:'sustainable',zh:'可持续',stage:'初中'},{en:'conservation',zh:'保护',stage:'初中'},{en:'biodiversity',zh:'生物多样性',stage:'初中'},{en:'ecosystem',zh:'生态系统',stage:'初中'},{en:'climate',zh:'气候',stage:'初中'},{en:'temperature',zh:'温度',stage:'初中'},{en:'earthquake',zh:'地震',stage:'初中'},{en:'volcano',zh:'火山',stage:'初中'},{en:'flood',zh:'洪水',stage:'初中'},{en:'drought',zh:'干旱',stage:'初中'},{en:'disaster',zh:'灾难',stage:'初中'},{en:'rescue',zh:'救援',stage:'初中'},{en:'conflict',zh:'冲突',stage:'初中'},{en:'negotiation',zh:'谈判',stage:'初中'},{en:'treaty',zh:'条约',stage:'初中'},{en:'election',zh:'选举',stage:'初中'},{en:'vote',zh:'投票',stage:'初中'},{en:'court',zh:'法院',stage:'初中'},{en:'judge',zh:'法官',stage:'初中'},{en:'lawyer',zh:'律师',stage:'初中'},{en:'crime',zh:'犯罪',stage:'初中'},{en:'punish',zh:'惩罚',stage:'初中'},{en:'tax',zh:'税',stage:'初中'},{en:'budget',zh:'预算',stage:'初中'},{en:'trade',zh:'贸易',stage:'初中'},{en:'market',zh:'市场',stage:'初中'},{en:'demand',zh:'需求',stage:'初中'},{en:'supply',zh:'供给',stage:'初中'},{en:'price',zh:'价格',stage:'初中'},{en:'profit',zh:'利润',stage:'初中'},{en:'investment',zh:'投资',stage:'初中'},{en:'bank',zh:'银行',stage:'初中'},{en:'company',zh:'公司',stage:'初中'},{en:'factory',zh:'工厂',stage:'初中'},{en:'industry',zh:'工业',stage:'初中'},{en:'agriculture',zh:'农业',stage:'初中'},{en:'service',zh:'服务',stage:'初中'},{en:'tourism',zh:'旅游',stage:'初中'},{en:'brand',zh:'品牌',stage:'初中'},{en:'advertisement',zh:'广告',stage:'初中'},{en:'consumer',zh:'消费者',stage:'初中'},{en:'customer',zh:'顾客',stage:'初中'},{en:'product',zh:'产品',stage:'初中'},{en:'quality',zh:'质量',stage:'初中'},{en:'safety',zh:'安全',stage:'初中'},{en:'risk',zh:'风险',stage:'初中'},{en:'accident',zh:'事故',stage:'初中'},{en:'repair',zh:'修理',stage:'初中'},{en:'maintain',zh:'维护',stage:'初中'},{en:'upgrade',zh:'升级',stage:'初中'},{en:'waste',zh:'浪费',stage:'初中'},{en:'reduce',zh:'减少',stage:'初中'},{en:'garbage',zh:'垃圾',stage:'初中'},{en:'emission',zh:'排放',stage:'初中'},{en:'organic',zh:'有机',stage:'初中'},{en:'chemical',zh:'化学',stage:'初中'},{en:'reaction',zh:'反应',stage:'初中'},{en:'protein',zh:'蛋白质',stage:'初中'},{en:'gene',zh:'基因',stage:'初中'},{en:'evolution',zh:'进化',stage:'初中'},{en:'species',zh:'物种',stage:'初中'},{en:'extinct',zh:'灭绝',stage:'初中'},{en:'fossil',zh:'化石',stage:'初中'},{en:'mammal',zh:'哺乳',stage:'初中'},{en:'insect',zh:'昆虫',stage:'初中'},{en:'habitat',zh:'栖息地',stage:'初中'},{en:'foodchain',zh:'食物链',stage:'初中'},{en:'energyflow',zh:'能量流',stage:'初中'},{en:'nitrogen',zh:'氮',stage:'初中'},{en:'crop',zh:'庄稼',stage:'初中'},{en:'harvest',zh:'收获',stage:'初中'},{en:'yield',zh:'产量',stage:'初中'},{en:'irrigation',zh:'灌溉',stage:'初中'},{en:'pesticide',zh:'农药',stage:'初中'},{en:'fertilizer',zh:'肥料',stage:'初中'},{en:'livestock',zh:'牲畜',stage:'初中'},{en:'mining',zh:'采矿',stage:'初中'},{en:'manufacturing',zh:'制造',stage:'初中'},{en:'logistics',zh:'物流',stage:'初中'},{en:'ecommerce',zh:'电商',stage:'初中'},{en:'payment',zh:'支付',stage:'初中'},{en:'wallet',zh:'钱包',stage:'初中'},{en:'account',zh:'账户',stage:'初中'},{en:'transaction',zh:'交易',stage:'初中'},{en:'security',zh:'安全',stage:'初中'},{en:'password',zh:'密码',stage:'初中'},{en:'backup',zh:'备份',stage:'初中'},{en:'update',zh:'更新',stage:'初中'},{en:'install',zh:'安装',stage:'初中'},{en:'configure',zh:'配置',stage:'初中'},{en:'file',zh:'文件',stage:'初中'},{en:'folder',zh:'文件夹',stage:'初中'},{en:'document',zh:'文档',stage:'初中'},{en:'database',zh:'数据库',stage:'初中'},{en:'report',zh:'报告',stage:'初中'},{en:'chart',zh:'图表',stage:'初中'},{en:'statistic',zh:'统计',stage:'初中'},{en:'average',zh:'平均',stage:'初中'},{en:'probability',zh:'概率',stage:'初中'},{en:'model',zh:'模型',stage:'初中'},{en:'algorithm',zh:'算法',stage:'初中'},{en:'compute',zh:'计算',stage:'初中'},{en:'estimate',zh:'估计',stage:'初中'},{en:'accurate',zh:'准确',stage:'初中'},{en:'error',zh:'误差',stage:'初中'},{en:'variable',zh:'变量',stage:'初中'},{en:'correlation',zh:'相关',stage:'初中'},{en:'pattern',zh:'模式',stage:'初中'},{en:'trend',zh:'趋势',stage:'初中'},{en:'cycle',zh:'循环',stage:'初中'},{en:'frequency',zh:'频率',stage:'初中'},{en:'phase',zh:'相位',stage:'初中'},{en:'optics',zh:'光学',stage:'初中'},{en:'lens',zh:'透镜',stage:'初中'},{en:'mirror',zh:'镜子',stage:'初中'},{en:'reflection',zh:'反射',stage:'初中'},{en:'refraction',zh:'折射',stage:'初中'},{en:'spectrum',zh:'光谱',stage:'初中'},{en:'laser',zh:'激光',stage:'初中'},{en:'electron',zh:'电子',stage:'初中'},{en:'proton',zh:'质子',stage:'初中'},{en:'neutron',zh:'中子',stage:'初中'},{en:'nucleus',zh:'原子核',stage:'初中'},{en:'ion',zh:'离子',stage:'初中'},{en:'charge',zh:'电荷',stage:'初中'},{en:'field',zh:'场',stage:'初中'},{en:'force',zh:'力',stage:'初中'},{en:'energy',zh:'能量',stage:'初中'},{en:'momentum',zh:'动量',stage:'初中'},{en:'pressure',zh:'压强',stage:'初中'},{en:'density',zh:'密度',stage:'初中'},{en:'volume',zh:'体积',stage:'初中'},{en:'mass',zh:'质量',stage:'初中'},{en:'friction',zh:'摩擦',stage:'初中'},{en:'fluid',zh:'流体',stage:'初中'},{en:'gas',zh:'气体',stage:'初中'},{en:'liquid',zh:'液体',stage:'初中'},{en:'solid',zh:'固体',stage:'初中'},{en:'heat',zh:'热',stage:'初中'},{en:'conduction',zh:'传导',stage:'初中'},{en:'convection',zh:'对流',stage:'初中'},{en:'radiation',zh:'辐射',stage:'初中'},{en:'combustion',zh:'燃烧',stage:'初中'},{en:'oxidation',zh:'氧化',stage:'初中'},{en:'equilibrium',zh:'平衡',stage:'初中'},{en:'rate',zh:'速率',stage:'初中'},{en:'substrate',zh:'底物',stage:'初中'},{en:'vitamin',zh:'维生素',stage:'初中'},{en:'mineral',zh:'矿物质',stage:'初中'},{en:'hormone',zh:'激素',stage:'初中'},{en:'antibody',zh:'抗体',stage:'初中'},{en:'antigen',zh:'抗原',stage:'初中'},{en:'infection',zh:'感染',stage:'初中'},{en:'inflammation',zh:'炎症',stage:'初中'},{en:'fever',zh:'发烧',stage:'初中'},{en:'diagnosis',zh:'诊断',stage:'初中'},{en:'therapy',zh:'疗法',stage:'初中'},{en:'surgery',zh:'手术',stage:'初中'},{en:'prevention',zh:'预防',stage:'初中'},{en:'epidemic',zh:'流行',stage:'初中'},{en:'transmission',zh:'传播',stage:'初中'},{en:'chronic',zh:'慢性',stage:'初中'},{en:'acute',zh:'急性',stage:'初中'},{en:'psychologist',zh:'心理医生',stage:'初中'},{en:'mental',zh:'心理',stage:'初中'},{en:'mindfulness',zh:'正念',stage:'初中'},{en:'meditation',zh:'冥想',stage:'初中'},{en:'nutrition',zh:'营养',stage:'初中'},{en:'hygiene',zh:'卫生',stage:'初中'},{en:'routine',zh:'常规',stage:'初中'},{en:'discipline',zh:'自律',stage:'初中'},{en:'motivation',zh:'动力',stage:'初中'},{en:'goal',zh:'目标',stage:'初中'},{en:'strategy',zh:'策略',stage:'初中'},{en:'feedback',zh:'反馈',stage:'初中'},{en:'improvement',zh:'改进',stage:'初中'},{en:'growth',zh:'成长',stage:'初中'},{en:'potential',zh:'潜力',stage:'初中'},{en:'skill',zh:'技能',stage:'初中'},{en:'ability',zh:'能力',stage:'初中'},{en:'literacy',zh:'读写',stage:'初中'},{en:'numeracy',zh:'计算',stage:'初中'},{en:'wisdom',zh:'智慧',stage:'初中'},{en:'insight',zh:'洞察',stage:'初中'},{en:'intuition',zh:'直觉',stage:'初中'},{en:'imagination',zh:'想象',stage:'初中'},{en:'innovation',zh:'创新',stage:'初中'},{en:'wonder',zh:'惊奇',stage:'初中'},{en:'gratitude',zh:'感恩',stage:'初中'},{en:'compassion',zh:'同情',stage:'初中'},{en:'empathy',zh:'共情',stage:'初中'},{en:'kindness',zh:'善良',stage:'初中'},{en:'forgiveness',zh:'宽恕',stage:'初中'},{en:'humility',zh:'谦逊',stage:'初中'},{en:'resilience',zh:'韧性',stage:'初中'},{en:'perseverance',zh:'毅力',stage:'初中'},{en:'determination',zh:'决心',stage:'初中'},{en:'courage',zh:'勇气',stage:'初中'},{en:'passion',zh:'热情',stage:'初中'},{en:'enthusiasm',zh:'热情',stage:'初中'},{en:'excitement',zh:'兴奋',stage:'初中'},{en:'contentment',zh:'满足',stage:'初中'},{en:'serenity',zh:'宁静',stage:'初中'},{en:'leisure',zh:'休闲',stage:'初中'},{en:'recreation',zh:'娱乐',stage:'初中'},{en:'sport',zh:'运动',stage:'初中'},{en:'team',zh:'团队',stage:'初中'},{en:'fair',zh:'公平',stage:'初中'},{en:'respect',zh:'尊重',stage:'初中'},{en:'sportsmanship',zh:'体育精神',stage:'初中'},{en:'victory',zh:'胜利',stage:'初中'},{en:'defeat',zh:'失败',stage:'初中'},{en:'record',zh:'记录',stage:'初中'},{en:'champion',zh:'冠军',stage:'初中'},{en:'medal',zh:'奖牌',stage:'初中'},{en:'trophy',zh:'奖杯',stage:'初中'},{en:'award',zh:'奖项',stage:'初中'},{en:'honor',zh:'荣誉',stage:'初中'},{en:'pride',zh:'骄傲',stage:'初中'},{en:'shame',zh:'羞耻',stage:'初中'},{en:'guilt',zh:'内疚',stage:'初中'},{en:'regret',zh:'遗憾',stage:'初中'},{en:'apology',zh:'道歉',stage:'初中'},{en:'reconciliation',zh:'和解',stage:'初中'},{en:'civilization',zh:'文明',stage:'初中'},{en:'heritage',zh:'遗产',stage:'初中'},{en:'custom',zh:'习俗',stage:'初中'},{en:'festival',zh:'节日',stage:'初中'},{en:'celebration',zh:'庆祝',stage:'初中'},{en:'ceremony',zh:'典礼',stage:'初中'},{en:'memorial',zh:'纪念',stage:'初中'},{en:'museum',zh:'博物馆',stage:'初中'},{en:'library',zh:'图书馆',stage:'初中'},{en:'archive',zh:'档案',stage:'初中'},{en:'history',zh:'历史',stage:'初中'},{en:'memory',zh:'记忆',stage:'初中'},{en:'nostalgia',zh:'怀旧',stage:'初中'},{en:'legacy',zh:'遗产',stage:'初中'},{en:'generation',zh:'一代',stage:'初中'},{en:'ancestor',zh:'祖先',stage:'初中'},{en:'descendant',zh:'后代',stage:'初中'},{en:'family',zh:'家庭',stage:'初中'},{en:'nation',zh:'国家',stage:'初中'},{en:'democracy',zh:'民主',stage:'初中'},{en:'republic',zh:'共和国',stage:'初中'},{en:'policy',zh:'政策',stage:'初中'},{en:'regulation',zh:'法规',stage:'初中'},{en:'legislation',zh:'立法',stage:'初中'},{en:'judiciary',zh:'司法',stage:'初中'},{en:'trial',zh:'审判',stage:'初中'},{en:'verdict',zh:'裁决',stage:'初中'},{en:'sentence',zh:'判决',stage:'初中'},{en:'appeal',zh:'上诉',stage:'初中'},{en:'imprison',zh:'监禁',stage:'初中'},{en:'probation',zh:'缓刑',stage:'初中'},{en:'reform',zh:'改革',stage:'初中'},{en:'constitution',zh:'宪法',stage:'初中'},{en:'bill',zh:'法案',stage:'初中'},{en:'campaign',zh:'竞选',stage:'初中'},{en:'candidate',zh:'候选人',stage:'初中'},{en:'politician',zh:'政客',stage:'初中'},{en:'politics',zh:'政治',stage:'初中'},{en:'administration',zh:'行政',stage:'初中'},{en:'bureaucracy',zh:'官僚',stage:'初中'},{en:'edict',zh:'敕令',stage:'初中'},{en:'directive',zh:'指示',stage:'初中'},{en:'guidance',zh:'指导',stage:'初中'},{en:'advice',zh:'建议',stage:'初中'},{en:'counsel',zh:'劝告',stage:'初中'},{en:'recommendation',zh:'推荐',stage:'初中'},{en:'proposal',zh:'提议',stage:'初中'},{en:'project',zh:'项目',stage:'初中'},{en:'program',zh:'项目',stage:'初中'},{en:'initiative',zh:'倡议',stage:'初中'},{en:'measure',zh:'措施',stage:'初中'},{en:'operation',zh:'操作',stage:'初中'},{en:'procedure',zh:'程序',stage:'初中'},{en:'technique',zh:'技术',stage:'初中'},{en:'approach',zh:'方法',stage:'初中'},{en:'framework',zh:'框架',stage:'初中'},{en:'network',zh:'网络',stage:'初中'},{en:'grid',zh:'网格',stage:'初中'},{en:'matrix',zh:'矩阵',stage:'初中'},{en:'diagram',zh:'图表',stage:'初中'},{en:'map',zh:'地图',stage:'初中'},{en:'prototype',zh:'原型',stage:'初中'},{en:'sample',zh:'样本',stage:'初中'},{en:'example',zh:'例子',stage:'初中'},{en:'instance',zh:'实例',stage:'初中'},{en:'scenario',zh:'场景',stage:'初中'},{en:'situation',zh:'情况',stage:'初中'},{en:'condition',zh:'条件',stage:'初中'},{en:'status',zh:'状态',stage:'初中'},{en:'level',zh:'水平',stage:'初中'},{en:'degree',zh:'程度',stage:'初中'},{en:'scale',zh:'规模',stage:'初中'},{en:'dimension',zh:'维度',stage:'初中'},{en:'aspect',zh:'方面',stage:'初中'},{en:'feature',zh:'特征',stage:'初中'},{en:'property',zh:'属性',stage:'初中'},{en:'trait',zh:'特质',stage:'初中'},{en:'essence',zh:'本质',stage:'初中'},{en:'core',zh:'核心',stage:'初中'},{en:'focus',zh:'焦点',stage:'初中'},{en:'primary',zh:'主要',stage:'初中'},{en:'central',zh:'中央',stage:'初中'},{en:'crucial',zh:'关键',stage:'初中'},{en:'essential',zh:'必要',stage:'初中'},{en:'fundamental',zh:'基本',stage:'初中'},{en:'basic',zh:'基础',stage:'初中'},{en:'elementary',zh:'基础',stage:'初中'},{en:'advanced',zh:'高级',stage:'初中'},{en:'expert',zh:'专家',stage:'初中'},{en:'professional',zh:'专业',stage:'初中'},{en:'amateur',zh:'业余',stage:'初中'},{en:'beginner',zh:'初学者',stage:'初中'},{en:'novice',zh:'新手',stage:'初中'},{en:'learner',zh:'学习者',stage:'初中'},{en:'pupil',zh:'小学生',stage:'初中'},{en:'scholar',zh:'学者',stage:'初中'},{en:'instructor',zh:'教练',stage:'初中'},{en:'mentor',zh:'导师',stage:'初中'},{en:'guide',zh:'向导',stage:'初中'},{en:'tutor',zh:'家教',stage:'初中'},{en:'professor',zh:'教授',stage:'初中'},{en:'lecturer',zh:'讲师',stage:'初中'},{en:'educator',zh:'教育者',stage:'初中'},{en:'principal',zh:'校长',stage:'初中'},{en:'genius',zh:'天才',stage:'初中'},{en:'prodigy',zh:'神童',stage:'初中'},{en:'talent',zh:'天才',stage:'初中'},{en:'capability',zh:'能力',stage:'初中'},{en:'capacity',zh:'容量',stage:'初中'},{en:'promise',zh:'前途',stage:'初中'},{en:'prospect',zh:'前景',stage:'初中'},{en:'chance',zh:'机会',stage:'初中'},{en:'fortune',zh:'财富',stage:'初中'},{en:'fate',zh:'命运',stage:'初中'},{en:'coincidence',zh:'巧合',stage:'初中'},{en:'phenomenon',zh:'现象',stage:'初中'},{en:'fact',zh:'事实',stage:'初中'},{en:'truth',zh:'真相',stage:'初中'},{en:'reality',zh:'现实',stage:'初中'},{en:'existence',zh:'存在',stage:'初中'},{en:'entity',zh:'实体',stage:'初中'},{en:'subject',zh:'主题',stage:'初中'},{en:'theme',zh:'主题',stage:'初中'},{en:'topic',zh:'话题',stage:'初中'},{en:'issue',zh:'问题',stage:'初中'},{en:'matter',zh:'事情',stage:'初中'},{en:'concern',zh:'关心',stage:'初中'},{en:'benefit',zh:'利益',stage:'初中'},{en:'merit',zh:'优点',stage:'初中'},{en:'value',zh:'价值',stage:'初中'},{en:'importance',zh:'重要性',stage:'初中'},{en:'significance',zh:'意义',stage:'初中'},{en:'meaning',zh:'意义',stage:'初中'},{en:'sense',zh:'感觉',stage:'初中'},{en:'purpose',zh:'目的',stage:'初中'},{en:'aim',zh:'目标',stage:'初中'},{en:'objective',zh:'客观',stage:'初中'},{en:'target',zh:'目标',stage:'初中'},{en:'intention',zh:'意图',stage:'初中'},{en:'motive',zh:'动机',stage:'初中'},{en:'reason',zh:'理由',stage:'初中'},{en:'ground',zh:'理由',stage:'初中'},{en:'basis',zh:'基础',stage:'初中'},{en:'foundation',zh:'基础',stage:'初中'},{en:'root',zh:'根',stage:'初中'},{en:'source',zh:'来源',stage:'初中'},{en:'origin',zh:'起源',stage:'初中'},{en:'beginning',zh:'开始',stage:'初中'},{en:'birth',zh:'出生',stage:'初中'},{en:'genesis',zh:'起源',stage:'初中'},{en:'emergence',zh:'出现',stage:'初中'},{en:'advance',zh:'前进',stage:'初中'},{en:'enhancement',zh:'增强',stage:'初中'},{en:'expansion',zh:'扩张',stage:'初中'},{en:'extension',zh:'延伸',stage:'初中'},{en:'diffusion',zh:'扩散',stage:'初中'},{en:'dispersion',zh:'分散',stage:'初中'},{en:'allocation',zh:'分配',stage:'初中'},{en:'organization',zh:'组织',stage:'初中'},{en:'management',zh:'管理',stage:'初中'},{en:'operation',zh:'运营',stage:'初中'},{en:'running',zh:'运行',stage:'初中'},{en:'upkeep',zh:'保养',stage:'初中'},{en:'preservation',zh:'保存',stage:'初中'},{en:'defense',zh:'防御',stage:'初中'},{en:'guard',zh:'守卫',stage:'初中'},{en:'shelter',zh:'庇护',stage:'初中'},{en:'refuge',zh:'避难',stage:'初中'},{en:'assurance',zh:'保证',stage:'初中'},{en:'guarantee',zh:'保证',stage:'初中'},{en:'warranty',zh:'保修',stage:'初中'},{en:'pledge',zh:'承诺',stage:'初中'},{en:'vow',zh:'誓言',stage:'初中'},{en:'oath',zh:'誓言',stage:'初中'},{en:'affirm',zh:'肯定',stage:'初中'},{en:'assert',zh:'断言',stage:'初中'},{en:'claim',zh:'声称',stage:'初中'},{en:'declare',zh:'宣布',stage:'初中'},{en:'proclaim',zh:'宣告',stage:'初中'},{en:'express',zh:'表达',stage:'初中'},{en:'voice',zh:'表达',stage:'初中'},{en:'articulate',zh:'清楚表达',stage:'初中'},{en:'convey',zh:'传达',stage:'初中'},{en:'transmit',zh:'传输',stage:'初中'},{en:'dispatch',zh:'派遣',stage:'初中'},{en:'forward',zh:'转发',stage:'初中'},{en:'hand',zh:'递交',stage:'初中'},{en:'offer',zh:'提供',stage:'初中'},{en:'provide',zh:'提供',stage:'初中'},{en:'supply',zh:'供应',stage:'初中'},{en:'furnish',zh:'提供',stage:'初中'},{en:'equip',zh:'装备',stage:'初中'},{en:'arm',zh:'武装',stage:'初中'},{en:'prepare',zh:'准备',stage:'初中'},{en:'ready',zh:'准备',stage:'初中'},{en:'schedule',zh:'安排',stage:'初中'},{en:'book',zh:'预订',stage:'初中'},{en:'reserve',zh:'预留',stage:'初中'},{en:'request',zh:'请求',stage:'初中'},{en:'demand',zh:'要求',stage:'初中'},{en:'require',zh:'需要',stage:'初中'},{en:'desire',zh:'渴望',stage:'初中'},{en:'wish',zh:'希望',stage:'初中'},{en:'expect',zh:'期望',stage:'初中'},{en:'anticipate',zh:'预期',stage:'初中'},{en:'await',zh:'等待',stage:'初中'},{en:'remain',zh:'保持',stage:'初中'},{en:'retain',zh:'保留',stage:'初中'},{en:'preserve',zh:'保留',stage:'初中'},{en:'sustain',zh:'维持',stage:'初中'},{en:'uphold',zh:'支持',stage:'初中'},{en:'endorse',zh:'背书',stage:'初中'},{en:'approve',zh:'批准',stage:'初中'},{en:'sanction',zh:'批准',stage:'初中'},{en:'ratify',zh:'批准',stage:'初中'},{en:'confirm',zh:'确认',stage:'初中'},{en:'validate',zh:'验证',stage:'初中'},{en:'verify',zh:'核实',stage:'初中'},{en:'examine',zh:'检查',stage:'初中'},{en:'inspect',zh:'视察',stage:'初中'},{en:'survey',zh:'调查',stage:'初中'},{en:'investigate',zh:'调查',stage:'初中'},{en:'assess',zh:'评估',stage:'初中'},{en:'evaluate',zh:'评估',stage:'初中'},{en:'appraise',zh:'评价',stage:'初中'},{en:'rate',zh:'评级',stage:'初中'},{en:'rank',zh:'排名',stage:'初中'},{en:'grade',zh:'评分',stage:'初中'},{en:'score',zh:'得分',stage:'初中'},{en:'mark',zh:'标记',stage:'初中'},{en:'measure',zh:'测量',stage:'初中'},{en:'weigh',zh:'称重',stage:'初中'},{en:'reckon',zh:'计算',stage:'初中'},{en:'figure',zh:'计算',stage:'初中'},{en:'total',zh:'总计',stage:'初中'},{en:'sum',zh:'总和',stage:'初中'},{en:'multiply',zh:'乘',stage:'初中'},{en:'divide',zh:'除',stage:'初中'},{en:'equal',zh:'等于',stage:'初中'},{en:'settle',zh:'解决',stage:'初中'},{en:'owe',zh:'欠',stage:'初中'},{en:'debt',zh:'债务',stage:'初中'},{en:'credit',zh:'信用',stage:'初中'},{en:'borrow',zh:'借',stage:'初中'},{en:'lend',zh:'借出',stage:'初中'},{en:'rent',zh:'租',stage:'初中'},{en:'lease',zh:'租',stage:'初中'},{en:'hire',zh:'雇',stage:'初中'},{en:'employ',zh:'雇',stage:'初中'},{en:'fire',zh:'解雇',stage:'初中'},{en:'quit',zh:'辞职',stage:'初中'},{en:'resign',zh:'辞职',stage:'初中'},{en:'retire',zh:'退休',stage:'初中'},{en:'pension',zh:'养老金',stage:'初中'},{en:'wage',zh:'工资',stage:'初中'},{en:'salary',zh:'薪水',stage:'初中'},{en:'income',zh:'收入',stage:'初中'},{en:'earning',zh:'收入',stage:'初中'},{en:'gain',zh:'收益',stage:'初中'},{en:'loss',zh:'损失',stage:'初中'},{en:'expense',zh:'支出',stage:'初中'},{en:'spending',zh:'支出',stage:'初中'},{en:'fund',zh:'资金',stage:'初中'},{en:'finance',zh:'融资',stage:'初中'},{en:'capital',zh:'资本',stage:'初中'},{en:'asset',zh:'资产',stage:'初中'},{en:'liability',zh:'负债',stage:'初中'},{en:'equity',zh:'权益',stage:'初中'},{en:'bond',zh:'债券',stage:'初中'},{en:'share',zh:'股份',stage:'初中'},{en:'dividend',zh:'股息',stage:'初中'},{en:'return',zh:'回报',stage:'初中'},{en:'revenue',zh:'收入',stage:'初中'},{en:'receipt',zh:'收据',stage:'初中'},{en:'invoice',zh:'发票',stage:'初中'},{en:'bill',zh:'账单',stage:'初中'},{en:'charge',zh:'收费',stage:'初中'},{en:'fee',zh:'费用',stage:'初中'},{en:'cost',zh:'成本',stage:'初中'},{en:'expense',zh:'支出',stage:'初中'},
+    // —— 高中 ——
+    {en:'philosophy',zh:'哲学',stage:'高中'},{en:'metaphysics',zh:'形而上学',stage:'高中'},{en:'epistemology',zh:'认识论',stage:'高中'},{en:'ethics',zh:'伦理学',stage:'高中'},{en:'aesthetics',zh:'美学',stage:'高中'},{en:'logic',zh:'逻辑',stage:'高中'},{en:'paradox',zh:'悖论',stage:'高中'},{en:'dialectic',zh:'辩证',stage:'高中'},{en:'ideology',zh:'意识形态',stage:'高中'},{en:'doctrine',zh:'学说',stage:'高中'},{en:'paradigm',zh:'范式',stage:'高中'},{en:'thesis',zh:'论点',stage:'高中'},{en:'antithesis',zh:'反论',stage:'高中'},{en:'synthesis',zh:'综合',stage:'高中'},{en:'deduction',zh:'演绎',stage:'高中'},{en:'induction',zh:'归纳',stage:'高中'},{en:'abstraction',zh:'抽象',stage:'高中'},{en:'generalization',zh:'概括',stage:'高中'},{en:'hypothesis',zh:'假设',stage:'高中'},{en:'theory',zh:'理论',stage:'高中'},{en:'theorem',zh:'定理',stage:'高中'},{en:'lemma',zh:'引理',stage:'高中'},{en:'proof',zh:'证明',stage:'高中'},{en:'axiom',zh:'公理',stage:'高中'},{en:'postulate',zh:'公设',stage:'高中'},{en:'corollary',zh:'推论',stage:'高中'},{en:'quantify',zh:'量化',stage:'高中'},{en:'qualify',zh:'限定',stage:'高中'},{en:'categorize',zh:'分类',stage:'高中'},{en:'classify',zh:'分类',stage:'高中'},{en:'typology',zh:'类型学',stage:'高中'},{en:'taxonomy',zh:'分类法',stage:'高中'},{en:'ontogeny',zh:'个体发生',stage:'高中'},{en:'phylogeny',zh:'系统发生',stage:'高中'},{en:'morphology',zh:'形态学',stage:'高中'},{en:'anatomy',zh:'解剖',stage:'高中'},{en:'physiology',zh:'生理',stage:'高中'},{en:'biochemistry',zh:'生化',stage:'高中'},{en:'genomics',zh:'基因组学',stage:'高中'},{en:'proteomics',zh:'蛋白质组学',stage:'高中'},{en:'metabolomics',zh:'代谢组学',stage:'高中'},{en:'neuroscience',zh:'神经科学',stage:'高中'},{en:'cognitive',zh:'认知',stage:'高中'},{en:'perception',zh:'感知',stage:'高中'},{en:'attention',zh:'注意',stage:'高中'},{en:'memory',zh:'记忆',stage:'高中'},{en:'learning',zh:'学习',stage:'高中'},{en:'reasoning',zh:'推理',stage:'高中'},{en:'decision',zh:'决策',stage:'高中'},{en:'heuristic',zh:'启发式',stage:'高中'},{en:'algorithmic',zh:'算法的',stage:'高中'},{en:'complexity',zh:'复杂度',stage:'高中'},{en:'optimization',zh:'优化',stage:'高中'},{en:'linear',zh:'线性',stage:'高中'},{en:'nonlinear',zh:'非线性',stage:'高中'},{en:'differential',zh:'微分',stage:'高中'},{en:'integral',zh:'积分',stage:'高中'},{en:'stochastic',zh:'随机',stage:'高中'},{en:'deterministic',zh:'确定性',stage:'高中'},{en:'chaotic',zh:'混沌',stage:'高中'},{en:'fractal',zh:'分形',stage:'高中'},{en:'topology',zh:'拓扑',stage:'高中'},{en:'manifold',zh:'流形',stage:'高中'},{en:'algebraic',zh:'代数',stage:'高中'},{en:'geometric',zh:'几何',stage:'高中'},{en:'analytic',zh:'分析',stage:'高中'},{en:'numeric',zh:'数值',stage:'高中'},{en:'symbolic',zh:'符号',stage:'高中'},{en:'quantum',zh:'量子',stage:'高中'},{en:'relativistic',zh:'相对论',stage:'高中'},{en:'thermodynamic',zh:'热力学',stage:'高中'},{en:'entropic',zh:'熵',stage:'高中'},{en:'electromagnetic',zh:'电磁',stage:'高中'},{en:'gravitational',zh:'引力',stage:'高中'},{en:'nuclear',zh:'核',stage:'高中'},{en:'subatomic',zh:'亚原子',stage:'高中'},{en:'cosmological',zh:'宇宙学',stage:'高中'},{en:'anthropic',zh:'人择',stage:'高中'},{en:'evolutionary',zh:'进化',stage:'高中'},{en:'ecological',zh:'生态',stage:'高中'},{en:'sociological',zh:'社会',stage:'高中'},{en:'psychological',zh:'心理',stage:'高中'},{en:'linguistic',zh:'语言',stage:'高中'},{en:'semantic',zh:'语义',stage:'高中'},{en:'syntactic',zh:'句法',stage:'高中'},{en:'pragmatic',zh:'语用',stage:'高中'},{en:'phonetic',zh:'语音',stage:'高中'},{en:'morphological',zh:'形态',stage:'高中'},{en:'lexical',zh:'词汇',stage:'高中'},{en:'rhetorical',zh:'修辞',stage:'高中'},{en:'narrative',zh:'叙事',stage:'高中'},{en:'discursive',zh:'论述',stage:'高中'},{en:'expository',zh:'说明',stage:'高中'},{en:'argumentative',zh:'议论',stage:'高中'},{en:'persuasive',zh:'说服',stage:'高中'},{en:'descriptive',zh:'描写',stage:'高中'},{en:'lyrical',zh:'抒情',stage:'高中'},{en:'dramatic',zh:'戏剧',stage:'高中'},{en:'tragic',zh:'悲剧',stage:'高中'},{en:'comic',zh:'喜剧',stage:'高中'},{en:'ironic',zh:'反讽',stage:'高中'},{en:'satirical',zh:'讽刺',stage:'高中'},{en:'allegorical',zh:'寓言',stage:'高中'},{en:'symbolic',zh:'象征',stage:'高中'},{en:'metaphorical',zh:'隐喻',stage:'高中'},{en:'metonymic',zh:'借代',stage:'高中'},{en:'synesthetic',zh:'通感',stage:'高中'},{en:'paradoxical',zh:'悖论',stage:'高中'},{en:'oxymoronic',zh:'矛盾修辞',stage:'高中'},{en:'pun',zh:'双关',stage:'高中'},{en:'allusion',zh:'典故',stage:'高中'},{en:'quotation',zh:'引用',stage:'高中'},{en:'citation',zh:'引文',stage:'高中'},{en:'footnote',zh:'脚注',stage:'高中'},{en:'appendix',zh:'附录',stage:'高中'},{en:'glossary',zh:'词汇表',stage:'高中'},{en:'bibliography',zh:'参考书目',stage:'高中'},{en:'index',zh:'索引',stage:'高中'},{en:'preface',zh:'前言',stage:'高中'},{en:'epilogue',zh:'尾声',stage:'高中'},{en:'prologue',zh:'序幕',stage:'高中'},{en:'chapter',zh:'章',stage:'高中'},{en:'verse',zh:'诗节',stage:'高中'},{en:'stanza',zh:'节',stage:'高中'},{en:'couplet',zh:'对句',stage:'高中'},{en:'quatrain',zh:'四行诗',stage:'高中'},{en:'sonnet',zh:'十四行诗',stage:'高中'},{en:'ode',zh:'颂',stage:'高中'},{en:'elegy',zh:'挽歌',stage:'高中'},{en:'ballad',zh:'民谣',stage:'高中'},{en:'epic',zh:'史诗',stage:'高中'},{en:'lyric',zh:'抒情诗',stage:'高中'},{en:'narrative',zh:'叙事诗',stage:'高中'},{en:'dramatic',zh:'诗剧',stage:'高中'},{en:'monologue',zh:'独白',stage:'高中'},{en:'soliloquy',zh:'自言自语',stage:'高中'},{en:'aside',zh:'旁白',stage:'高中'},{en:'chorus',zh:'合唱',stage:'高中'},{en:'antagonist',zh:'对立',stage:'高中'},{en:'protagonist',zh:'主角',stage:'高中'},{en:'character',zh:'角色',stage:'高中'},{en:'persona',zh:'人物',stage:'高中'},{en:'archetype',zh:'原型',stage:'高中'},{en:'motif',zh:'母题',stage:'高中'},{en:'leitmotif',zh:'主导动机',stage:'高中'},{en:'foil',zh:'衬托',stage:'高中'},{en:'climax',zh:'高潮',stage:'高中'},{en:'denouement',zh:'结局',stage:'高中'},{en:'catastrophe',zh:'灾难',stage:'高中'},{en:'peripeteia',zh:'突转',stage:'高中'},{en:'anagnorisis',zh:'发现',stage:'高中'},{en:'hamartia',zh:'悲剧缺陷',stage:'高中'},{en:'catharsis',zh:'宣泄',stage:'高中'},{en:'mimesis',zh:'模仿',stage:'高中'},{en:'verisimilitude',zh:'逼真',stage:'高中'},{en:'suspension',zh:'悬置',stage:'高中'},{en:'disbelief',zh:'怀疑',stage:'高中'},{en:'immersion',zh:'沉浸',stage:'高中'},{en:'aesthetic',zh:'审美',stage:'高中'},{en:'sublime',zh:'崇高',stage:'高中'},{en:'beautiful',zh:'美',stage:'高中'},{en:'picturesque',zh:'如画',stage:'高中'},{en:'grotesque',zh:'怪诞',stage:'高中'},{en:'kitsch',zh:'媚俗',stage:'高中'},{en:'camp',zh:'坎普',stage:'高中'},{en:'wabi',zh:'侘',stage:'高中'},{en:'sabi',zh:'寂',stage:'高中'},{en:'yugen',zh:'幽玄',stage:'高中'},{en:'mono',zh:'物哀',stage:'高中'},{en:'aware',zh:'哀感',stage:'高中'},{en:'joie',zh:'生之喜悦',stage:'高中'},{en:'ennui',zh:'倦怠',stage:'高中'},{en:'melancholy',zh:'忧郁',stage:'高中'},{en:'nostalgia',zh:'怀旧',stage:'高中'},{en:'romantic',zh:'浪漫',stage:'高中'},{en:'gothic',zh:'哥特',stage:'高中'},{en:'baroque',zh:'巴洛克',stage:'高中'},{en:'classical',zh:'古典',stage:'高中'},{en:'neoclassical',zh:'新古典',stage:'高中'},{en:'romanticism',zh:'浪漫主义',stage:'高中'},{en:'realism',zh:'现实主义',stage:'高中'},{en:'naturalism',zh:'自然主义',stage:'高中'},{en:'impressionism',zh:'印象派',stage:'高中'},{en:'expressionism',zh:'表现主义',stage:'高中'},{en:'surrealism',zh:'超现实',stage:'高中'},{en:'modernism',zh:'现代主义',stage:'高中'},{en:'postmodernism',zh:'后现代',stage:'高中'},{en:'existentialism',zh:'存在主义',stage:'高中'},{en:'nihilism',zh:'虚无主义',stage:'高中'},{en:'absurdism',zh:'荒诞',stage:'高中'},{en:'stoicism',zh:'斯多葛',stage:'高中'},{en:'cynicism',zh:'犬儒',stage:'高中'},{en:'hedonism',zh:'享乐',stage:'高中'},{en:'utilitarianism',zh:'功利',stage:'高中'},{en:'consequentialism',zh:'结果论',stage:'高中'},{en:'deontology',zh:'义务论',stage:'高中'},{en:'virtue',zh:'美德',stage:'高中'},{en:'eudaimonia',zh:'幸福',stage:'高中'},{en:'autonomy',zh:'自治',stage:'高中'},{en:'dignity',zh:'尊严',stage:'高中'},{en:'rights',zh:'权利',stage:'高中'},{en:'justice',zh:'正义',stage:'高中'},{en:'equity',zh:'公平',stage:'高中'},{en:'liberty',zh:'自由',stage:'高中'},{en:'fraternity',zh:'博爱',stage:'高中'},{en:'equality',zh:'平等',stage:'高中'},{en:'solidarity',zh:'团结',stage:'高中'},{en:'subsidiarity',zh:'辅助',stage:'高中'},{en:'pluralism',zh:'多元',stage:'高中'},{en:'secularism',zh:'世俗',stage:'高中'},{en:'theocracy',zh:'神权',stage:'高中'},{en:'autocracy',zh:'独裁',stage:'高中'},{en:'oligarchy',zh:'寡头',stage:'高中'},{en:'aristocracy',zh:'贵族',stage:'高中'},{en:'demagoguery',zh:'煽动',stage:'高中'},{en:'populism',zh:'民粹',stage:'高中'},{en:'fascism',zh:'法西斯',stage:'高中'},{en:'totalitarianism',zh:'极权',stage:'高中'},{en:'authoritarianism',zh:'威权',stage:'高中'},{en:'liberalism',zh:'自由',stage:'高中'},{en:'conservatism',zh:'保守',stage:'高中'},{en:'socialism',zh:'社会主义',stage:'高中'},{en:'communism',zh:'共产',stage:'高中'},{en:'capitalism',zh:'资本',stage:'高中'},{en:'mercantilism',zh:'重商',stage:'高中'},{en:'keynesian',zh:'凯恩斯',stage:'高中'},{en:'neoliberal',zh:'新自由',stage:'高中'},{en:'globalization',zh:'全球化',stage:'高中'},{en:'localization',zh:'本土化',stage:'高中'},{en:'glocalization',zh:'全球本土',stage:'高中'},{en:'digitalization',zh:'数字化',stage:'高中'},{en:'automation',zh:'自动化',stage:'高中'},{en:'robotization',zh:'机器人化',stage:'高中'},{en:'ai',zh:'人工智能',stage:'高中'},{en:'singularity',zh:'奇点',stage:'高中'},{en:'transhumanism',zh:'超人类',stage:'高中'},{en:'posthuman',zh:'后人类',stage:'高中'},{en:'biotech',zh:'生物科技',stage:'高中'},{en:'nanotech',zh:'纳米科技',stage:'高中'},{en:'biometric',zh:'生物识别',stage:'高中'},{en:'genetic',zh:'基因',stage:'高中'},{en:'cloning',zh:'克隆',stage:'高中'},{en:'crispr',zh:'基因编辑',stage:'高中'},{en:'stemcell',zh:'干细胞',stage:'高中'},{en:'regenerative',zh:'再生',stage:'高中'},{en:'xenotransplant',zh:'异种移植',stage:'高中'},{en:'cybernetics',zh:'控制论',stage:'高中'},{en:'cyborg',zh:'半机械',stage:'高中'},{en:'virtuality',zh:'虚拟',stage:'高中'},{en:'augmented',zh:'增强',stage:'高中'},{en:'metaverse',zh:'元宇宙',stage:'高中'},{en:'blockchain',zh:'区块链',stage:'高中'},{en:'cryptocurrency',zh:'加密货币',stage:'高中'},{en:'decentralized',zh:'去中心化',stage:'高中'},{en:'ledger',zh:'账本',stage:'高中'},{en:'consensus',zh:'共识',stage:'高中'},{en:'mining',zh:'挖矿',stage:'高中'},{en:'token',zh:'代币',stage:'高中'},{en:'smartcontract',zh:'智能合约',stage:'高中'},{en:'dao',zh:'去中心组织',stage:'高中'},{en:'nft',zh:'非同质化',stage:'高中'},{en:'web3',zh:'第三代网络',stage:'高中'},{en:'privacy',zh:'隐私',stage:'高中'},{en:'anonymity',zh:'匿名',stage:'高中'},{en:'surveillance',zh:'监控',stage:'高中'},{en:'censorship',zh:'审查',stage:'高中'},{en:'propaganda',zh:'宣传',stage:'高中'},{en:'disinformation',zh:'虚假信息',stage:'高中'},{en:'factcheck',zh:'事实核查',stage:'高中'},{en:'deepfake',zh:'深度伪造',stage:'高中'},{en:'algorithmicbias',zh:'算法偏见',stage:'高中'},{en:'filterbubble',zh:'信息茧房',stage:'高中'},{en:'echochamber',zh:'回声室',stage:'高中'},{en:'polarization',zh:'极化',stage:'高中'},{en:'radicalization',zh:'激进化',stage:'高中'},{en:'misinformation',zh:'误导信息',stage:'高中'},{en:'literacy',zh:'素养',stage:'高中'},{en:'criticalthinking',zh:'批判性思维',stage:'高中'},{en:'medialiteracy',zh:'媒介素养',stage:'高中'},{en:'digitalliteracy',zh:'数字素养',stage:'高中'},{en:'financialliteracy',zh:'财商',stage:'高中'},{en:'civic',zh:'公民',stage:'高中'},{en:'globalcitizen',zh:'世界公民',stage:'高中'},{en:'sustainability',zh:'可持续',stage:'高中'},{en:'resilience',zh:'韧性',stage:'高中'},{en:'adaptation',zh:'适应',stage:'高中'},{en:'mitigation',zh:'减缓',stage:'高中'},{en:'carbonneutral',zh:'碳中和',stage:'高中'},{en:'netzero',zh:'净零',stage:'高中'},{en:'circulareconomy',zh:'循环经济',stage:'高中'},{en:'biomimicry',zh:'仿生',stage:'高中'},{en:'regenerative',zh:'再生农业',stage:'高中'},{en:'agroecology',zh:'农业生态',stage:'高中'},{en:'permaculture',zh:'永续农业',stage:'高中'},{en:'renewable',zh:'可再生',stage:'高中'},{en:'photovoltaic',zh:'光伏',stage:'高中'},{en:'windturbine',zh:'风机',stage:'高中'},{en:'geothermal',zh:'地热',stage:'高中'},{en:'hydropower',zh:'水电',stage:'高中'},{en:'tidal',zh:'潮汐',stage:'高中'},{en:'hydrogen',zh:'氢',stage:'高中'},{en:'battery',zh:'电池',stage:'高中'},{en:'gridstorage',zh:'电网储能',stage:'高中'},{en:'smartgrid',zh:'智能电网',stage:'高中'},{en:'microgrid',zh:'微电网',stage:'高中'},{en:'demandresponse',zh:'需求响应',stage:'高中'},{en:'energysaving',zh:'节能',stage:'高中'},{en:'efficiency',zh:'效率',stage:'高中'},{en:'insulation',zh:'隔热',stage:'高中'},{en:'weatherization',zh:'建筑保温',stage:'高中'},{en:'electrification',zh:'电气化',stage:'高中'},{en:'decarbonization',zh:'脱碳',stage:'高中'},{en:'offset',zh:'抵消',stage:'高中'},{en:'sequestration',zh:'封存',stage:'高中'},{en:'afforestation',zh:'造林',stage:'高中'},{en:'reforestation',zh:'再造林',stage:'高中'},{en:'peatland',zh:'泥炭地',stage:'高中'},{en:'bluecarbon',zh:'蓝碳',stage:'高中'},{en:'soilcarbon',zh:'土壤碳',stage:'高中'},{en:'agriculture',zh:'农业',stage:'高中'},{en:'foodsecurity',zh:'粮食安全',stage:'高中'},{en:'nutrition',zh:'营养',stage:'高中'},{en:'obesity',zh:'肥胖',stage:'高中'},{en:'malnutrition',zh:'营养不良',stage:'高中'},{en:'famine',zh:'饥荒',stage:'高中'},{en:'foodwaste',zh:'食物浪费',stage:'高中'},{en:'composting',zh:'堆肥',stage:'高中'},{en:'upcycling',zh:'升级回收',stage:'高中'},{en:'zerowaste',zh:'零废弃',stage:'高中'},{en:'circularity',zh:'循环性',stage:'高中'},{en:'biodegradable',zh:'可降解',stage:'高中'},{en:'compostable',zh:'可堆肥',stage:'高中'},{en:'plasticfree',zh:'无塑料',stage:'高中'},{en:'singleuse',zh:'一次性',stage:'高中'},{en:'reusable',zh:'可重复',stage:'高中'},{en:'refillable',zh:'可 refill',stage:'高中'},{en:'packagefree',zh:'无包装',stage:'高中'},{en:'bulk',zh:'散装',stage:'高中'},{en:'minimalism',zh:'极简',stage:'高中'},{en:'voluntarysimplicity',zh:'自愿简朴',stage:'高中'},{en:'downshifting',zh:'降速生活',stage:'高中'},{en:'slowliving',zh:'慢生活',stage:'高中'},{en:'hygge',zh:'温馨',stage:'高中'},{en:'lagom',zh:'适度',stage:'高中'},{en:'ikigai',zh:'生存意义',stage:'高中'},{en:'wabi',zh:'侘寂',stage:'高中'},{en:'slowfood',zh:'慢食',stage:'高中'},{en:'locavore',zh:'本地食',stage:'高中'},{en:'vegan',zh:'纯素',stage:'高中'},{en:'vegetarian',zh:'素食',stage:'高中'},{en:'flexitarian',zh:'弹性素',stage:'高中'},{en:'plantbased',zh:'植物基',stage:'高中'},{en:'culturedmeat',zh:'培植肉',stage:'高中'},{en:'verticalfarm',zh:'垂直农场',stage:'高中'},{en:'urbanfarm',zh:'都市农业',stage:'高中'},{en:'rooftop',zh:'屋顶',stage:'高中'},{en:'communitygarden',zh:'社区花园',stage:'高中'},{en:'guerrillagarden',zh:'游击园艺',stage:'高中'},{en:'foodforest',zh:'食物森林',stage:'高中'},{en:'perennial',zh:'多年生',stage:'高中'},{en:'polyculture',zh:'混作',stage:'高中'},{en:'monoculture',zh:'单作',stage:'高中'},{en:'croprotation',zh:'轮作',stage:'高中'},{en:'intercropping',zh:'间作',stage:'高中'},{en:'companion',zh:'伴生',stage:'高中'},{en:'covercrop',zh:'覆盖作物',stage:'高中'},{en:'greenmanure',zh:'绿肥',stage:'高中'},{en:'noble',zh:'休耕',stage:'高中'},{en:'permaculture',zh:'永续栽培',stage:'高中'},{en:'hugelkultur',zh:'丘垄栽培',stage:'高中'},{en:'keyline',zh:'keyline',stage:'高中'},{en:'swale',zh:'集水沟',stage:'高中'},{en:'rainwater',zh:'雨水',stage:'高中'},{en:'greywater',zh:'灰水',stage:'高中'},{en:'composttoilet',zh:'堆肥厕',stage:'高中'},{en:'biogas',zh:'沼气',stage:'高中'},{en:'anaerobic',zh:'厌氧',stage:'高中'},{en:'fermentation',zh:'发酵',stage:'高中'},{en:'mycelium',zh:'菌丝',stage:'高中'},{en:'mushroom',zh:'蘑菇',stage:'高中'},{en:'lichen',zh:'地衣',stage:'高中'},{en:'moss',zh:'苔藓',stage:'高中'},{en:'fern',zh:'蕨',stage:'高中'},{en:'conifer',zh:'针叶树',stage:'高中'},{en:'deciduous',zh:'落叶',stage:'高中'},{en:'broadleaf',zh:'阔叶',stage:'高中'},{en:'succulent',zh:'多肉',stage:'高中'},{en:'cactus',zh:'仙人掌',stage:'高中'},{en:'bonsai',zh:'盆景',stage:'高中'},{en:'topiary',zh:'修剪造型',stage:'高中'},{en:'hedgerow',zh:'树篱',stage:'高中'},{en:'windbreak',zh:'防风林',stage:'高中'},{en:'shelterbelt',zh:'防护林',stage:'高中'},{en:'riparian',zh:'河岸',stage:'高中'},{en:'wetland',zh:'湿地',stage:'高中'},{en:'marsh',zh:'沼泽',stage:'高中'},{en:'swamp',zh:'沼泽',stage:'高中'},{en:'bog',zh:'泥沼',stage:'高中'},{en:'fen',zh:'碱沼',stage:'高中'},{en:'estuary',zh:'河口',stage:'高中'},{en:'delta',zh:'三角洲',stage:'高中'},{en:'lagoon',zh:'泻湖',stage:'高中'},{en:'coral',zh:'珊瑚',stage:'高中'},{en:'reef',zh:'礁',stage:'高中'},{en:'mangrove',zh:'红树林',stage:'高中'},{en:'seagrass',zh:'海草',stage:'高中'},{en:'kelp',zh:'巨藻',stage:'高中'},{en:'intertidal',zh:'潮间带',stage:'高中'},{en:'pelagic',zh:'远洋',stage:'高中'},{en:'abyssal',zh:'深海',stage:'高中'},{en:'benthic',zh:'底栖',stage:'高中'},{en:'hydrothermal',zh:'热液',stage:'高中'},{en:'vent',zh:'喷口',stage:'高中'},{en:'chemosynthesis',zh:'化能合成',stage:'高中'},{en:'bioluminescence',zh:'生物发光',stage:'高中'},{en:'symbiosis',zh:'共生',stage:'高中'},{en:'mutualism',zh:'互利',stage:'高中'},{en:'commensalism',zh:'偏利',stage:'高中'},{en:'parasitism',zh:'寄生',stage:'高中'},{en:'predation',zh:'捕食',stage:'高中'},{en:'competition',zh:'竞争',stage:'高中'},{en:'keystone',zh:'关键种',stage:'高中'},{en:'umbrella',zh:'伞护种',stage:'高中'},{en:'flagship',zh:'旗舰种',stage:'高中'},{en:'endemic',zh:'特有',stage:'高中'},{en:'invasive',zh:'入侵',stage:'高中'},{en:'native',zh:'本土',stage:'高中'},{en:'alien',zh:'外来',stage:'高中'},{en:'feral',zh:'野化',stage:'高中'},{en:'extirpated',zh:'局部灭绝',stage:'高中'},{en:'endangered',zh:'濒危',stage:'高中'},{en:'threatened',zh:'受胁',stage:'高中'},{en:'vulnerable',zh:'易危',stage:'高中'},{en:'near',zh:'近危',stage:'高中'},{en:'least',zh:'无危',stage:'高中'},{en:'data',zh:'数据',stage:'高中'},{en:'deficient',zh:'缺乏',stage:'高中'},{en:'redlist',zh:'红色名录',stage:'高中'},{en:'cites',zh:'濒危物种公约',stage:'高中'},{en:'ramsar',zh:'湿地公约',stage:'高中'},{en:'worldheritage',zh:'世界遗产',stage:'高中'},{en:'biosphere',zh:'生物圈',stage:'高中'},{en:'geopark',zh:'地质公园',stage:'高中'},{en:'dark',zh:'暗夜',stage:'高中'},{en:'starlight',zh:'星光',stage:'高中'},{en:'astronomy',zh:'天文',stage:'高中'},{en:'astrophysics',zh:'天体物理',stage:'高中'},{en:'cosmology',zh:'宇宙学',stage:'高中'},{en:'celestial',zh:'天体',stage:'高中'},{en:'ecliptic',zh:'黄道',stage:'高中'},{en:'solstice',zh:'至日',stage:'高中'},{en:'equinox',zh:'分日',stage:'高中'},{en:'precession',zh:'岁差',stage:'高中'},{en:'nutation',zh:'章动',stage:'高中'},{en:'libration',zh:'天平动',stage:'高中'},{en:'syzygy',zh:'朔望',stage:'高中'}];
+  // ====== 英语音标（IPA）与发音 ======
+  // PHON：常用/不规则词的精确音标；其余用 genIPA 规则生成（近似，常见词准确）。
+  var PHON={
+    'one':'/wʌn/','two':'/tuː/','three':'/θriː/','four':'/fɔː/','five':'/faɪv/','six':'/sɪks/','seven':'/ˈsevn/','eight':'/eɪt/','nine':'/naɪn/','ten':'/ten/',
+    'monday':'/ˈmʌndeɪ/','tuesday':'/ˈtjuːzdeɪ/','wednesday':'/ˈwenzdeɪ/','thursday':'/ˈθɜːzdeɪ/','friday':'/ˈfraɪdeɪ/','saturday':'/ˈsætədeɪ/','sunday':'/ˈsʌndeɪ/',
+    'the':'/ðə/','a':'/eɪ/','an':'/æn/','i':'/aɪ/',
+    'apple':'/ˈæpl/','small':'/smɔːl/','tall':'/tɔːl/','fall':'/fɔːl/','wall':'/wɔːl/','call':'/kɔːl/','all':'/ɔːl/','science':'/ˈsaɪəns/','computer':'/kəmˈpjuːtə/','knowledge':'/ˈnɒlɪdʒ/','boy':'/bɔɪ/','toy':'/tɔɪ/','girl':'/ɡɜːl/','boyfriend':'/ˈbɔɪfrend/',
+    'banana':'/bəˈnɑːnə/','yellow':'/ˈjeləʊ/','book':'/bʊk/','ball':'/bɔːl/','water':'/ˈwɔːtə/','hello':'/həˈləʊ/','baby':'/ˈbeɪbi/','bear':'/beə/','cow':'/kaʊ/','eye':'/aɪ/','mouth':'/maʊθ/','foot':'/fʊt/',
+    'school':'/skuːl/','teacher':'/ˈtiːtʃə/','student':'/ˈstjuːdnt/','friend':'/frend/','family':'/ˈfæməli/','father':'/ˈfɑːðə/','mother':'/ˈmʌðə/','brother':'/ˈbrʌðə/','sister':'/ˈsɪstə/','grandfather':'/ˈɡrænfɑːðə/','grandmother':'/ˈɡrænmʌðə/','color':'/ˈkʌlə/','white':'/waɪt/','orange':'/ˈɒrɪndʒ/','purple':'/ˈpɜːpl/','pink':'/pɪŋk/','morning':'/ˈmɔːnɪŋ/','afternoon':'/ˌɑːftəˈnuːn/','evening':'/ˈiːvnɪŋ/','night':'/naɪt/','today':'/təˈdeɪ/','tomorrow':'/təˈmɒrəʊ/','yesterday':'/ˈjestədeɪ/','week':'/wiːk/','month':'/mʌnθ/','year':'/jɪə/','spring':'/sprɪŋ/','summer':'/ˈsʌmə/','autumn':'/ˈɔːtəm/','winter':'/ˈwɪntə/','weather':'/ˈweðə/','sunny':'/ˈsʌni/','rainy':'/ˈreɪni/','windy':'/ˈwɪndi/','snow':'/snəʊ/','cloud':'/klaʊd/','animal':'/ˈænɪml/','tiger':'/ˈtaɪɡə/','lion':'/ˈlaɪən/','elephant':'/ˈelɪfənt/','monkey':'/ˈmʌŋki/','panda':'/ˈpændə/','horse':'/hɔːs/','chicken':'/ˈtʃɪkɪn/','bee':'/biː/','butterfly':'/ˈbʌtəflaɪ/','grass':'/ɡrɑːs/','leaf':'/liːf/','fruit':'/fruːt/','vegetable':'/ˈvedʒtəbl/','meat':'/miːt/','rice':'/raɪs/','noodle':'/ˈnuːdl/','bread':'/bred/','juice':'/dʒuːs/','tea':'/tiː/','coffee':'/ˈkɒfi/','cake':'/keɪk/','candy':'/ˈkændi/','cookie':'/ˈkʊki/','ice':'/aɪs/','body':'/ˈbɒdi/','face':'/feɪs/','ear':'/ɪə/','arm':'/ɑːm/','leg':'/leɡ/','hair':'/heə/','tooth':'/tuːθ/','clothes':'/kləʊðz/','shirt':'/ʃɜːt/','dress':'/dres/','shoe':'/ʃuː/','hat':'/hæt/','coat':'/kəʊt/','sock':'/sɒk/','home':'/həʊm/','house':'/haʊs/','room':'/ruːm/','kitchen':'/ˈkɪtʃɪn/','bedroom':'/ˈbedruːm/','bathroom':'/ˈbɑːθruːm/','garden':'/ˈɡɑːdn/','park':'/pɑːk/','zoo':'/zuː/','schoolbag':'/ˈskuːlbæɡ/','pencil':'/ˈpensl/','ruler':'/ˈruːlə/','eraser':'/ɪˈreɪzə/','class':'/klɑːs/','grade':'/ɡreɪd/','classmate':'/ˈklɑːsmeɪt/','angry':'/ˈæŋɡri/','tired':'/ˈtaɪəd/','hungry':'/ˈhʌŋɡri/','thirsty':'/ˈθɜːsti/','good':'/ɡʊd/','new':'/njuː/','old':'/əʊld/','young':'/jʌŋ/','fast':'/fɑːst/','slow':'/sləʊ/','high':'/haɪ/','low':'/ləʊ/','short':'/ʃɔːt/','dirty':'/ˈdɜːti/','read':'/riːd/','write':'/raɪt/','draw':'/drɔː/','listen':'/ˈlɪsn/','watch':'/wɒtʃ/','work':'/wɜːk/','study':'/ˈstʌdi/','learn':'/lɜːn/',
+    'business':'/ˈbɪznəs/','people':'/ˈpiːpl/','pretty':'/ˈprɪti/','want':'/wɒnt/','what':'/wɒt/','who':'/huː/','whom':'/huːm/','whose':'/huːz/','woman':'/ˈwʊmən/','women':'/ˈwɪmɪn/','children':'/ˈtʃɪldrən/','again':'/əˈɡen/','against':'/əˈɡenst/','many':'/ˈmeni/','any':'/ˈeni/','come':'/kʌm/','some':'/sʌm/','love':'/lʌv/','above':'/əˈbʌv/','money':'/ˈmʌni/','once':'/wʌns/','does':'/dʌz/','done':'/dʌn/','been':'/biːn/','said':'/sed/','they':'/ðeɪ/','their':'/ðeə/','there':'/ðeə/','here':'/hɪə/','where':'/weə/','why':'/waɪ/','buy':'/baɪ/','by':'/baɪ/','my':'/maɪ/','fly':'/flaɪ/','light':'/laɪt/','right':'/raɪt/','great':'/ɡreɪt/','break':'/breɪk/','steak':'/steɪk/','head':'/hed/','health':'/helθ/','heart':'/hɑːt/','earth':'/ɜːθ/','early':'/ˈɜːli/','wear':'/weə/','tear':'/teə/','pear':'/peə/','circle':'/ˈsɜːkl/','certain':'/ˈsɜːtn/','city':'/ˈsɪti/','cent':'/sent/','ocean':'/ˈəʊʃn/','social':'/ˈsəʊʃl/','nation':'/ˈneɪʃn/','station':'/ˈsteɪʃn/','special':'/ˈspeʃl/','sure':'/ʃʊə/','treasure':'/ˈtreʒə/','usual':'/ˈjuːʒuəl/','vision':'/ˈvɪʒn/','though':'/ðəʊ/','through':'/θruː/','thought':'/θɔːt/','enough':'/ɪˈnʌf/','tough':'/tʌf/','cousin':'/ˈkʌzn/','country':'/ˈkʌntri/','touch':'/tʌtʃ/','double':'/ˈdʌbl/','answer':'/ˈɑːnsə/','half':'/hɑːf/','calm':'/kɑːm/','talk':'/tɔːk/','walk':'/wɔːk/','daughter':'/ˈdɔːtə/','column':'/ˈkɒləm/','climb':'/klaɪm/','bomb':'/bɒm/','comb':'/kəʊm/','tomb':'/tuːm/','thumb':'/θʌm/','crumb':'/krʌm/','island':'/ˈaɪlənd/','aisle':'/aɪl/','castle':'/ˈkɑːsl/','whistle':'/ˈwɪsl/','front':'/frʌnt/','none':'/nʌn/','won':'/wʌn/','glove':'/ɡlʌv/','among':'/əˈmʌŋ/','tongue':'/tʌŋ/','blood':'/blʌd/','know':'/nəʊ/','knife':'/naɪf/','knee':'/niː/','wrist':'/rɪst/','wrap':'/ræp/','could':'/kʊd/','should':'/ʃʊd/','would':'/wʊd/','sugar':'/ˈʃʊɡə/','machine':'/məˈʃiːn/','choir':'/kwaɪə/','chemist':'/ˈkemɪst/','character':'/ˈkærəktə/','christmas':'/ˈkrɪsməs/','century':'/ˈsentʃəri/'
+  };
+  function isVowel(c){return c==='a'||c==='e'||c==='i'||c==='o'||c==='u'||c==='y';}
+  function isCons(c){return (c>='a'&&c<='z')&&!isVowel(c);}
+  function longV(c){return c==='a'?'eɪ':c==='e'?'iː':c==='i'?'aɪ':c==='o'?'əʊ':'juː';}
+  function genIPA(raw){
+    var w=(raw||'').toLowerCase(),out='',i=0,n=w.length;
+    function vce(j){return isVowel(w[j])&&w[j+2]==='e'&&j+3===n&&isCons(w[j+1]);}
+    while(i<n){
+      var c=w[i],c2=w.substr(i,2),c3=w.substr(i,3),c4=w.substr(i,4);
+      if(c4==='tion'){out+='ʃən';i+=4;continue;}
+      if(c4==='sion'){out+='ʒən';i+=4;continue;}
+      if(c4==='able'||c4==='ible'){out+='əbl';i+=4;continue;}
+      if(c4==='ment'){out+='mənt';i+=4;continue;}
+      if(c3==='igh'){out+='aɪ';i+=3;continue;}
+      if(c3==='tch'){out+='tʃ';i+=3;continue;}
+      if(c3==='dge'){out+='dʒ';i+=3;continue;}
+      if(c3==='sch'){out+='sk';i+=3;continue;}
+      if(c3==='ght'){out+='t';i+=3;continue;}
+      if(c3==='ous'){out+='əs';i+=3;continue;}
+      if(c2==='ph'){out+='f';i+=2;continue;}
+      if(c2==='kn'){out+='n';i+=2;continue;}
+      if(c2==='wr'){out+='r';i+=2;continue;}
+      if(c2==='wh'){out+='w';i+=2;continue;}
+      if(c2==='ck'){out+='k';i+=2;continue;}
+      if(c2==='qu'){out+='kw';i+=2;continue;}
+      if(c2==='ng'){out+='ŋ';i+=2;continue;}
+      if(c2==='sh'){out+='ʃ';i+=2;continue;}
+      if(c2==='ch'){out+='tʃ';i+=2;continue;}
+      if(c2==='th'){out+='θ';i+=2;continue;}
+      if(c2==='ee'){out+='iː';i+=2;continue;}
+      if(c2==='ea'){out+='iː';i+=2;continue;}
+      if(c2==='oo'){out+='uː';i+=2;continue;}
+      if(c2==='ou'){out+='aʊ';i+=2;continue;}
+      if(c2==='ow'){out+='aʊ';i+=2;continue;}
+      if(c2==='ai'){out+='aɪ';i+=2;continue;}
+      if(c2==='ay'){out+='eɪ';i+=2;continue;}
+      if(c2==='oi'){out+='ɔɪ';i+=2;continue;}
+      if(c2==='oy'){out+='ɔɪ';i+=2;continue;}
+      if(c2==='au'){out+='ɔː';i+=2;continue;}
+      if(c2==='aw'){out+='ɔː';i+=2;continue;}
+      if(c2==='ei'){out+='iː';i+=2;continue;}
+      if(c2==='ey'){out+='eɪ';i+=2;continue;}
+      if(c2==='oa'){out+='əʊ';i+=2;continue;}
+      if(c2==='ui'){out+='uː';i+=2;continue;}
+      if(c2==='mb'){out+='m';i+=2;continue;}
+      if(c2==='mn'){out+='m';i+=2;continue;}
+      if(c==='c'&&(w[i+1]==='e'||w[i+1]==='i'||w[i+1]==='y')){out+='s';i++;continue;}
+      if(c==='g'&&(w[i+1]==='e'||w[i+1]==='i'||w[i+1]==='y')){out+='dʒ';i++;continue;}
+      if(c==='x'){out+='ks';i++;continue;}
+      if(isVowel(c)&&vce(i)){out+=longV(c);out+=w[i+1];i+=3;continue;}
+      if(c==='y'&&i===0){out+='j';i++;continue;}
+      if(c==='a'){out+='æ';i++;continue;}
+      if(c==='e'){out+='e';i++;continue;}
+      if(c==='i'){out+='ɪ';i++;continue;}
+      if(c==='o'){out+='ɒ';i++;continue;}
+      if(c==='u'){out+='ʌ';i++;continue;}
+      if(c==='y'){out+='ɪ';i++;continue;}
+      out+=c;i++;
+    }
+    return '/'+out+'/';
+  }
+  function ipaOf(w){if(!w)return '';var k=(''+w).toLowerCase();return PHON[k]||genIPA(w);}
+  var SPEAK_SVG=`<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-line-join='round'><path d='M11 5L6 9H2v6h4l5 4V5z'/><path d='M15.5 8.5a5 5 0 0 1 0 7'/><path d='M19 5a9 9 0 0 1 0 14'/></svg>`;
+  var SEARCH_SVG=`<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='M21 21l-4.3-4.3'/></svg>`;
+  var EN_VOICE=null;
+  function pickVoice(){if(!('speechSynthesis' in window)||!window.speechSynthesis||!window.speechSynthesis.getVoices)return;var vs=window.speechSynthesis.getVoices();for(var i=0;i<vs.length;i++){if(/^en/i.test(vs[i].lang)){EN_VOICE=vs[i];break;}}}
+  if('speechSynthesis' in window&&window.speechSynthesis&&window.speechSynthesis.getVoices){pickVoice();window.speechSynthesis.onvoiceschanged=pickVoice;}
+  function playTTS(text){try{if(!('speechSynthesis' in window)||!window.speechSynthesis)return;window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=0.85;u.pitch=1;if(EN_VOICE)u.voice=EN_VOICE;window.speechSynthesis.speak(u);}catch(e){}}
+  function speak(text){if(!text)return;var done=false;var a=new Audio();a.preload='auto';if(a.setAttribute)a.setAttribute('playsinline','');a.addEventListener('playing',function(){done=true;});a.addEventListener('error',function(){if(!done){done=true;playTTS(text);}});a.src='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=1';var p;try{p=a.play();}catch(e){if(!done){done=true;playTTS(text);}return;}if(p&&p.then){p.catch(function(){if(!done){done=true;try{toast('浏览器拦截了声音，请再点一次喇叭');}catch(e2){}playTTS(text);}});}setTimeout(function(){if(!done){done=true;playTTS(text);}},4000);}
+  document.addEventListener('click',function(e){var b=e.target.closest('.speak');if(!b)return;e.stopPropagation();speak(b.getAttribute('data-word'));});
+
+  var buildSeed=function(seed){
+    var pinyin=[],ci=0;
+    SHENGMU.forEach(function(p){pinyin.push({id:'p'+(ci++),cat:'声母',text:p[0],sub:p[1],streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});});
+    YUNMU.forEach(function(p){pinyin.push({id:'p'+(ci++),cat:'韵母',text:p[0],sub:p[1],streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});});
+    ZHENGTI.forEach(function(p){pinyin.push({id:'p'+(ci++),cat:'整体认读',text:p[0],sub:p[1],streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});});
+    var chars=CHARLIST.map(function(c,i){return {id:'c'+i,text:c,streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0};});
+    var poems=POEMS.map(function(p,i){return {id:'m'+i,title:p.title,author:p.author,content:p.content,streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0};});
+    var english=ENGLISH_SEED.map(function(w,i){return {id:'e'+i,en:w.en,zh:w.zh,stage:w.stage,ph:ipaOf(w.en),streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0};});
+    return {pinyin:pinyin,char:chars,poem:poems,english:english};
+  }
+
+  // 预置几条示例状态，首屏即可看到复习/逾期/已掌握效果
+  function applyDemo(seed){
+    var t=new Date(); var yest=new Date(t.getTime()-864e5); var d2=new Date(t.getTime()-2*864e5);
+    var f=function(d){return d.toISOString().slice(0,10);};
+    // 拼音 a：复习中且逾期
+    var pa=seed.pinyin[0]; pa.state='review'; pa.streak=3; pa.lastLearned=f(yest); pa.nextReview=f(yest); pa.curveIndex=0; pa.everStudied=true;
+    // 拼音 b：已掌握
+    var pb=seed.pinyin[1]; pb.state='mastered'; pb.streak=10; pb.lastLearned=f(t); pb.nextReview=null; pb.curveIndex=6; pb.everStudied=true;
+    // 识字 一：复习中
+    var c0=seed.char[0]; c0.state='review'; c0.streak=3; c0.lastLearned=f(yest); c0.nextReview=f(t); c0.curveIndex=1; c0.everStudied=true;
+    // 识字 人：学习中（连续2天）
+    var c3=seed.char[3]; c3.state='learning'; c3.streak=2; c3.lastLearned=f(yest); c3.everStudied=true;
+    // 古诗 咏鹅：已掌握
+    var pm=seed.poem[0]; pm.state='mastered'; pm.streak=10; pm.lastLearned=f(t); pm.curveIndex=6; pm.everStudied=true;
+    // 英语 apple（幼儿园）：复习中，首屏即可在待复习看到英语示例
+    if(seed.english.length){var e0=seed.english[0];e0.everStudied=true;e0.state='review';e0.streak=3;e0.lastLearned=f(yest);e0.nextReview=f(t);e0.curveIndex=0;}
+  }
+
+  var state={profile:null,pinyin:[],char:[],poem:[],english:[]};
+  function load(k,def){try{var v=localStorage.getItem(k);if(v===null)return def;try{return JSON.parse(v);}catch(e){return def;}}catch(e){return def;}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} syncIfKey(k);}
+
+  // ---------- 文件内嵌存储（可携带，不依赖资料库/服务器） ----------
+  // 数据以 localStorage 为主；首次打开「带数据的 HTML」时，自动把内嵌数据写入 localStorage。
+  // 配合「保存为文件」按钮：把最新数据写进 HTML 本身，拷贝该文件即拷贝数据，换设备/换方式双击打开都有。
+  function loadEmbed(){
+    var el=document.getElementById('kids-embed');
+    if(!el||!el.textContent||!el.textContent.trim())return;
+    try{
+      var d=JSON.parse(el.textContent);
+      for(var key in KEYS){ if(d[key]!==undefined && localStorage.getItem(KEYS[key])===null){ localStorage.setItem(KEYS[key],d[key]); } }
+    }catch(e){/* 内嵌数据损坏则忽略，不影响本地 */ }
+  }
+
+  function initData(){
+    var seed=buildSeed(); applyDemo(seed);
+    var today=new Date().toISOString().slice(0,10);
+    var profile={firstDay:today,lastOpenDate:today,studyDays:1,openStreak:1,checkins:{}};
+    save(KEYS.pinyin,seed.pinyin);save(KEYS.char,seed.char);save(KEYS.poem,seed.poem);save(KEYS.english,seed.english);save(KEYS.profile,profile);
+  }
+
+  function loadAll(){
+    if(load(KEYS.profile,null)===null){initData();}
+    var seed=buildSeed(); // 内置词库（拼音/识字/古诗/英语）
+    state.profile=load(KEYS.profile,{firstDay:new Date().toISOString().slice(0,10),lastOpenDate:new Date().toISOString().slice(0,10),studyDays:0,openStreak:0,checkins:{}});
+    // 加载本地数据，并把"内置词库里有、但本地缺失"的条目补回来。
+    // 修复老用户本地 english 为空数组导致"英语单词没有数据"的问题；同时不覆盖已有学习进度。
+    ['pinyin','char','poem','english'].forEach(function(mod){
+      var arr=load(KEYS[mod],[]);
+      var seen={}; arr.forEach(function(it){ if(it&&it.id) seen[it.id]=1; });
+      seed[mod].forEach(function(it){ if(!seen[it.id]) arr.push(it); });
+      state[mod]=arr;
+    });
+  }
+
+  function updateOpen(){
+    var t=new Date().toISOString().slice(0,10);
+    var y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+    if(state.profile.lastOpenDate!==t){
+      state.profile.openStreak=(state.profile.lastOpenDate===y)?(state.profile.openStreak||0)+1:1;
+      state.profile.studyDays=(state.profile.studyDays||0)+1;
+      state.profile.lastOpenDate=t;
+      save(KEYS.profile,state.profile);
+    }
+  }
+
+  // ---------- 记忆曲线逻辑 ----------
+  function todayStr(){return new Date().toISOString().slice(0,10);}
+  function yesterdayStr(){return new Date(Date.now()-864e5).toISOString().slice(0,10);}
+  function addDays(s,n){var d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+  function isDue(it){
+    if(it.state==='mastered')return false;
+    if(!it.everStudied)return false; // 从未点过"我学会啦/再学学吧"的内容不进复习界面
+    if(it.state==='review')return todayStr()>=it.nextReview;
+    return true; // learning（含"再学学吧"重置后需继续学）每天出现
+  }
+  function markLearned(it){
+    var t=todayStr();
+    it.everStudied=true;
+    if(it.lastLearned===t)return {noop:true};
+    if(it.state!=='review'){
+      it.streak=(it.lastLearned===yesterdayStr())?(it.streak||0)+1:1;
+      if(it.streak<3){it.state='learning';it.lastLearned=t;it.nextReview=null;it.curveIndex=0;return {};}
+      it.state='review';it.curveIndex=0;it.lastLearned=t;it.nextReview=addDays(t,CURVE[0]);return {};
+    }else{
+      it.lastLearned=t;
+      it.curveIndex=Math.min((it.curveIndex||0)+1,CURVE.length-1);
+      if(it.curveIndex>=CURVE.length-1){it.state='mastered';it.nextReview=null;}
+      else it.nextReview=addDays(t,CURVE[it.curveIndex]);
+      return;
+    }
+  }
+  function markRelearn(it){it.streak=0;it.lastLearned=null;it.state='new';it.nextReview=null;it.curveIndex=0;it.everStudied=true;}
+
+  // ---------- 渲染 ----------
+  function statusBadge(it){
+    if(it.state==='mastered')return '<span class="gbadge" style="color:var(--green)">已掌握</span>';
+    if(it.state==='review')return '<span class="gbadge" style="color:var(--purple)">复习中 · 下次'+it.nextReview+'</span>';
+    if(it.state==='learning')return '<span class="gbadge" style="color:var(--orange)">学习中 · 连续'+it.streak+'天</span>';
+    return '<span class="gbadge" style="color:var(--blue)">新学</span>';
+  }
+
+  function badgeFull(it){
+    if(it.state==='mastered')return '<span class="badge mastered">已掌握 ✓</span>';
+    if(it.state==='review')return '<span class="badge review">复习中 · 下次 '+it.nextReview+'</span>';
+    if(it.state==='learning')return '<span class="badge learning">学习中 · 连续 '+it.streak+'天</span>';
+    return '<span class="badge new">新学</span>';
+  }
+
+  function lcard(mod,it,contentHTML){
+    return '<div class="lcard'+(it.state==='mastered'?' done':'')+'">'+
+      '<div class="lcontent">'+contentHTML+'</div>'+
+      '<div class="lstatus">'+badgeFull(it)+'</div>'+
+      '<div class="lbtns">'+
+        '<button class="learned" data-mod="'+mod+'" data-id="'+it.id+'">我学会啦</button>'+
+        '<button class="relearn" data-mod="'+mod+'" data-id="'+it.id+'">再学学吧</button>'+
+      '</div></div>';
+  }
+
+  function contentFor(mod,it){
+    if(mod==='pinyin')return it.text+'<span class="sub">'+it.cat+' · '+it.sub+'</span>';
+    if(mod==='char')return it.text;
+    if(mod==='english'){var ph=it.ph||ipaOf(it.en);return it.en+'<button class="speak" type="button" data-word="'+it.en+'" title="听发音" aria-label="听发音">'+SPEAK_SVG+'</button>'+(ph?'<span class="phon">'+ph+'</span>':'')+'<span class="sub">'+(it.zh||'')+'</span>';}
+    if(mod==='poem')return it.title+'<span class="sub">'+it.author+'</span><div class="poem-body">'+it.content+'</div>';
+    return '';
+  }
+
+  // 模块网格视图（卡片列表）
+  // 可展开学习卡片（模块网格 / 首页待复习 共用）
+  function isSeedWord(en){var k=(en||'').trim().toLowerCase();if(!k)return false;for(var i=0;i<ENGLISH_SEED.length;i++){if((ENGLISH_SEED[i].en||'').toLowerCase()===k)return true;}return false;}
+  function cardInner(mod,it){
+    if(mod==='english'){
+      var ph=it.ph||ipaOf(it.en);
+      var speakBtn='<button class="speak" type="button" data-word="'+it.en+'" title="听发音" aria-label="听发音">'+SPEAK_SVG+'</button>';
+      return '<div class="gcard-sum">'
+        +'<div class="big"><span class="en-word" lang="en">'+it.en+'</span>'+speakBtn+'</div>'
+        +(ph?'<div class="phon" title="音标（自动生成，常见词准确）">'+ph+'</div>':'')
+        +(it.zh?'<div class="sub">'+it.zh+'</div>':'')
+        +statusBadge(it)
+        +'</div>'
+        +'<div class="gcard-detail">'
+        +'<div class="lstatus">'+badgeFull(it)+'</div>'
+        +'<div class="lbtns">'
+        +'<button class="learned" data-mod="'+mod+'" data-id="'+it.id+'">我学会啦</button>'
+        +'<button class="relearn" data-mod="'+mod+'" data-id="'+it.id+'">再学学吧</button>'
+        +'</div>'
+        +(!isSeedWord(it.en)?'<div class="del-row"><button class="del-word" type="button" data-mod="english" data-id="'+it.id+'">删除</button></div>':'')
+        +'</div></div>';
+    }
+    var big = mod==='poem'? it.title : (mod==='pinyin'? it.text : (mod==='char'? it.text : it.en));
+    var sub = mod==='poem'? it.author : (mod==='pinyin'? it.cat : (mod==='english'? (it.zh||'') : ''));
+    var detailExtra = mod==='poem' ? '<div class="lcontent">'+contentFor(mod,it)+'</div>' : '';
+    return '<div class="gcard-sum"><div class="big">'+big+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+statusBadge(it)+'</div>'
+      +'<div class="gcard-detail">'
+      +detailExtra
+      +'<div class="lstatus">'+badgeFull(it)+'</div>'
+      +'<div class="lbtns">'
+      +'<button class="learned" data-mod="'+mod+'" data-id="'+it.id+'">我学会啦</button>'
+      +'<button class="relearn" data-mod="'+mod+'" data-id="'+it.id+'">再学学吧</button>'
+      +'</div></div>';
+  }
+  function gridCardHTML(mod,it){return '<div class="gcard'+(it.state==='mastered'?' done':'')+'">'+cardInner(mod,it)+'</div>';}
+  var EN_STAGES=['幼儿园','小学','初中','高中','自定义'];
+  function enMatch(it,q){
+    if(!q)return true;
+    var qn=q.replace(/[\/ ]/g,'').toLowerCase();
+    if(!qn)return true;
+    var ph=((it.ph||ipaOf(it.en)||'')).replace(/[\/ ]/g,'').toLowerCase();
+    var en=(it.en||'').toLowerCase();
+    var zh=(it.zh||'').toLowerCase();
+    return en.indexOf(qn)>=0||zh.indexOf(qn)>=0||ph.indexOf(qn)>=0;
+  }
+  function renderGrid(mod,containerId){
+    var box=document.getElementById(containerId);box.innerHTML='';
+    var items=state[mod];
+    if(items.length===0){box.innerHTML='<div class="empty">'+(mod==='english'?'还没有单词，先在上方导入吧～':'还没有内容，去添加一些吧～')+'</div>';return;}
+    // 英语：支持搜索过滤，无搜索词时按阶段分组展示
+    if(mod==='english'){
+      var q=(document.getElementById('en-search').value||'').trim().toLowerCase();
+      if(q){
+        var hits=items.filter(function(it){return enMatch(it,q);});
+        if(!hits.length){box.innerHTML='<div class="empty">没有找到和「'+q+'」匹配的单词，换个词试试～</div>';return;}
+        var block=document.createElement('div');block.className='stage-block';
+        var title=document.createElement('div');title.className='stage-title';
+        title.innerHTML='<span class="stage-name">搜索结果</span><span class="stage-count">'+hits.length+' 个匹配</span>';
+        block.appendChild(title);
+        var g=document.createElement('div');g.className='grid';
+        g.style.gridTemplateColumns='repeat(auto-fill,minmax(120px,1fr))';
+        hits.forEach(function(it){
+          var d=document.createElement('div');d.className='gcard'+(it.state==='mastered'?' done':'');
+          d.innerHTML=cardInner('english',it);g.appendChild(d);
+        });
+        block.appendChild(g);box.appendChild(block);
+        return;
+      }
+      var any=false;
+      EN_STAGES.forEach(function(st){
+        var list=items.filter(function(it){return (it.stage||'自定义')===st;});
+        if(!list.length)return; any=true;
+        var block=document.createElement('div');block.className='stage-block';
+        var title=document.createElement('div');title.className='stage-title';
+        title.innerHTML='<span class="stage-name">'+st+'阶段</span><span class="stage-count">'+list.length+' 词</span>';
+        block.appendChild(title);
+        var g=document.createElement('div');g.className='grid';
+        g.style.gridTemplateColumns='repeat(auto-fill,minmax(120px,1fr))';
+        list.forEach(function(it){
+          var d=document.createElement('div');d.className='gcard'+(it.state==='mastered'?' done':'');
+          d.innerHTML=cardInner('english',it);g.appendChild(d);
+        });
+        block.appendChild(g);box.appendChild(block);
+      });
+      if(!any)box.innerHTML='<div class="empty">还没有单词，先在上方导入吧～</div>';
+      return;
+    }
+    // 其他模块：平铺
+    items.forEach(function(it){
+      var d=document.createElement('div');d.className='gcard'+(it.state==='mastered'?' done':'');
+      d.innerHTML=cardInner(mod,it);box.appendChild(d);
+    });
+  }
+
+  // 首页
+  function dueItems(){
+    var all=[];
+    [['pinyin',state.pinyin],['char',state.char],['poem',state.poem],['english',state.english]].forEach(function(p){
+      p[1].forEach(function(it){if(isDue(it))all.push({mod:p[0],it:it});});
+    });
+    all.sort(function(a,b){
+      var rank=function(x){return x.it.state==='review'?0:(x.it.state==='learning'?1:2);};
+      var ra=rank(a),rb=rank(b);
+      if(ra!==rb)return ra-rb;
+      if(a.it.state==='review'&&b.it.state==='review')return a.it.nextReview<b.it.nextReview?-1:1;
+      return 0;
+    });
+    return all;
+  }
+  function renderHome(){
+    var p=state.profile;
+    document.getElementById('st-days').textContent=p.studyDays;
+    document.getElementById('st-streak').textContent=p.openStreak;
+    var master=state.pinyin.filter(function(x){return x.state==='mastered';}).length
+      +state.char.filter(function(x){return x.state==='mastered';}).length
+      +state.poem.filter(function(x){return x.state==='mastered';}).length
+      +state.english.filter(function(x){return x.state==='mastered';}).length;
+    document.getElementById('st-master').textContent=master;
+    var allDue=dueItems();
+    var mods=['char','english'];
+    var due=allDue.filter(function(d){return mods.indexOf(d.mod)>=0;});
+    document.getElementById('st-due').textContent=due.length;
+    var box=document.getElementById('due-modules');
+    box.innerHTML=mods.map(function(m){
+      var items=due.filter(function(d){return d.mod===m;});
+      var n=items.length;
+      var head='<button class="due-mod-head" type="button" data-has="'+(n?'1':'0')+'">'
+        +'<span class="dm-name">'+MODNAME[m]+'</span>'
+        +'<span class="due-mod-count'+(n?' mod-'+m:' zero')+'">'+(n? n+' 项待复习':'已完成 ✓')+'</span>'
+        + (n?'<svg class="due-mod-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')
+        +'</button>';
+      var body='<div class="due-mod-body">'+(n?items.map(function(d){return gridCardHTML(m,d.it);}).join(''):'<div class="due-empty">今天这个模块没有要复习的内容～</div>')+'</div>';
+      return '<div class="due-mod">'+head+body+'</div>';
+    }).join('');
+  }
+
+  function renderAll(){renderHome();renderGrid('pinyin','pinyin-grid');renderGrid('char','char-grid');renderGrid('poem','poem-grid');renderGrid('english','english-grid');document.getElementById('en-count').textContent='已导入 '+state.english.length+' 个单词';}
+
+  // 首页「今日待复习」模块折叠
+  document.getElementById('due-modules').addEventListener('click',function(e){
+    var head=e.target.closest('.due-mod-head');if(!head)return;
+    if(head.getAttribute('data-has')!=='1')return;
+    head.parentElement.classList.toggle('open');
+  });
+  // 学习卡片：点击展开/收起（手风琴：展开一张自动收起同级其他）
+  document.addEventListener('click',function(e){
+    var card=e.target.closest('.gcard');if(!card)return;
+    if(e.target.closest('button'))return;
+    if(card.classList.contains('open')){card.classList.remove('open');return;}
+    Array.prototype.forEach.call(card.parentElement.children,function(sib){if(sib!==card)sib.classList.remove('open');});
+    card.classList.add('open');
+  });
+
+  // ---------- 交互 ----------
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('button[data-mod]');if(!btn)return;
+    var mod=btn.getAttribute('data-mod'),id=btn.getAttribute('data-id');
+    var arr=state[mod];var it=null;for(var i=0;i<arr.length;i++){if(arr[i].id===id){it=arr[i];break;}}
+    if(!it)return;
+    if(btn.classList.contains('learned')){
+      var r=markLearned(it);
+      if(r&&r.noop){toast('今天已经学过这一项啦～');return;}
+      save(KEYS[mod],arr);
+      toast(it.state==='mastered'?'太棒了，已掌握！':'记下来啦，明天见～');
+    }else if(btn.classList.contains('relearn')){
+      markRelearn(it);save(KEYS[mod],arr);toast('好，我们重新学这一项～');
+    }else if(btn.classList.contains('del-word')){
+      var w=it.en;
+      showConfirm('确定删除单词「'+w+'」吗？删除后不可恢复。','删除',function(){
+        var idx=arr.indexOf(it);if(idx>=0)arr.splice(idx,1);
+        save(KEYS[mod],arr);renderAll();toast('已删除「'+w+'」');
+      });
+      return;
+    }
+    renderAll();
+  });
+
+  // 导航
+  function showView(id){
+    var vs=document.querySelectorAll('.view');for(var i=0;i<vs.length;i++)vs[i].classList.remove('active');
+    document.getElementById('view-'+id).classList.add('active');
+    var bs=document.querySelectorAll('.nav-btn');for(var j=0;j<bs.length;j++)bs[j].classList.toggle('active',bs[j].getAttribute('data-view')===id);
+    if(id!=='home')renderAll();
+  }
+  var navs=document.querySelectorAll('.nav-btn');for(var k=0;k<navs.length;k++)navs[k].addEventListener('click',function(){showView(this.getAttribute('data-view'));});
+
+  // 英语导入
+  document.getElementById('en-import-btn').addEventListener('click',function(){
+    var txt=document.getElementById('en-input').value;
+    var stage=document.getElementById('en-stage').value;
+    var lines=txt.split(/\n/);var added=0;
+    lines.forEach(function(line){
+      line=line.trim();if(!line)return;
+      var parts=line.split(/\s+|\t|,|，|=|、/);
+      var en=parts[0].trim();if(!en)return;
+      var zh=parts.slice(1).join(' ').trim();
+      var key=en.toLowerCase();
+      for(var i=0;i<state.english.length;i++){if(state.english[i].en.toLowerCase()===key)return;}
+      state.english.push({id:'e'+Date.now()+'_'+added,en:en,zh:zh,stage:stage,ph:ipaOf(en),streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});
+      added++;
+    });
+    save(KEYS.english,state.english);document.getElementById('en-input').value='';
+    renderAll();toast('成功导入 '+added+' 个单词！');
+  });
+  document.getElementById('en-sample-btn').addEventListener('click',function(){
+    document.getElementById('en-input').value='apple 苹果\ncat 猫\ndog 狗\nsun,太阳\nbook=书\nball 球';
+  });
+  // 英语搜索（实时过滤，不触发整页重渲染）
+  document.getElementById('en-search').addEventListener('input',function(){
+    renderGrid('english','english-grid');
+  });
+  document.getElementById('en-search-clear').addEventListener('click',function(){
+    var inp=document.getElementById('en-search');inp.value='';inp.focus();renderGrid('english','english-grid');
+  });
+
+  // 备份
+  document.getElementById('btn-export').addEventListener('click',function(){
+    var data={};for(var key in KEYS)data[key]=localStorage.getItem(KEYS[key]);
+    var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='布丁的学习天地备份.json';a.click();URL.revokeObjectURL(a.href);
+  });
+  document.getElementById('btn-savefile').addEventListener('click',function(){
+    var data={};for(var key in KEYS)data[key]=localStorage.getItem(KEYS[key]);
+    var json=JSON.stringify(data);
+    var el=document.getElementById('kids-embed'); if(el){el.textContent=json;}
+    var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    if(el){ var m=/<textarea id="kids-embed"[^>]*>[\s\S]*?<\/textarea>/; if(m.test(html)){ html=html.replace(m,'<textarea id="kids-embed" style="display:none">'+json+'</textarea>'); } }
+    var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='布丁的学习天地.html';a.click();URL.revokeObjectURL(a.href);
+    toast('已保存为带数据的文件，把它拷到任意设备打开即可。');
+  });
+  document.getElementById('btn-import').addEventListener('click',function(){document.getElementById('file-import').click();});
+  document.getElementById('file-import').addEventListener('change',function(e){
+    var f=e.target.files[0];if(!f)return;var r=new FileReader();
+    r.onload=function(){try{var d=JSON.parse(r.result);for(var key in KEYS){if(d[key]!==undefined)localStorage.setItem(KEYS[key],d[key]);}loadAll();renderAll();toast('导入成功！');}catch(err){toast('导入失败：文件格式不对');}};
+    r.readAsText(f);e.target.value='';
+  });
+  document.getElementById('btn-reset').addEventListener('click',function(){
+    var name = curAcct() ? curAcct().name : '当前';
+    showConfirm('⚠️ 危险操作\n\n将清空【'+name+'】账号的全部学习进度、打卡记录和自定义单词，且无法恢复。\n\n确定要重置为示例数据吗？','继续',function(){
+      showConfirm('最后再确认一次：真的要清空【'+name+'】的所有数据吗？','确认清空',function(){
+        for(var key in KEYS)localStorage.removeItem(KEYS[key]);
+        initData();loadAll();renderAll();toast('已重置为示例数据。');
+      });
+    });
+  });
+
+  // mascot
+  var mascot=document.getElementById('mascot');
+  mascot.addEventListener('click',function(){mascot.classList.remove('play');void mascot.offsetWidth;mascot.classList.add('play');});
+
+  // toast
+  var toastEl=document.getElementById('toast'),toastT=null;
+  function toast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('show');},1600);}
+  // 通用确认弹窗（替代原生 confirm：iframe 内原生 confirm 会被浏览器权限策略静默禁用）
+  var confirmModal=document.getElementById('confirm-modal'),confirmOkBtn=document.getElementById('confirm-ok'),confirmCancelBtn=document.getElementById('confirm-cancel'),confirmMsgEl=document.getElementById('confirm-msg'),_confirmCb=null;
+  function showConfirm(msg,okText,onOk){confirmMsgEl.textContent=msg;confirmOkBtn.textContent=okText||'确定';_confirmCb=onOk;confirmModal.classList.add('show');}
+  function closeConfirm(){confirmModal.classList.remove('show');_confirmCb=null;}
+  confirmOkBtn.addEventListener('click',function(){var cb=_confirmCb;closeConfirm();if(cb)cb();});
+  confirmCancelBtn.addEventListener('click',closeConfirm);
+  confirmModal.addEventListener('click',function(e){if(e.target===confirmModal)closeConfirm();});
+
+  // ---------- 响应式：手机端探测（兼容发布平台强制宽视口的场景） ----------
+  function applyResponsive(){
+    var w = window.innerWidth || document.documentElement.clientWidth || (window.screen && window.screen.width) || 0;
+    var mqMobile = window.matchMedia ? window.matchMedia('(max-width:768px)').matches : false;
+    var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer:coarse)').matches);
+    // 触摸设备 + 视口不宽（兼容发布平台/WebView 强制宽视口场景）一律按手机布局处理
+    var touchPhone = isTouch && w > 0 && w <= 1024;
+    document.body.classList.toggle('mobile', mqMobile || (w > 0 && w <= 768) || touchPhone);
+  }
+  applyResponsive();
+  window.addEventListener('resize', applyResponsive);
+  if(window.matchMedia){
+    var _rmq = window.matchMedia('(max-width:768px)');
+    if(_rmq.addEventListener) _rmq.addEventListener('change', applyResponsive);
+    else if(_rmq.addListener) _rmq.addListener(applyResponsive);
+  }
+
+
+  // ---------- 连续打卡日历（独立模块，不影响现有学习数据渲染） ----------
+  function getCheckins(){ if(!state.profile.checkins||typeof state.profile.checkins!=='object'){state.profile.checkins={};} return state.profile.checkins; }
+  function isChecked(d){ return !!getCheckins()[d]; }
+  function setCheckin(d,on){ var c=getCheckins(); if(on){c[d]=true;}else{delete c[d];} save(KEYS.profile,state.profile); }
+  function checkinStreak(){
+    var c=getCheckins(); var t=todayStr();
+    if(!c[t]){ t=yesterdayStr(); if(!c[t]) return 0; }
+    var n=0,cur=t;
+    while(c[cur]){ n++; cur=addDays(cur,-1); }
+    return n;
+  }
+  function checkinTotal(){ var c=getCheckins(); var n=0; for(var k in c){ if(c[k]) n++; } return n; }
+  function pad2(n){ return n<10?('0'+n):(''+n); }
+  var calY=0,calM=0;
+  function renderCalendar(){
+    var y=calY,m=calM;
+    var first=new Date(y,m,1); var startW=first.getDay();
+    var days=new Date(y,m+1,0).getDate(); var t=todayStr();
+    var html='<div class="cal-head"><button class="cal-nav" id="cal-prev" type="button" aria-label="上个月">‹</button>'
+      +'<div class="cal-title">'+y+' 年 '+(m+1)+' 月</div>'
+      +'<button class="cal-nav" id="cal-next" type="button" aria-label="下个月">›</button></div>';
+    html+='<div class="cal-week"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>';
+    html+='<div class="cal-grid">';
+    for(var i=0;i<startW;i++) html+='<div class="cal-cell empty"></div>';
+    for(var d=1; d<=days; d++){
+      var ds=y+'-'+pad2(m+1)+'-'+pad2(d);
+      var cls='cal-cell'; var mark='';
+      if(ds>t) cls+=' future';
+      if(isChecked(ds)){ cls+=' done'; mark='<span class="cal-check">✓</span>'; }
+      if(ds===t) cls+=' today';
+      html+='<div class="'+cls+'" data-date="'+ds+'">'+d+mark+'</div>';
+    }
+    html+='</div>';
+    var body=document.getElementById('cal-body'); if(body) body.innerHTML=html;
+    var st=document.getElementById('cal-streak'); if(st) st.textContent='连续打卡 '+checkinStreak()+' 天 · 累计 '+checkinTotal()+' 天';
+    var tb=document.getElementById('cal-today-btn');
+    if(tb){ if(isChecked(t)){ tb.textContent='今日已打卡 ✓'; tb.classList.add('done'); } else { tb.textContent='今天打卡'; tb.classList.remove('done'); } }
+  }
+  function openCheckinModal(){ var now=new Date(); calY=now.getFullYear(); calM=now.getMonth(); var m=document.getElementById('checkin-modal'); if(m){ m.classList.add('show'); m.setAttribute('aria-hidden','false'); } renderCalendar(); }
+  function closeCheckinModal(){ var m=document.getElementById('checkin-modal'); if(m){ m.classList.remove('show'); m.setAttribute('aria-hidden','true'); } }
+
+  var btnCheckin=document.getElementById('btn-checkin'); if(btnCheckin) btnCheckin.addEventListener('click',openCheckinModal);
+  var modalCheckin=document.getElementById('checkin-modal');
+  if(modalCheckin){
+    modalCheckin.addEventListener('click',function(e){
+      if(e.target===modalCheckin || (e.target.closest && e.target.closest('#cal-close'))){ closeCheckinModal(); return; }
+      var prev=e.target.closest('#cal-prev');
+      if(prev){ calM--; if(calM<0){calM=11;calY--;} renderCalendar(); return; }
+      var next=e.target.closest('#cal-next');
+      if(next){ calM++; if(calM>11){calM=0;calY++;} renderCalendar(); return; }
+      var cell=e.target.closest('.cal-cell[data-date]');
+      if(cell && !cell.classList.contains('future')){ var ds=cell.getAttribute('data-date'); setCheckin(ds,!isChecked(ds)); renderCalendar(); return; }
+      if(e.target.closest('#cal-today-btn')){ var t=todayStr(); setCheckin(t,!isChecked(t)); renderCalendar(); return; }
+    });
+  }
+  // ---------- 登录 / 选账号 ----------
+  var AVATAR_COLORS=['#E078B0','#7FB3E0','#E0B97F','#8FD0A0','#B58FD0','#E08F8F'];
+  function avatarColor(name){ var s=0; for(var i=0;i<(name||'').length;i++) s=(s+(name.charCodeAt(i)*7))%AVATAR_COLORS.length; return AVATAR_COLORS[s]; }
+  function showLogin(){ var ls=document.getElementById('login-screen'); if(ls){ls.classList.add('show');ls.setAttribute('aria-hidden','false');} var app=document.getElementById('app'); if(app)app.style.visibility='hidden'; renderLogin(); }
+  function hideLogin(){ var ls=document.getElementById('login-screen'); if(ls){ls.classList.remove('show');ls.setAttribute('aria-hidden','true');} var app=document.getElementById('app'); if(app)app.style.visibility=''; }
+  function renderLogin(){
+    var list=document.getElementById('login-list'); if(!list)return;
+    list.innerHTML='';
+    accounts.forEach(function(a){
+      var btn=document.createElement('button'); btn.type='button'; btn.className='login-acct';
+      var av=document.createElement('div'); av.className='login-avatar'; av.style.background=avatarColor(a.name); av.textContent=(a.name||'?').slice(0,1);
+      var box=document.createElement('div');
+      var nm=document.createElement('div'); nm.className='login-acct-name'; nm.textContent=a.name;
+      var pn=document.createElement('div'); pn.className='login-acct-pin'; pn.textContent=a.pin?('PIN 已设 · 点击输入'):'点击进入';
+      box.appendChild(nm); box.appendChild(pn);
+      btn.appendChild(av); btn.appendChild(box);
+      btn.addEventListener('click',function(){ if(a.pin){ openPin(a); } else { loginAs(a.key); } });
+      list.appendChild(btn);
+    });
+  }
+  function addAccount(){
+    var nameEl=document.getElementById('login-name'); var pinEl=document.getElementById('login-pin');
+    var name=nameEl?nameEl.value.trim():''; var pin=pinEl?pinEl.value.trim():'';
+    if(!name){ toast('请输入昵称'); return; }
+    var key=acctKey(name,pin);
+    if(accounts.some(function(a){return a.key===key;})){ toast('该账号已存在'); return; }
+    accounts.push({key:key,name:name,pin:pin});
+    persistAccounts();
+    if(nameEl)nameEl.value=''; if(pinEl)pinEl.value='';
+    var f=document.getElementById('login-form'); if(f)f.style.display='none';
+    loginAs(key);
+  }
+  var pendingPinAcct=null;
+  function openPin(a){ pendingPinAcct=a; var pn=document.getElementById('pin-name'); if(pn)pn.textContent='账号：'+a.name; var pi=document.getElementById('pin-input'); if(pi){pi.value='';} var m=document.getElementById('pin-modal'); if(m){m.classList.add('show');m.setAttribute('aria-hidden','false');if(pi)pi.focus();} }
+  function closePin(){ pendingPinAcct=null; var m=document.getElementById('pin-modal'); if(m){m.classList.remove('show');m.setAttribute('aria-hidden','true');} }
+  function verifyPin(){ var a=pendingPinAcct; if(!a)return; var pi=document.getElementById('pin-input'); var v=pi?pi.value:''; if(v!==a.pin){ toast('PIN 不正确'); return; } closePin(); loginAs(a.key); }
+  function updateBrand(){
+    var a=curAcct(); var name=(a&&a.name)||'布丁';
+    var title=name+'的学习天地';
+    document.title=title;
+    var pt=document.getElementById('page-title'); if(pt) pt.textContent=title;
+    var bt=document.getElementById('brand-title'); if(bt) bt.textContent=title;
+    var bs=document.getElementById('brand-sidebar'); if(bs){ bs.innerHTML=''; bs.appendChild(document.createTextNode(name+'的')); bs.appendChild(document.createElement('br')); bs.appendChild(document.createTextNode('学习天地')); }
+  }
+  // ---------- 主题配色 ----------
+  var THEMES=[
+    {key:'princess',name:'公主粉金',desc:'温暖甜美的默认色',colors:['#E078B0','#D9B36B','#8FC8E8','#7FD0A0']},
+    {key:'ocean',name:'海洋蓝',desc:'清爽宁静的蓝色',colors:['#3E86B8','#6FA8D0','#7FD0C8','#A8B8E0']},
+    {key:'forest',name:'森林绿',desc:'自然活力的绿色',colors:['#3E8E6E','#88B578','#9CC8C0','#B0A8D0']},
+    {key:'purple',name:'星空紫',desc:'梦幻温柔的紫色',colors:['#8E5EB0','#B08CC8','#D9A8E0','#A8B8E0']},
+    {key:'sun',name:'暖阳橙',desc:'明亮欢快的橙色',colors:['#D0702E','#E0A05C','#F0C08C','#B0D08C']}
+  ];
+  function themeName(k){ for(var i=0;i<THEMES.length;i++){ if(THEMES[i].key===k) return THEMES[i].name; } return '公主粉金'; }
+  function applyTheme(name){
+    var cls=['theme-princess','theme-ocean','theme-forest','theme-purple','theme-sun'];
+    for(var i=0;i<cls.length;i++){ document.body.classList.remove(cls[i]); }
+    if(name && name!=='princess') document.body.classList.add('theme-'+name);
+    document.body.setAttribute('data-theme', name||'princess');
+  }
+  function renderThemeSwatches(){
+    var box=document.getElementById('theme-swatches'); if(!box) return;
+    var cur=(curAcct()&&curAcct().theme)||'princess';
+    box.innerHTML='';
+    THEMES.forEach(function(t){
+      var sw=document.createElement('button');
+      sw.type='button'; sw.className='theme-swatch'+(t.key===cur?' active':''); sw.setAttribute('data-theme',t.key);
+      var prev=document.createElement('div'); prev.className='swatch-preview';
+      t.colors.forEach(function(c){ var i=document.createElement('i'); i.style.background=c; prev.appendChild(i); });
+      var nm=document.createElement('div'); nm.className='swatch-name'; nm.textContent=t.name;
+      var ds=document.createElement('div'); ds.className='swatch-desc'; ds.textContent=t.desc;
+      sw.appendChild(prev); sw.appendChild(nm); sw.appendChild(ds);
+      sw.addEventListener('click',function(){ setTheme(t.key); });
+      box.appendChild(sw);
+    });
+  }
+  function setTheme(name){
+    applyTheme(name);
+    var a=curAcct(); if(a){ a.theme=name; persistAccounts(); scheduleSync(); }
+    renderThemeSwatches();
+    toast('已切换为「'+themeName(name)+'」主题');
+    setTimeout(closeThemeModal,450);
+  }
+  function openThemeModal(){ renderThemeSwatches(); var m=document.getElementById('theme-modal'); if(m){ m.classList.add('show'); m.setAttribute('aria-hidden','false'); } }
+  function closeThemeModal(){ var m=document.getElementById('theme-modal'); if(m){ m.classList.remove('show'); m.setAttribute('aria-hidden','true'); } }
+  function loginAs(key){
+    CURRENT=key; persistCurrent();
+    KEYS=accKeys();
+    loadEmbed(); loadAll(); loadFromCloud(); updateOpen(); renderAll();
+    var cn=document.getElementById('cur-name'); if(cn) cn.textContent=curAcct()?curAcct().name:'';
+    updateBrand();
+    applyTheme((curAcct()&&curAcct().theme)||'princess');
+    hideLogin(); showView('home');
+  }
+  var btnSwitch=document.getElementById('btn-switch'); if(btnSwitch) btnSwitch.addEventListener('click',showLogin);
+  var loginAdd=document.getElementById('login-add'); if(loginAdd) loginAdd.addEventListener('click',function(){ var f=document.getElementById('login-form'); if(f)f.style.display=(f.style.display==='none'?'block':'none'); });
+  var loginCancel=document.getElementById('login-cancel'); if(loginCancel) loginCancel.addEventListener('click',function(){ var f=document.getElementById('login-form'); if(f)f.style.display='none'; });
+  var loginOk=document.getElementById('login-ok'); if(loginOk) loginOk.addEventListener('click',addAccount);
+  var pinClose=document.getElementById('pin-close'); if(pinClose) pinClose.addEventListener('click',closePin);
+  var pinOk=document.getElementById('pin-ok'); if(pinOk) pinOk.addEventListener('click',verifyPin);
+  var btnTheme=document.getElementById('btn-theme'); if(btnTheme) btnTheme.addEventListener('click',openThemeModal);
+  var themeClose=document.getElementById('theme-close'); if(themeClose) themeClose.addEventListener('click',closeThemeModal);
+  // ---------- 启动 ----------
+  function boot(){
+    initAccounts();
+    if(!CURRENT){ showLogin(); return; }
+    loginAs(CURRENT);
+  }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',boot); } else { boot(); }
+})();
+</script>
+
+
+  <textarea id="kids-embed" style="display:none">{}</textarea>
+<script>
+/* PWA Service Worker 注册：仅 https 非 localhost 环境；失败静默 */
+if('serviceWorker' in navigator && /^https:/.test(location.protocol) && location.hostname!=='localhost'){
+  navigator.serviceWorker.register('./sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
