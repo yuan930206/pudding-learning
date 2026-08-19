@@ -659,7 +659,7 @@
   // ---- 云端同步层（Supabase REST 零外链 fetch；与「保存为文件」离线方案并存）----
   var SB_URL='https://rpetexklmqacqpfdniiv.supabase.co';
   var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwZXRleGtsbXFhY3FwZmRuaWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjc2NjIsImV4cCI6MjEwMjcwMzY2Mn0.JPsRrg6bAnrtIPlRdKdnz3beguEAWIa9_7Cl9HnnI74';
-  function sbFetch(method,path,body){var opt={method:method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==undefined){opt.headers['Prefer']='resolution=merge-duplicates';opt.body=JSON.stringify(body);}return fetch(SB_URL+'/rest/v1/user_sync'+path,opt).then(function(r){if(!r.ok)throw new Error('sb '+r.status);var ct=r.headers.get('content-type')||'';if(ct.indexOf('json')>=0)return r.json();return null;});}
+  function sbFetch(method,path,body){var opt={method:method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==undefined){opt.headers['Prefer']='resolution=merge-duplicates';opt.body=JSON.stringify(body);}return fetch(SB_URL+'/rest/v1/user_sync'+path,opt).then(function(r){if(!r.ok){return r.text().then(function(t){throw new Error('sb '+r.status+(t&&t.length?(' '+t.slice(0,300)):''));});}var ct=r.headers.get('content-type')||'';if(ct.indexOf('json')>=0)return r.json();return null;});}
   function isBuiltinId(id){return /^(p|c|m|e)\d+$/.test(id||'');}
   function syncIfKey(k){for(var key in KEYS){if(KEYS[key]===k){scheduleSync();return;}}}
   var syncTimer=null;
