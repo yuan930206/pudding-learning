@@ -501,6 +501,20 @@
     <section class="view" id="view-char">
       <div class="sec-title">识字卡片（部编版 小学1-6年级 写字表）</div>
       <div class="hint" style="color:var(--muted);font-size:14px;margin-bottom:12px;"></div>
+      <div class="import-box">
+        <div style="font-weight:700;color:var(--gold-deep);margin-bottom:8px;">导入汉字</div>
+        <textarea id="char-input" placeholder="每行一个，汉字和释义用空格或逗号隔开，例如：&#10;冰 冰凉的冰&#10;雪 雪花的雪&#10;妈,妈妈的妈"></textarea>
+        <div class="row">
+          <button class="btn primary" id="char-import-btn">导入汉字</button>
+          <span id="char-count" style="font-size:14px;color:var(--muted);"></span>
+        </div>
+        <div class="hint">支持格式：<code>字 释义</code> / <code>字,释义</code>。重复汉字不会重复导入；导入的字会显示在列表中，并归入你的自定义内容。</div>
+      </div>
+      <div class="en-search-box">
+        <span class="search-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+        <input id="char-search" type="search" placeholder="搜索汉字 / 释义（例：冰、凉）" autocomplete="off" />
+        <button class="search-clear" id="char-search-clear" type="button" title="清空" aria-label="清空搜索">✕</button>
+      </div>
       <div class="grid" id="char-grid"></div>
     </section>
 
@@ -1137,6 +1151,14 @@
       if(!any)box.innerHTML='<div class="empty">'+(EN_FILTER==='all'?'还没有单词，先在上方导入吧～':'「'+EN_FILTER+'」阶段还没有单词'+(EN_FILTER==='外部导入'?'，导入的单词会自动进入这里～':'～'))+'</div>';
       return;
     }
+    // 识字：支持搜索（按汉字/释义过滤）
+    if(mod==='char'){
+      var cq=(document.getElementById('char-search').value||'').trim().toLowerCase();
+      if(cq){
+        items=items.filter(function(it){return ((it.text||'').toLowerCase().indexOf(cq)>=0)||((it.cat||'').toLowerCase().indexOf(cq)>=0);});
+        if(!items.length){box.innerHTML='<div class="empty">没有找到和「'+cq+'」匹配的字，换个字试试～</div>';return;}
+      }
+    }
     // 其他模块：平铺
     items.forEach(function(it){
       var d=document.createElement('div');d.className='gcard'+(it.state==='mastered'?' done':'');
@@ -1186,7 +1208,7 @@
     }).join('');
   }
 
-  function renderAll(){renderHome();renderGrid('pinyin','pinyin-grid');renderGrid('char','char-grid');renderGrid('poem','poem-grid');renderGrid('english','english-grid');document.getElementById('en-count').textContent='已导入 '+state.english.length+' 个单词';}
+  function renderAll(){renderHome();renderGrid('pinyin','pinyin-grid');renderGrid('char','char-grid');renderGrid('poem','poem-grid');renderGrid('english','english-grid');document.getElementById('en-count').textContent='已导入 '+state.english.length+' 个单词';var cc=document.getElementById('char-count');if(cc)cc.textContent='已导入 '+state.char.length+' 个字';}
 
   // 首页「今日待复习」模块折叠
   document.getElementById('due-modules').addEventListener('click',function(e){
@@ -1254,6 +1276,23 @@
     save(KEYS.english,state.english);document.getElementById('en-input').value='';
     renderAll();toast('成功导入 '+added+' 个单词！');
   });
+  // 识字导入
+  document.getElementById('char-import-btn').addEventListener('click',function(){
+    var txt=document.getElementById('char-input').value;
+    var lines=txt.split(/\n/);var added=0;
+    lines.forEach(function(line){
+      line=line.trim();if(!line)return;
+      var parts=line.split(/\s+|\t|,|，|=|、/);
+      var text=parts[0].trim();if(!text)return;
+      for(var i=0;i<state.char.length;i++){if(state.char[i].text===text)return;}
+      var cat=parts.slice(1).join(' ').trim()||'自定义';
+      state.char.push({id:'c'+Date.now()+'_'+added,text:text,cat:cat,streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});
+      added++;
+    });
+    if(added)save(KEYS.char,state.char);
+    document.getElementById('char-input').value='';
+    renderAll();toast(added?('成功导入 '+added+' 个字！'):'没有可导入的新字（可能都已存在）');
+  });
   document.getElementById('en-sample-btn').addEventListener('click',function(){
     document.getElementById('en-input').value='apple 苹果\ncat 猫\ndog 狗\nsun,太阳\nbook=书\nball 球';
   });
@@ -1271,6 +1310,10 @@
     var bs=enFilterBox.querySelectorAll('.ef-btn');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('active',bs[i]===b);
     renderGrid('english','english-grid');
   });}
+  var charSearchEl=document.getElementById('char-search');
+  if(charSearchEl){charSearchEl.addEventListener('input',function(){renderGrid('char','char-grid');});}
+  var charClearEl=document.getElementById('char-search-clear');
+  if(charClearEl){charClearEl.addEventListener('click',function(){var inp=document.getElementById('char-search');inp.value='';inp.focus();renderGrid('char','char-grid');});}
 
   // 备份
   document.getElementById('btn-export').addEventListener('click',function(){
