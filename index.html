@@ -661,6 +661,14 @@
   var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwZXRleGtsbXFhY3FwZmRuaWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjc2NjIsImV4cCI6MjEwMjcwMzY2Mn0.JPsRrg6bAnrtIPlRdKdnz3beguEAWIa9_7Cl9HnnI74';
   function sbFetch(method,path,body){var opt={method:method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==undefined){opt.headers['Prefer']='resolution=merge-duplicates';opt.body=JSON.stringify(body);}return fetch(SB_URL+'/rest/v1/user_sync'+path,opt).then(function(r){if(!r.ok){return r.text().then(function(t){throw new Error('sb '+r.status+(t&&t.length?(' '+t.slice(0,300)):''));});}var ct=r.headers.get('content-type')||'';if(ct.indexOf('json')>=0)return r.json();return null;});}
   function isBuiltinId(id){return /^(p|c|m|e)\d+$/.test(id||'');}
+  // 清洗字符串中的控制字符（\u0000-\u0008 \u000B \u000C \u000E-\u001F \u007F），防止 Supabase 400
+  function cleanStr(s){if(typeof s!=='string')return s;return s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,'');}
+  function cleanDeep(o){
+    if(typeof o==='string')return cleanStr(o);
+    if(Array.isArray(o)){for(var i=0;i<o.length;i++)o[i]=cleanDeep(o[i]);return o;}
+    if(o&&typeof o==='object'){for(var k in o){if(Object.prototype.hasOwnProperty.call(o,k))o[k]=cleanDeep(o[k]);}return o;}
+    return o;
+  }
   function syncIfKey(k){for(var key in KEYS){if(KEYS[key]===k){scheduleSync();return;}}}
   var syncTimer=null;
   function scheduleSync(){clearTimeout(syncTimer);syncTimer=setTimeout(syncToCloud,800);}
@@ -676,9 +684,11 @@
         if(isBuiltinId(it.id)){
           var has=it.everStudied||(it.state&&it.state!=='new')||(it.streak>0);
           if(has){blob.progress[mod][it.id]={streak:it.streak||0,lastLearned:it.lastLearned||null,state:it.state||'new',everStudied:!!it.everStudied,nextReview:(it.nextReview===undefined?null:it.nextReview),curveIndex:it.curveIndex||0};}
-        }else{blob.custom[mod].push(it);}
+        }else{blob.custom[mod].push(cleanDeep(it));}
       });
+      cleanDeep(blob.progress[mod]);
     });
+    cleanDeep(blob.profile);
     return blob;
   }
   function mergeCloud(blob){
