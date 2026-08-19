@@ -130,7 +130,7 @@
   .topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
   .mascot{cursor:pointer;display:inline-block;transform-origin:bottom center;filter:drop-shadow(0 3px 5px rgba(216,179,107,.35));}
   .mascot svg{width:46px;height:46px;vertical-align:middle;}
-  .sync{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .sync{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer;}
   .sync .dot{width:9px;height:9px;border-radius:50%;background:var(--green);}
   .toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start;}
   .btn{background:var(--card);border:2px solid var(--accent-soft);border-radius:16px;padding:11px 16px;font-size:15px;cursor:pointer;min-height:48px;font-weight:700;color:var(--accent);transition:.12s;box-shadow:var(--soft-shadow);}
@@ -452,7 +452,7 @@
       <div class="topbar-right" id="topbar-right">
         <span class="cur-name" id="cur-name"></span>
         <button class="theme-btn" id="btn-theme" type="button">🎨 主题</button>
-        <div class="sync"><span class="dot"></span>云端同步 · 跨设备自动保存</div>
+        <div class="sync" id="sync-status" title="点击立即同步"><span class="dot"></span><span id="sync-text">云端同步 · 跨设备自动保存</span></div>
       </div>
     </header>
 
@@ -485,6 +485,7 @@
 
       <div class="danger-zone">
         <span class="danger-hint">更多功能</span>
+        <button class="btn-link-danger" id="btn-syncnow">立即同步</button>
         <button class="btn-link-danger" id="btn-savefile">保存为文件</button>
         <button class="btn-link-danger" id="btn-reset">重置为示例数据</button>
       </div>
@@ -658,13 +659,16 @@
   // ---- 云端同步层（Supabase REST 零外链 fetch；与「保存为文件」离线方案并存）----
   var SB_URL='https://rpetexklmqacqpfdniiv.supabase.co';
   var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwZXRleGtsbXFhY3FwZmRuaWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjc2NjIsImV4cCI6MjEwMjcwMzY2Mn0.JPsRrg6bAnrtIPlRdKdnz3beguEAWIa9_7Cl9HnnI74';
-  function sbFetch(method,path,body){var opt={method:method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==undefined)opt.body=JSON.stringify(body);return fetch(SB_URL+'/rest/v1/user_sync'+path,opt).then(function(r){if(!r.ok)throw new Error('sb '+r.status);var ct=r.headers.get('content-type')||'';if(ct.indexOf('json')>=0)return r.json();return null;});}
+  function sbFetch(method,path,body){var opt={method:method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==undefined){opt.headers['Prefer']='resolution=merge-duplicates';opt.body=JSON.stringify(body);}return fetch(SB_URL+'/rest/v1/user_sync'+path,opt).then(function(r){if(!r.ok)throw new Error('sb '+r.status);var ct=r.headers.get('content-type')||'';if(ct.indexOf('json')>=0)return r.json();return null;});}
   function isBuiltinId(id){return /^(p|c|m|e)\d+$/.test(id||'');}
   function syncIfKey(k){for(var key in KEYS){if(KEYS[key]===k){scheduleSync();return;}}}
   var syncTimer=null;
   function scheduleSync(){clearTimeout(syncTimer);syncTimer=setTimeout(syncToCloud,800);}
   function buildCloudBlob(){
-    var blob={profile:state.profile||{},progress:{},custom:{},theme:(curAcct()?curAcct().theme:'princess')};
+    var now=Date.now();
+    var profile=state.profile||{};
+    if(!profile.updated_at)profile.updated_at=now;
+    var blob={profile:profile,progress:{},custom:{},theme:(curAcct()?curAcct().theme:'princess'),updated_at:profile.updated_at};
     ['pinyin','char','poem','english'].forEach(function(mod){
       blob.progress[mod]={};blob.custom[mod]=[];
       state[mod].forEach(function(it){
@@ -679,28 +683,64 @@
   }
   function mergeCloud(blob){
     if(!blob||typeof blob!=='object')return;
-    if(blob.profile&&typeof blob.profile==='object')state.profile=blob.profile;
+    var now=Date.now();
+    var localUpdated=(state.profile&&state.profile.updated_at)||0;
+    var cloudUpdated=blob.updated_at||((blob.profile&&blob.profile.updated_at)||0);
+    // 云端更新时：用云端 profile/主题；否则保留本地
+    if(blob.profile&&typeof blob.profile==='object'){
+      if(cloudUpdated>localUpdated||!localUpdated){
+        state.profile=blob.profile;
+        if(state.profile&&!state.profile.updated_at)state.profile.updated_at=cloudUpdated||now;
+      }
+    }
     if(blob.theme){ var a=curAcct(); if(a){ a.theme=blob.theme; persistAccounts(); } }
     ['pinyin','char','poem','english'].forEach(function(mod){
       var list=state[mod];var byId={};list.forEach(function(it){if(it&&it.id)byId[it.id]=it;});
-      var prog=(blob.progress&&blob.progress[mod])||{};
-      for(var id in prog){if(byId[id]){var p=prog[id];if(p.streak!=null)byId[id].streak=p.streak;if(p.lastLearned!=null)byId[id].lastLearned=p.lastLearned;if(p.state!=null)byId[id].state=p.state;if(p.everStudied!=null)byId[id].everStudied=p.everStudied;byId[id].nextReview=(p.nextReview===undefined?null:p.nextReview);if(p.curveIndex!=null)byId[id].curveIndex=p.curveIndex;}}
+      // 云端较新时，覆盖内置项的学习进度
+      if(cloudUpdated>localUpdated){
+        var prog=(blob.progress&&blob.progress[mod])||{};
+        for(var id in prog){if(byId[id]){var p=prog[id];if(p.streak!=null)byId[id].streak=p.streak;if(p.lastLearned!=null)byId[id].lastLearned=p.lastLearned;if(p.state!=null)byId[id].state=p.state;if(p.everStudied!=null)byId[id].everStudied=p.everStudied;byId[id].nextReview=(p.nextReview===undefined?null:p.nextReview);if(p.curveIndex!=null)byId[id].curveIndex=p.curveIndex;}}
+      }
+      // 自定义项：按 id+updated_at 双向合并（并集，不丢失任何一端数据）
       var custom=(blob.custom&&blob.custom[mod])||[];
-      custom.forEach(function(it){if(it&&it.id&&!byId[it.id]){list.push(it);byId[it.id]=it;}});
+      var cloudById={};custom.forEach(function(it){if(it&&it.id)cloudById[it.id]=it;});
+      custom.forEach(function(it){
+        if(!it||!it.id)return;
+        var local=byId[it.id];
+        if(!local){list.push(it);byId[it.id]=it;}
+        else{
+          var lu=(local.updated_at)||0;
+          var cu=(it.updated_at)||cloudUpdated||0;
+          if(cu>lu){ for(var f in it){ if(f!=='id') local[f]=it[f]; } }
+        }
+      });
+      // 云端更新时：本地有、云端没有的自定义项，若其更新时间早于云端，视为在云端已删除
+      if(cloudUpdated>localUpdated){
+        for(var i=list.length-1;i>=0;i--){
+          var it=list[i];
+          if(it&&it.id&&!isBuiltinId(it.id)&&!cloudById[it.id]){
+            if((it.updated_at||0)<cloudUpdated){list.splice(i,1);}
+          }
+        }
+      }
     });
   }
   function saveAllLocal(){['pinyin','char','poem','english'].forEach(function(m){localStorage.setItem(KEYS[m],JSON.stringify(state[m]));});localStorage.setItem(KEYS.profile,JSON.stringify(state.profile));}
   function syncToCloud(){
     if(!CURRENT)return;
-    var payload={account_key:CURRENT,data:buildCloudBlob()};
-    sbFetch('POST','?on_conflict=account_key',payload).catch(function(e){console.warn('[sync] failed',e);});
+    function push(){sbFetch('POST','?on_conflict=account_key',buildCloudBlob()).catch(function(e){console.warn('[sync] push failed',e);});}
+    // 先拉后推：避免覆盖其他设备在间隙中写入的数据
+    sbFetch('GET','?select=data&account_key=eq.'+encodeURIComponent(CURRENT)).then(function(rows){
+      if(rows&&rows.length&&rows[0]&&rows[0].data){mergeCloud(rows[0].data);saveAllLocal();}
+      push();
+    }).catch(function(e){console.warn('[sync] fetch before push failed',e);push();});
   }
   function loadFromCloud(){
     if(!CURRENT)return;
     var enc=encodeURIComponent(CURRENT);
     sbFetch('GET','?select=data&account_key=eq.'+enc).then(function(rows){
       if(rows&&rows.length&&rows[0]&&rows[0].data){
-        try{var blob=rows[0].data;mergeCloud(blob);updateOpen();saveAllLocal();renderAll();}catch(e){console.warn('[sync] parse failed',e);}
+        try{var blob=rows[0].data;mergeCloud(blob);updateOpen();saveAllLocal();renderAll();scheduleSync();}catch(e){console.warn('[sync] parse failed',e);}
       }
     }).catch(function(e){console.warn('[sync] load failed',e);});
   }
@@ -938,7 +978,14 @@
 
   var state={profile:null,pinyin:[],char:[],poem:[],english:[]};
   function load(k,def){try{var v=localStorage.getItem(k);if(v===null)return def;try{return JSON.parse(v);}catch(e){return def;}}catch(e){return def;}}
-  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} syncIfKey(k);}
+  function save(k,v){
+    try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}
+    if(k===KEYS.profile){ state.profile=v; }
+    if(k!==KEYS.profile && (k===KEYS.pinyin||k===KEYS.char||k===KEYS.poem||k===KEYS.english)){
+      if(state.profile){ state.profile.updated_at=Date.now(); save(KEYS.profile,state.profile); }
+    }
+    syncIfKey(k);
+  }
 
   // ---------- 文件内嵌存储（可携带，不依赖资料库/服务器） ----------
   // 数据以 localStorage 为主；首次打开「带数据的 HTML」时，自动把内嵌数据写入 localStorage。
@@ -1254,7 +1301,7 @@
       var zh=parts.slice(1).join(' ').trim();
       var key=en.toLowerCase();
       for(var i=0;i<state.english.length;i++){if(state.english[i].en.toLowerCase()===key)return;}
-      state.english.push({id:'e'+Date.now()+'_'+added,en:en,zh:zh,stage:stage,ph:ipaOf(en),streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});
+      var now=Date.now();state.english.push({id:'e'+Date.now()+'_'+added,en:en,zh:zh,stage:stage,ph:ipaOf(en),streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0,created_at:now,updated_at:now});
       added++;
     });
     save(KEYS.english,state.english);document.getElementById('en-input').value='';
@@ -1270,7 +1317,7 @@
       var text=parts[0].trim();if(!text)return;
       for(var i=0;i<state.char.length;i++){if(state.char[i].text===text)return;}
       var cat=parts.slice(1).join(' ').trim()||'自定义';
-      state.char.push({id:'c'+Date.now()+'_'+added,text:text,cat:cat,streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0});
+      var now=Date.now();state.char.push({id:'c'+Date.now()+'_'+added,text:text,cat:cat,streak:0,lastLearned:null,state:'new',everStudied:false,nextReview:null,curveIndex:0,created_at:now,updated_at:now});
       added++;
     });
     if(added)save(KEYS.char,state.char);
@@ -1321,6 +1368,17 @@
     r.onload=function(){try{var d=JSON.parse(r.result);for(var key in KEYS){if(d[key]!==undefined)localStorage.setItem(KEYS[key],d[key]);}loadAll();renderAll();toast('导入成功！');}catch(err){toast('导入失败：文件格式不对');}};
     r.readAsText(f);e.target.value='';
   });
+  function doSyncNow(){
+    var txt=document.getElementById('sync-text');
+    if(txt)txt.textContent='同步中…';
+    loadFromCloud();
+    syncToCloud();
+    setTimeout(function(){ if(txt)txt.textContent='云端同步 · 跨设备自动保存'; },1800);
+  }
+  var syncStatus=document.getElementById('sync-status');
+  if(syncStatus){ syncStatus.addEventListener('click',doSyncNow); }
+  var btnSyncNow=document.getElementById('btn-syncnow');
+  if(btnSyncNow){ btnSyncNow.addEventListener('click',doSyncNow); }
   document.getElementById('btn-reset').addEventListener('click',function(){
     var name = curAcct() ? curAcct().name : '当前';
     showConfirm('⚠️ 危险操作\n\n将清空【'+name+'】账号的全部学习进度、打卡记录和自定义单词，且无法恢复。\n\n确定要重置为示例数据吗？','继续',function(){
