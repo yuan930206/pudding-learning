@@ -1,6 +1,7 @@
-/* 布丁的学习天地 · Service Worker v1
-   策略：网络优先（始终拿最新版本），失败时回退缓存；离线时兜底到首页 */
-var CACHE = 'pudding-v1';
+/* 布丁的学习天地 · Service Worker v2
+   策略：网络优先（始终拿最新版本），失败时回退缓存；离线时兜底到首页
+   v2：缓存名改为 pudding-v2，activate 时清理 v1 旧缓存，强制手机端加载 v28 新版 */
+var CACHE = 'pudding-v2';
 self.addEventListener('install', function (e) {
   self.skipWaiting();
 });
