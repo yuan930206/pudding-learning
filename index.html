@@ -452,7 +452,7 @@
       <div class="topbar-right" id="topbar-right">
         <span class="cur-name" id="cur-name"></span>
         <button class="theme-btn" id="btn-theme" type="button">🎨 主题</button>
-        <div class="sync"><span class="dot"></span>本地存储 · 数据自动保存在本机</div>
+        <div class="sync"><span class="dot"></span>云端同步 · 跨设备自动保存</div>
       </div>
     </header>
 
@@ -655,14 +655,14 @@
     }
     if(!CURRENT || !curAcct()){ CURRENT = accounts.length?accounts[0].key:''; persistCurrent(); }
   }
-  // ---- 云端同步层（与「保存为文件」离线方案并存：云端自动跨设备 + 离线文件随带）----
-  var DATABASE_ID='fZTtOGvRgF8NdqfaRnOimr';
-  var db=(window.__SMART_PAGE__&&window.__SMART_PAGE__.database)?window.__SMART_PAGE__.database:null;
-  var SYNC_RECORD_ID=null;
+  // ---- 云端同步层（Supabase REST 零外链 fetch；与「保存为文件」离线方案并存）----
+  var SB_URL='https://rpetexklmqacqpfdniiv.supabase.co';
+  var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwZXRleGtsbXFhY3FwZmRuaWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjc2NjIsImV4cCI6MjEwMjcwMzY2Mn0.JPsRrg6bAnrtIPlRdKdnz3beguEAWIa9_7Cl9HnnI74';
+  function sbFetch(method,path,body){var opt={method:method,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==undefined)opt.body=JSON.stringify(body);return fetch(SB_URL+'/rest/v1/user_sync'+path,opt).then(function(r){if(!r.ok)throw new Error('sb '+r.status);var ct=r.headers.get('content-type')||'';if(ct.indexOf('json')>=0)return r.json();return null;});}
   function isBuiltinId(id){return /^(p|c|m|e)\d+$/.test(id||'');}
-  function syncIfKey(k){if(!db)return;for(var key in KEYS){if(KEYS[key]===k){scheduleSync();return;}}}
+  function syncIfKey(k){for(var key in KEYS){if(KEYS[key]===k){scheduleSync();return;}}}
   var syncTimer=null;
-  function scheduleSync(){if(!db)return;clearTimeout(syncTimer);syncTimer=setTimeout(syncToCloud,800);}
+  function scheduleSync(){clearTimeout(syncTimer);syncTimer=setTimeout(syncToCloud,800);}
   function buildCloudBlob(){
     var blob={profile:state.profile||{},progress:{},custom:{},theme:(curAcct()?curAcct().theme:'princess')};
     ['pinyin','char','poem','english'].forEach(function(mod){
@@ -691,32 +691,16 @@
   }
   function saveAllLocal(){['pinyin','char','poem','english'].forEach(function(m){localStorage.setItem(KEYS[m],JSON.stringify(state[m]));});localStorage.setItem(KEYS.profile,JSON.stringify(state.profile));}
   function syncToCloud(){
-    if(!db)return;
-    var a=curAcct(); if(!a)return;
-    var str=JSON.stringify(buildCloudBlob());
-    var props={'数据':{text:str},'账号':{text:CURRENT}};
-    if(a.syncId){
-      db.updateRecord({databaseId:DATABASE_ID,recordId:a.syncId,properties:props}).catch(function(e){console.warn('[sync] update failed',e);});
-    }else{
-      db.addRecord({databaseId:DATABASE_ID,properties:props}).then(function(r){if(r&&r.id){a.syncId=r.id;persistAccounts();}}).catch(function(e){console.warn('[sync] add failed',e);});
-    }
+    if(!CURRENT)return;
+    var payload={account_key:CURRENT,data:buildCloudBlob()};
+    sbFetch('POST','?on_conflict=account_key',payload).catch(function(e){console.warn('[sync] failed',e);});
   }
   function loadFromCloud(){
-    if(!db)return;
-    db.query({databaseId:DATABASE_ID,pageSize:50}).then(function(res){
-      var recs=(res&&res.results)||[];
-      var rec=null, legacy=null;
-      for(var i=0;i<recs.length;i++){
-        if(recs[i]['账号']===CURRENT){rec=recs[i];break;}
-        if(recs[i]['账号']==null||recs[i]['账号']===''){legacy=recs[i];}
-      }
-      // 兜底：默认“布丁”账号可回退拉取升级前的旧云记录（无账号字段），其余账号不误拉
-      if(!rec && CURRENT===acctKey('布丁','') && legacy){ rec=legacy; }
-      if(rec){
-        var sid=rec._id||null;
-        var a=curAcct(); if(a){a.syncId=sid;persistAccounts();}
-        var str=rec['数据']||'';
-        if(str){try{var blob=JSON.parse(str);mergeCloud(blob);updateOpen();saveAllLocal();renderAll();}catch(e){console.warn('[sync] parse failed',e);}}
+    if(!CURRENT)return;
+    var enc=encodeURIComponent(CURRENT);
+    sbFetch('GET','?select=data&account_key=eq.'+enc).then(function(rows){
+      if(rows&&rows.length&&rows[0]&&rows[0].data){
+        try{var blob=rows[0].data;mergeCloud(blob);updateOpen();saveAllLocal();renderAll();}catch(e){console.warn('[sync] parse failed',e);}
       }
     }).catch(function(e){console.warn('[sync] load failed',e);});
   }
