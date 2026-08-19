@@ -221,6 +221,11 @@
   .import-box .btn:not(.primary):hover{border-color:var(--gold-deep);transform:translateY(-1px);}
   /* 英语搜索框 */
   .en-search-box{position:relative;display:flex;align-items:center;margin:4px 0 18px;background:var(--card);border:2px solid var(--search-bd);border-radius:16px;box-shadow:0 4px 12px var(--soft-shadow);padding:4px 6px 4px 12px;transition:border-color .2s,box-shadow .2s;}
+  /* 英语阶段筛选 */
+  .en-filter{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 16px;}
+  .ef-btn{border:2px solid var(--accent-soft);background:var(--card);color:var(--muted);font-size:14px;font-weight:700;padding:7px 15px;border-radius:999px;cursor:pointer;transition:.12s;font-family:inherit;min-height:38px;-webkit-tap-highlight-color:transparent;}
+  .ef-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .ef-btn.active{background:linear-gradient(135deg,var(--accent),var(--gold-light));color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(216,179,107,.35);}
   .en-search-box:focus-within{border-color:var(--gold);box-shadow:0 4px 16px rgba(216,179,107,.32);}
   .en-search-box .search-ico{display:flex;width:20px;height:20px;color:var(--gold-deep);flex:0 0 auto;}
   .en-search-box .search-ico svg{width:100%;height:100%;}
@@ -512,25 +517,24 @@
         <div style="font-weight:700;color:var(--gold-deep);margin-bottom:8px;">导入单词</div>
         <textarea id="en-input" placeholder="每行一个，英文和中文用空格或逗号隔开，例如：&#10;apple 苹果&#10;cat 猫&#10;sun,太阳"></textarea>
         <div class="row">
-          <label style="font-size:14px;color:var(--muted);display:flex;align-items:center;gap:6px;">阶段
-            <select id="en-stage" style="font-family:inherit;font-size:14px;padding:6px 10px;border-radius:12px;border:2px solid #FFD0E6;background:#FFFDF6;color:var(--gold-deep);font-weight:700;">
-              <option value="幼儿园">幼儿园</option>
-              <option value="小学" selected>小学</option>
-              <option value="初中">初中</option>
-              <option value="高中">高中</option>
-              <option value="自定义">自定义</option>
-            </select>
-          </label>
           <button class="btn primary" id="en-import-btn">导入单词</button>
           <button class="btn" id="en-sample-btn">填入示例</button>
           <span id="en-count" style="font-size:14px;color:var(--muted);"></span>
         </div>
-        <div class="hint">支持格式：<code>apple 苹果</code> / <code>apple,苹果</code> / <code>apple=苹果</code>。重复英文不会重复导入；导入的单词会归入上方所选阶段。</div>
+        <div class="hint">支持格式：<code>apple 苹果</code> / <code>apple,苹果</code> / <code>apple=苹果</code>。重复英文不会重复导入；导入的单词会统一归入「外部导入」阶段。</div>
       </div>
       <div class="en-search-box">
         <span class="search-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
         <input id="en-search" type="search" placeholder="搜索单词 / 中文意思 / 音标（例：apple、苹果、/æ/）" autocomplete="off" />
         <button class="search-clear" id="en-search-clear" type="button" title="清空" aria-label="清空搜索">✕</button>
+      </div>
+      <div class="en-filter" id="en-filter">
+        <button class="ef-btn active" type="button" data-filter="all">全部</button>
+        <button class="ef-btn" type="button" data-filter="幼儿园">幼儿园</button>
+        <button class="ef-btn" type="button" data-filter="小学">小学</button>
+        <button class="ef-btn" type="button" data-filter="初中">初中</button>
+        <button class="ef-btn" type="button" data-filter="高中">高中</button>
+        <button class="ef-btn" type="button" data-filter="外部导入">外部导入</button>
       </div>
       <div id="english-grid"></div>
     </section>
@@ -1078,7 +1082,9 @@
       +'</div></div>';
   }
   function gridCardHTML(mod,it){return '<div class="gcard'+(it.state==='mastered'?' done':'')+'">'+cardInner(mod,it)+'</div>';}
-  var EN_STAGES=['幼儿园','小学','初中','高中','自定义'];
+  var EN_STAGES=['幼儿园','小学','初中','高中','外部导入'];
+  function stageOf(it){var s=(it&&it.stage)||'';return (s==='自定义'||!s)?'外部导入':s;}
+  var EN_FILTER='all';
   function enMatch(it,q){
     if(!q)return true;
     var qn=q.replace(/[\/ ]/g,'').toLowerCase();
@@ -1096,7 +1102,7 @@
     if(mod==='english'){
       var q=(document.getElementById('en-search').value||'').trim().toLowerCase();
       if(q){
-        var hits=items.filter(function(it){return enMatch(it,q);});
+        var hits=items.filter(function(it){return enMatch(it,q)&&(EN_FILTER==='all'||stageOf(it)===EN_FILTER);});
         if(!hits.length){box.innerHTML='<div class="empty">没有找到和「'+q+'」匹配的单词，换个词试试～</div>';return;}
         var block=document.createElement('div');block.className='stage-block';
         var title=document.createElement('div');title.className='stage-title';
@@ -1113,7 +1119,8 @@
       }
       var any=false;
       EN_STAGES.forEach(function(st){
-        var list=items.filter(function(it){return (it.stage||'自定义')===st;});
+        if(EN_FILTER!=='all'&&st!==EN_FILTER)return;
+        var list=items.filter(function(it){return stageOf(it)===st;});
         if(!list.length)return; any=true;
         var block=document.createElement('div');block.className='stage-block';
         var title=document.createElement('div');title.className='stage-title';
@@ -1127,7 +1134,7 @@
         });
         block.appendChild(g);box.appendChild(block);
       });
-      if(!any)box.innerHTML='<div class="empty">还没有单词，先在上方导入吧～</div>';
+      if(!any)box.innerHTML='<div class="empty">'+(EN_FILTER==='all'?'还没有单词，先在上方导入吧～':'「'+EN_FILTER+'」阶段还没有单词'+(EN_FILTER==='外部导入'?'，导入的单词会自动进入这里～':'～'))+'</div>';
       return;
     }
     // 其他模块：平铺
@@ -1232,7 +1239,7 @@
   // 英语导入
   document.getElementById('en-import-btn').addEventListener('click',function(){
     var txt=document.getElementById('en-input').value;
-    var stage=document.getElementById('en-stage').value;
+    var stage='外部导入';
     var lines=txt.split(/\n/);var added=0;
     lines.forEach(function(line){
       line=line.trim();if(!line)return;
@@ -1257,6 +1264,13 @@
   document.getElementById('en-search-clear').addEventListener('click',function(){
     var inp=document.getElementById('en-search');inp.value='';inp.focus();renderGrid('english','english-grid');
   });
+  var enFilterBox=document.getElementById('en-filter');
+  if(enFilterBox){enFilterBox.addEventListener('click',function(e){
+    var b=e.target.closest('.ef-btn');if(!b)return;
+    EN_FILTER=b.getAttribute('data-filter');
+    var bs=enFilterBox.querySelectorAll('.ef-btn');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('active',bs[i]===b);
+    renderGrid('english','english-grid');
+  });}
 
   // 备份
   document.getElementById('btn-export').addEventListener('click',function(){
